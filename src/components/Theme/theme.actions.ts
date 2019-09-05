@@ -7,7 +7,19 @@ export const toggleDirection = (store: Store, dir?: string) => {
   store.setState({ direction });
 };
 
-export const toggleType = (store: Store, nextType?: string) => {
+export const toggleThemeType = (store: Store, nextType?: string) => {
   const { type } = store.state;
-  store.setState({ type: nextType ? nextType : utils.toggleType(type) });
+  store.setState({ type: nextType ? nextType : utils.toggleThemeType(type) });
+};
+
+export const toggleDrawerType = (store: Store, nextType?: string) => {
+  const { drawerType } = store.state;
+  store.setState({
+    drawerType: nextType ? nextType : utils.toggleDrawerType(drawerType)
+  });
+};
+
+export const toggleDrawer = (store: Store) => {
+  const { isDrawerOpen } = store.state;
+  store.setState({ isDrawerOpen: !isDrawerOpen });
 };

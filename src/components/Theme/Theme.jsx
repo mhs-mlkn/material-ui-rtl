@@ -11,6 +11,7 @@ import { createGenerateClassName, makeStyles, jssPreset } from "@material-ui/sty
 import { blue, lightGreen, red } from "@material-ui/core/colors";
 import { useThemeStore } from "components/Theme";
 import AppBar from "./AppBar";
+import SideBar from "./SideBar";
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -29,14 +30,14 @@ const Theme = ({ children }) => {
     palette: {
       type: state.type,
       background: {
-        paper: state.type === "dark" ? "#424951" : "#fff", //343a40
+        paper: state.type === "dark" ? "#343a40" : "#fff", //424951
         default: state.type === "dark" ? "#3a4047" : "#f5f5f5"
       },
       primary: blue,
       secondary: lightGreen,
       error: red,
       text: {
-        primary: "#c1c1c1",
+        primary: state.type === "dark" ? "#ffffffb3": "#000000de",
         secondary: "#999"
       }
     },
@@ -76,6 +77,7 @@ const Theme = ({ children }) => {
         <div className={classes.root}>
           <CssBaseline />
           <AppBar />
+          <SideBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             {children}

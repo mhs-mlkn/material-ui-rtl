@@ -7,10 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import PowerSettingsIcon from "@material-ui/icons/PowerSettingsNew";
-
-const drawerWidth = 250;
-
-const isDrawerOpen = false;
+import { useThemeStore } from "components/Theme";
+import { drawerWidth } from "./theme.constants";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -22,12 +20,11 @@ const styles = (theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen
       })
     },
-    toolbar: {
-      [theme.direction === "rtl" ? "paddingRight" : "paddingLeft"]: 0, // keep right padding when drawer closed
-      [theme.direction === "rtl" ? "paddingLeft" : "paddingRight"]: 12 // keep right padding when drawer closed
-    },
     appBarShift: {
-      marginLeft: drawerWidth,
+      [theme.direction === "ltr" ? "marginLeft" : "marginRight"]: drawerWidth,
+      [theme.direction === "rtl"
+        ? "paddingRight"
+        : "paddingLeft"]: theme.spacing(3),
       width: `calc(100% - ${drawerWidth}px)`,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
@@ -35,48 +32,62 @@ const styles = (theme: Theme) =>
       })
     },
     menuButton: {
-      marginLeft: 12,
-      marginRight: 12
+      [theme.direction === "rtl" ? "marginLeft" : "marginRight"]: theme.spacing(
+        2
+      )
     },
     title: {
       flexGrow: 1
+    },
+    hide: {
+      display: "none"
+    },
+    toolbar: {
+      margin: theme.spacing(0, 0.6)
     }
   });
 
 const AppBar = (props: any) => {
   const { classes } = props;
+  const [state, actions] = useThemeStore();
 
   const handleLogoutClick = () => {
     console.log("logout...");
   };
 
+  const handleToggleDrawer = () => {
+    actions.toggleDrawer();
+  };
+
   return (
     <MuiAppBar
-      position="absolute"
-      className={classNames(
-        classes.appBar,
-        isDrawerOpen && classes.appBarShift
-      )}
+      position="fixed"
+      className={classNames(classes.appBar, {
+        [classes.appBarShift]:
+          state.drawerType === "permanent" && state.isDrawerOpen
+      })}
     >
-      <Toolbar disableGutters={!isDrawerOpen} className={classes.toolbar}>
+      <Toolbar className={classes.toolbar} disableGutters>
         <IconButton
-          color="inherit"
+          color="default"
           aria-label="Open drawer"
-          onClick={() => console.log("toggle sidebar...")}
-          className={classNames(classes.menuButton)}
+          onClick={handleToggleDrawer}
+          className={classNames(classes.menuButton, {
+            [classes.hide]: state.isDrawerOpen
+          })}
         >
           <MenuIcon />
         </IconButton>
         <Typography
-          component="h1"
+          component="h6"
           variant="h6"
           color="textPrimary"
           noWrap
           className={classes.title}
         >
-          {"title"}
+          داشبورد
         </Typography>
-        <IconButton color="inherit" title="خروج" onClick={handleLogoutClick}>
+        <IconButton color="default" title="خروج" onClick={handleLogoutClick}>
           <PowerSettingsIcon />
         </IconButton>
       </Toolbar>

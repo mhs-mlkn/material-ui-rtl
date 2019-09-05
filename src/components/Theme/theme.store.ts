@@ -5,7 +5,9 @@ import { ThemeState } from "./theme.types";
 
 const initialState: ThemeState = {
   direction: "rtl",
-  type: "dark"
+  type: "dark",
+  isDrawerOpen: false,
+  drawerType: "permanent"
 };
 
 const useThemeStore = useGlobalHook(React, initialState, actions);

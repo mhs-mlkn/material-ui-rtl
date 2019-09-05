@@ -1,23 +1,24 @@
 import React from "react";
 import Snackbar from "components/CustomSnackbar";
-import { useSnackbar } from "notistack";
 import Theme, { useThemeStore } from "components/Theme";
 
 const TestSnackbar: React.FC = () => {
   const themeActions = useThemeStore()[1];
-  const { enqueueSnackbar } = useSnackbar();
 
-  const handleClick = () => {
-    enqueueSnackbar("محسن ملکان", {
-      variant: "success"
-    });
-    enqueueSnackbar("محسن ملکان", {
-      variant: "info"
-    });
+  const toggleDirection = () => {
     themeActions.toggleDirection();
-    // themeActions.toggleType();
   };
-  return <button onClick={handleClick}>Test</button>;
+
+  const toggleType = () => {
+    themeActions.toggleThemeType();
+  };
+
+  return (
+    <>
+      <button onClick={toggleDirection}>toggleDirection</button>
+      <button onClick={toggleType}>toggleType</button>
+    </>
+  );
 };
 
 const App: React.FC = () => {
