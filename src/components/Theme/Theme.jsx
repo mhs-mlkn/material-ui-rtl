@@ -12,6 +12,7 @@ import { blue, lightGreen, red } from "@material-ui/core/colors";
 import { useThemeStore } from "components/Theme";
 import AppBar from "./AppBar";
 import SideBar from "./SideBar";
+import Settings from "./Settings";
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -37,7 +38,7 @@ const Theme = ({ children }) => {
       secondary: lightGreen,
       error: red,
       text: {
-        primary: state.type === "dark" ? "#ffffffb3": "#000000de",
+        primary: state.type === "dark" ? "#ffffffb3" : "#000000de",
         secondary: "#999"
       }
     },
@@ -76,12 +77,13 @@ const Theme = ({ children }) => {
       <JssProvider jss={jss} generateClassName={generateClassName}>
         <div className={classes.root}>
           <CssBaseline />
-          <AppBar />
-          <SideBar />
+          {!state.isFullScreen ? <AppBar /> : null}
+          {!state.isFullScreen ? <SideBar /> : null}
           <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
+            {!state.isFullScreen ? <div className={classes.appBarSpacer} /> : null}
             {children}
           </main>
+          <Settings />
         </div>
       </JssProvider>
     </MuiThemeProvider>

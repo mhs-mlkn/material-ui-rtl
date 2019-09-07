@@ -1,6 +1,15 @@
+import { ComponentType } from "react";
 import HomeIcon from "@material-ui/icons/Home";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 
-export default [
+export type SideBarLink = {
+  icon: ComponentType;
+  title: String;
+}
+
+export type SideBarLinks = SideBarLink[][]
+
+const SideBarLinks: SideBarLinks = [
   [
     {
       icon: HomeIcon,
@@ -9,8 +18,10 @@ export default [
   ],
   [
     {
-      icon: "",
-      title: ""
+      icon: DashboardIcon,
+      title: "داشبوردهای من"
     }
   ]
 ];
+
+export default SideBarLinks;

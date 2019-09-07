@@ -5,6 +5,7 @@ export type ThemeState = {
   type: "dark" | "light";
   isDrawerOpen: boolean;
   drawerType: "temporary" | "permanent";
+  isFullScreen: boolean;
 };
 
 type t = Store<ThemeState>;

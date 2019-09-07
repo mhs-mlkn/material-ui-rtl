@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
+import MuiDrawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,10 +12,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AdjustIcon from "@material-ui/icons/Adjust";
 import PanoramaFishEyeIcon from "@material-ui/icons/PanoramaFishEye";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import { useThemeStore } from "components/Theme";
 import { drawerWidth } from "./theme.constants";
+import { SideBarLinks } from "config";
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -45,10 +44,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    padding:
-      theme.direction === "rtl"
-        ? theme.spacing(0, 2, 0, 1)
-        : theme.spacing(0, 1, 0, 2),
+    padding: theme.spacing(0, 1, 0, 1),
     ...theme.mixins.toolbar
   },
   listItemText: {
@@ -67,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MiniDrawer() {
+const Drawer: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [state, actions] = useThemeStore();
@@ -81,7 +77,7 @@ export default function MiniDrawer() {
   }
 
   return (
-    <Drawer
+    <MuiDrawer
       variant={state.drawerType}
       onClose={state.drawerType === "temporary" ? handleDrawerClose : undefined}
       className={clsx(classes.drawer, {
@@ -101,49 +97,44 @@ export default function MiniDrawer() {
       <div className={classes.toolbar}>
         <div style={{ flexGrow: 1, justifyContent: "end" }}>
           <IconButton
-            size="small"
-            color="primary"
-            onClick={() => actions.toggleDrawerType()}
+            onClick={state.isDrawerOpen ? handleDrawerClose : handleDrawerOpen}
           >
-            {state.drawerType === "permanent" ? (
-              <AdjustIcon fontSize="small" />
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
             ) : (
-              <PanoramaFishEyeIcon fontSize="small" />
-            )}
+                <ChevronLeftIcon />
+              )}
           </IconButton>
         </div>
         <IconButton
-          onClick={state.isDrawerOpen ? handleDrawerClose : handleDrawerOpen}
+          size="small"
+          color="primary"
+          onClick={() => actions.toggleDrawerType()}
         >
-          {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
+          {state.drawerType === "permanent" ? (
+            <AdjustIcon fontSize="small" />
           ) : (
-            <ChevronLeftIcon />
-          )}
+              <PanoramaFishEyeIcon fontSize="small" />
+            )}
         </IconButton>
       </div>
-      <Divider className={classes.divider} />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} className={classes.listItemText} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider className={classes.divider} />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} className={classes.listItemText} />
-          </ListItem>
-        ))}
-      </List>
-    </Drawer>
+      {SideBarLinks.map((section, i) => (
+        <div key={i}>
+          <Divider className={classes.divider} />
+          <List>
+            {section.map((link, index) => (
+              <ListItem button key={index}>
+                <ListItemIcon>
+                  {<link.icon />}
+                </ListItemIcon>
+                <ListItemText primary={link.title} className={classes.listItemText} />
+              </ListItem>
+            ))}
+          </List>
+        </div>
+      ))}
+    </MuiDrawer>
   );
 }
+
+export default Drawer;
