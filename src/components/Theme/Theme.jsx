@@ -34,11 +34,11 @@ const Theme = ({ children }) => {
         paper: state.type === "dark" ? "#343a40" : "#fff", //424951
         default: state.type === "dark" ? "#3a4047" : "#f5f5f5"
       },
-      primary: blue,
-      secondary: lightGreen,
-      error: red,
+      primary: blue.main,
+      secondary: lightGreen.main,
+      error: red.main,
       text: {
-        primary: state.type === "dark" ? "#ffffffb3" : "#000000de",
+        primary: state.type === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.87)",
         secondary: "#999"
       }
     },
@@ -77,10 +77,10 @@ const Theme = ({ children }) => {
       <JssProvider jss={jss} generateClassName={generateClassName}>
         <div className={classes.root}>
           <CssBaseline />
-          {!state.isFullScreen ? <AppBar /> : null}
-          {!state.isFullScreen ? <SideBar /> : null}
+          <AppBar />
+          <SideBar />
           <main className={classes.content}>
-            {!state.isFullScreen ? <div className={classes.appBarSpacer} /> : null}
+            <div id="appSpacer" className={classes.appBarSpacer} />
             {children}
           </main>
           <Settings />

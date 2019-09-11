@@ -62,6 +62,7 @@ const AppBar = (props: any) => {
   return (
     <MuiAppBar
       position="fixed"
+      id="appBar"
       className={classNames(classes.appBar, {
         [classes.appBarShift]:
           state.drawerType === "permanent" && state.isDrawerOpen

@@ -3,3 +3,24 @@
 * {
   font-family: "Yekan";
 }
+
+body:-webkit-full-screen #appSpacer,
+body:-webkit-full-screen #appBar,
+body:-webkit-full-screen #sideBar {
+  display: none;
+}
+body:-moz-full-screen #appSpacer,
+body:-moz-full-screen #appBar,
+body:-moz-full-screen #sideBar {
+  display: none;
+}
+body:-ms-fullscreen #appSpacer,
+body:-ms-fullscreen #appBar,
+body:-ms-fullscreen #sideBar {
+  display: none;
+}
+body:fullscreen #appSpacer,
+body:fullscreen #appBar,
+body:fullscreen #sideBar {
+  display: none;
+}

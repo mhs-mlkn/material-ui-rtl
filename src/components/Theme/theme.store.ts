@@ -7,8 +7,7 @@ const initialState: ThemeState = {
   direction: "rtl",
   type: "dark",
   isDrawerOpen: false,
-  drawerType: "permanent",
-  isFullScreen: false
+  drawerType: "permanent"
 };
 
 const useThemeStore = useGlobalHook(React, initialState, actions);

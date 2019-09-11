@@ -78,6 +78,7 @@ const Drawer: React.FC = () => {
 
   return (
     <MuiDrawer
+      id="sideBar"
       variant={state.drawerType}
       onClose={state.drawerType === "temporary" ? handleDrawerClose : undefined}
       className={clsx(classes.drawer, {
@@ -102,8 +103,8 @@ const Drawer: React.FC = () => {
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
-                <ChevronLeftIcon />
-              )}
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <IconButton
@@ -114,8 +115,8 @@ const Drawer: React.FC = () => {
           {state.drawerType === "permanent" ? (
             <AdjustIcon fontSize="small" />
           ) : (
-              <PanoramaFishEyeIcon fontSize="small" />
-            )}
+            <PanoramaFishEyeIcon fontSize="small" />
+          )}
         </IconButton>
       </div>
       {SideBarLinks.map((section, i) => (
@@ -124,10 +125,11 @@ const Drawer: React.FC = () => {
           <List>
             {section.map((link, index) => (
               <ListItem button key={index}>
-                <ListItemIcon>
-                  {<link.icon />}
-                </ListItemIcon>
-                <ListItemText primary={link.title} className={classes.listItemText} />
+                <ListItemIcon>{<link.icon />}</ListItemIcon>
+                <ListItemText
+                  primary={link.title}
+                  className={classes.listItemText}
+                />
               </ListItem>
             ))}
           </List>
@@ -135,6 +137,6 @@ const Drawer: React.FC = () => {
       ))}
     </MuiDrawer>
   );
-}
+};
 
 export default Drawer;

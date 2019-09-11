@@ -25,6 +25,5 @@ export const toggleDrawer = (store: Store) => {
 };
 
 export const toggleFullScreen = (store: Store) => {
-  const { isFullScreen } = store.state;
-  store.setState({ isFullScreen: !isFullScreen });
+  utils.toggleFullScreen();
 };

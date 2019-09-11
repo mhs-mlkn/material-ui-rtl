@@ -9,3 +9,11 @@ export function toggleThemeType(type: "dark" | "light") {
 export function toggleDrawerType(type: "temporary" | "permanent") {
   return type === "temporary" ? "permanent" : "temporary";
 }
+
+export function toggleFullScreen() {
+  if (!document.fullscreen) {
+    document.body.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
