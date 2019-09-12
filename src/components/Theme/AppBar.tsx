@@ -32,11 +32,15 @@ const styles = (theme: Theme) =>
         duration: theme.transitions.duration.enteringScreen
       })
     },
-    menuButton: {},
     title: {
       flexGrow: 1,
       [theme.direction === "rtl" ? "marginRight" : "marginLeft"]: theme.spacing(
         3
+      )
+    },
+    titleOpen: {
+      [theme.direction === "rtl" ? "marginRight" : "marginLeft"]: theme.spacing(
+        2
       )
     },
     hide: {
@@ -80,7 +84,7 @@ const AppBar = (props: any) => {
             color="default"
             aria-label="Open drawer"
             onClick={handleToggleDrawer}
-            className={classNames(classes.menuButton, {
+            className={classNames({
               [classes.hide]: state.isDrawerOpen
             })}
           >
@@ -92,7 +96,9 @@ const AppBar = (props: any) => {
           variant="h6"
           color="textPrimary"
           noWrap
-          className={classes.title}
+          className={classNames(classes.title, {
+            [classes.titleOpen]: state.isDrawerOpen
+          })}
         >
           داشبورد
         </Typography>
