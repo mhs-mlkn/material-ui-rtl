@@ -11,7 +11,7 @@ const LoadingBar = () => {
   return (
     <TopLoadingBar
       progress={state.progress}
-      height={3}
+      height={4}
       color={
         theme.palette.type === "light"
           ? theme.palette.primary.main
