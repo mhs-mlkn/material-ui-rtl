@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createGenerateClassName, makeStyles, jssPreset } from "@material-ui/styles";
-import { blue, lightGreen, red } from "@material-ui/core/colors";
+import { lightBlue, lightGreen, red } from "@material-ui/core/colors";
 import { useThemeStore } from "components/Theme";
 import AppBar from "./AppBar";
 import SideBar from "./SideBar";
@@ -34,7 +34,7 @@ const Theme = ({ children }) => {
         paper: state.type === "dark" ? "#343a40" : "#fff", //424951
         default: state.type === "dark" ? "#3a4047" : "#f5f5f5"
       },
-      primary: blue.main,
+      primary: lightBlue.main,
       secondary: lightGreen.main,
       error: red.main,
       text: {
