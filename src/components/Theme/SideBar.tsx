@@ -101,23 +101,31 @@ const Drawer: React.FC = () => {
             onClick={state.isDrawerOpen ? handleDrawerClose : handleDrawerOpen}
           >
             {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
+              state.isDrawerOpen ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )
+            ) : state.isDrawerOpen ? (
               <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
             )}
           </IconButton>
         </div>
-        <IconButton
-          size="small"
-          color="primary"
-          onClick={() => actions.toggleDrawerType()}
-        >
-          {state.drawerType === "permanent" ? (
-            <AdjustIcon fontSize="small" />
-          ) : (
-            <PanoramaFishEyeIcon fontSize="small" />
-          )}
-        </IconButton>
+        {state.showAppBar && (
+          <IconButton
+            size="small"
+            color="primary"
+            onClick={() => actions.toggleDrawerType()}
+          >
+            {state.drawerType === "permanent" ? (
+              <AdjustIcon fontSize="small" />
+            ) : (
+              <PanoramaFishEyeIcon fontSize="small" />
+            )}
+          </IconButton>
+        )}
       </div>
       {SideBarLinks.map((section, i) => (
         <div key={i}>

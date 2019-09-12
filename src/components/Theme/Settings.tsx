@@ -8,6 +8,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 import SettingsIcon from "@material-ui/icons/Settings";
 import LTRIcon from "@material-ui/icons/FormatTextdirectionLToR";
 import RTLIcon from "@material-ui/icons/FormatTextdirectionRToL";
@@ -66,6 +68,8 @@ const Settings = () => {
   const toggleDirection = () => actions.toggleDirection();
   const toggleThemeType = () => actions.toggleThemeType();
   const toggleFullScreen = () => actions.toggleFullScreen();
+  const toggleAppBar = () => actions.toggleAppBar();
+  const toggleSideBar = () => actions.toggleSideBar();
 
   return (
     <>
@@ -143,6 +147,28 @@ const Settings = () => {
                   <FullscreenExitIcon />
                 </ToggleButton>
               </ToggleButtonGroup>
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                className={classes.listItemText}
+                primary="نمایش نوار ابزار"
+              />
+              <Switch
+                checked={state.showAppBar}
+                onChange={toggleAppBar}
+                value={state.showAppBar}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                className={classes.listItemText}
+                primary="نمایش منو"
+              />
+              <Switch
+                checked={state.showSideBar}
+                onChange={toggleSideBar}
+                value={state.showSideBar}
+              />
             </ListItem>
           </List>
           <Divider />
