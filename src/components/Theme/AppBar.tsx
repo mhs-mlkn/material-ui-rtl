@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import PowerSettingsIcon from "@material-ui/icons/PowerSettingsNew";
+import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import { useThemeStore } from "components/Theme";
 import { drawerWidth } from "./theme.constants";
 
@@ -59,6 +60,10 @@ const AppBar = (props: any) => {
     actions.toggleDrawer();
   };
 
+  const toggleFullScreen = () => {
+    actions.toggleFullScreen();
+  };
+
   return (
     <MuiAppBar
       position="fixed"
@@ -88,7 +93,10 @@ const AppBar = (props: any) => {
         >
           داشبورد
         </Typography>
-        <IconButton color="default" title="خروج" onClick={handleLogoutClick}>
+        <IconButton title="نمایش تمام صفحه" onClick={toggleFullScreen}>
+          <FullscreenIcon />
+        </IconButton>
+        <IconButton title="خروج" onClick={handleLogoutClick}>
           <PowerSettingsIcon />
         </IconButton>
       </Toolbar>
