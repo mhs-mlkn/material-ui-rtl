@@ -23,22 +23,25 @@ const styles = (theme: Theme) =>
     },
     appBarShift: {
       [theme.direction === "ltr" ? "marginLeft" : "marginRight"]: drawerWidth,
-      [theme.direction === "rtl"
-        ? "paddingRight"
-        : "paddingLeft"]: theme.spacing(3),
+      // [theme.direction === "rtl"
+      //   ? "paddingRight"
+      //   : "paddingLeft"]: theme.spacing(3),
       width: `calc(100% - ${drawerWidth}px)`,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen
       })
     },
-    menuButton: {
-      [theme.direction === "rtl" ? "marginLeft" : "marginRight"]: theme.spacing(
-        2
+    title: {
+      flexGrow: 1,
+      [theme.direction === "rtl" ? "marginRight" : "marginLeft"]: theme.spacing(
+        3
       )
     },
-    title: {
-      flexGrow: 1
+    titleOpen: {
+      [theme.direction === "rtl" ? "marginRight" : "marginLeft"]: theme.spacing(
+        2
+      )
     },
     hide: {
       display: "none"
@@ -70,26 +73,32 @@ const AppBar = (props: any) => {
       id="appBar"
       className={classNames(classes.appBar, {
         [classes.appBarShift]:
-          state.drawerType === "permanent" && state.isDrawerOpen
+          state.drawerType === "permanent" &&
+          state.isDrawerOpen &&
+          state.showSideBar
       })}
     >
       <Toolbar className={classes.toolbar} disableGutters>
-        <IconButton
-          color="default"
-          aria-label="Open drawer"
-          onClick={handleToggleDrawer}
-          className={classNames(classes.menuButton, {
-            [classes.hide]: state.isDrawerOpen
-          })}
-        >
-          <MenuIcon />
-        </IconButton>
+        {state.showSideBar && (
+          <IconButton
+            color="default"
+            aria-label="Open drawer"
+            onClick={handleToggleDrawer}
+            className={classNames({
+              [classes.hide]: state.isDrawerOpen
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Typography
           component="h6"
           variant="h6"
           color="textPrimary"
           noWrap
-          className={classes.title}
+          className={classNames(classes.title, {
+            [classes.titleOpen]: state.isDrawerOpen
+          })}
         >
           داشبورد
         </Typography>

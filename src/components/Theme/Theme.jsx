@@ -77,10 +77,10 @@ const Theme = ({ children }) => {
       <JssProvider jss={jss} generateClassName={generateClassName}>
         <div className={classes.root}>
           <CssBaseline />
-          <AppBar />
-          <SideBar />
+          {state.showAppBar && <AppBar />}
+          {state.showSideBar && <SideBar />}
           <main className={classes.content}>
-            <div id="appSpacer" className={classes.appBarSpacer} />
+            {state.showAppBar && <div id="appSpacer" className={classes.appBarSpacer} />}
             {children}
           </main>
           <Settings />

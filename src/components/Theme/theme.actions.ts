@@ -27,3 +27,13 @@ export const toggleDrawer = (store: Store) => {
 export const toggleFullScreen = (store: Store) => {
   utils.toggleFullScreen();
 };
+
+export const toggleAppBar = (store: Store) => {
+  const { showAppBar } = store.state;
+  store.setState({ showAppBar: !showAppBar });
+};
+
+export const toggleSideBar = (store: Store) => {
+  const { showSideBar } = store.state;
+  store.setState({ showSideBar: !showSideBar });
+};
