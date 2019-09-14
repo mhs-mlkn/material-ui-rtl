@@ -78,6 +78,7 @@ const Settings = () => {
         size="small"
         onClick={() => toggleOpen(!open)}
         className={classes.button}
+        id="settings-btn"
       >
         <SettingsIcon fontSize="small" />
       </Button>

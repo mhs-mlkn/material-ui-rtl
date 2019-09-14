@@ -77,13 +77,13 @@ const Theme = ({ children }) => {
       <JssProvider jss={jss} generateClassName={generateClassName}>
         <div className={classes.root}>
           <CssBaseline />
-          {state.showAppBar && <AppBar />}
-          {state.showSideBar && <SideBar />}
+          {!state.isFullContent && state.showAppBar && <AppBar />}
+          {!state.isFullContent && state.showSideBar && <SideBar />}
           <main className={classes.content}>
-            {state.showAppBar && <div id="appSpacer" className={classes.appBarSpacer} />}
+            {!state.isFullContent && state.showAppBar && <div id="appSpacer" className={classes.appBarSpacer} />}
             {children}
           </main>
-          <Settings />
+          {!state.isFullContent && <Settings />}
         </div>
       </JssProvider>
     </MuiThemeProvider>

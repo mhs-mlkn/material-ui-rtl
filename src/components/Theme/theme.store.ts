@@ -9,7 +9,8 @@ const initialState: ThemeState = {
   isDrawerOpen: false,
   drawerType: "permanent",
   showAppBar: true,
-  showSideBar: true
+  showSideBar: true,
+  isFullContent: false
 };
 
 const useThemeStore = useGlobalHook(React, initialState, actions);

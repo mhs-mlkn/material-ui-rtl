@@ -21,6 +21,10 @@ body:-ms-fullscreen #sideBar {
 }
 body:fullscreen #appSpacer,
 body:fullscreen #appBar,
-body:fullscreen #sideBar {
+body:fullscreen #sideBar,
+#root.full-content #appSpacer,
+#root.full-content #appBar,
+#root.full-content #sideBar,
+#root.full-content #settings-btn {
   display: none;
 }

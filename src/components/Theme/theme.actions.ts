@@ -28,12 +28,31 @@ export const toggleFullScreen = (store: Store) => {
   utils.toggleFullScreen();
 };
 
-export const toggleAppBar = (store: Store) => {
+export const toggleAppBar = (store: Store, value?: boolean) => {
   const { showAppBar } = store.state;
-  store.setState({ showAppBar: !showAppBar });
+  store.setState({
+    showAppBar: typeof value !== typeof undefined ? value : !showAppBar
+  });
 };
 
-export const toggleSideBar = (store: Store) => {
+export const toggleSideBar = (store: Store, value?: boolean) => {
   const { showSideBar } = store.state;
-  store.setState({ showSideBar: !showSideBar });
+  store.setState({
+    showSideBar: typeof value !== typeof undefined ? value : !showSideBar
+  });
+};
+
+export const toggleFullContent = (store: Store, value?: boolean) => {
+  const { isFullContent } = store.state;
+  const val = typeof value !== typeof undefined ? value : !isFullContent;
+  const root = document.getElementById("root") || new HTMLElement();
+  val
+    ? root.classList.add("full-content")
+    : root.classList.remove("full-content");
+
+  store.setState({
+    isFullContent: val,
+    showAppBar: !val,
+    showSideBar: !val
+  });
 };
