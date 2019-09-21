@@ -3,6 +3,7 @@ import Snackbar from "components/CustomSnackbar";
 import Theme from "components/Theme";
 import LoadingBar, { useLoadingBarStore } from "components/LoadingBar";
 import { navigate } from "hookrouter";
+import Auth from "hoc/Auth";
 import Router from "components/Router";
 
 const Test: React.FC = () => {
@@ -32,7 +33,9 @@ const App: React.FC = () => {
       <Snackbar>
         <LoadingBar />
         <Test />
-        <Router />
+        <Auth>
+          <Router />
+        </Auth>
       </Snackbar>
     </Theme>
   );

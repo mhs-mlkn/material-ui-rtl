@@ -11,6 +11,12 @@ export const redirect = {
   to: "/home"
 };
 
+export const login = {
+  path: "/login",
+  component: () => <h1>ورود</h1>,
+  auth: false
+};
+
 const routes: Route[] = [
   {
     path: "/home",
@@ -22,12 +28,7 @@ const routes: Route[] = [
     component: () => <h1>درباره ما</h1>,
     auth: true
   },
-  {
-    path: "/login",
-    component: () => <h1>ورود</h1>,
-    auth: false
-  }
+  login
 ];
 
-export { default as NotFound } from "views/exceptions/NotFound";
 export default routes;
