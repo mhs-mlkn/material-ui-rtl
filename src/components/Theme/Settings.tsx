@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     bottom: 40,
     [theme.direction === "rtl" ? "left" : "right"]: -30,
     zIndex: 1000,
-    justifyContent: "end"
+    justifyContent: "start"
   },
   list: {
     width: 250

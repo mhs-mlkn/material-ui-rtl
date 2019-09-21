@@ -5,7 +5,7 @@ import LoadingBar, { useLoadingBarStore } from "components/LoadingBar";
 import { navigate } from "hookrouter";
 import Router from "components/Router";
 
-const TestSnackbar: React.FC = () => {
+const Test: React.FC = () => {
   const loadingActions = useLoadingBarStore()[1];
 
   const startLoadingBar = () => {
@@ -31,7 +31,7 @@ const App: React.FC = () => {
     <Theme>
       <Snackbar>
         <LoadingBar />
-        <TestSnackbar />
+        <Test />
         <Router />
       </Snackbar>
     </Theme>
