@@ -79,6 +79,7 @@ const Settings = () => {
         onClick={() => toggleOpen(!open)}
         className={classes.button}
         id="settings-btn"
+        tabIndex={-1}
       >
         <SettingsIcon fontSize="small" />
       </Button>

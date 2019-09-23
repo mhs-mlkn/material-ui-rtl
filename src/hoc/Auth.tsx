@@ -8,11 +8,9 @@ const getNextRoute = (nextPath: string) => {
 };
 
 const Auth = (props: { children: any }) => {
-  const path = usePath();
+  const initialPath = usePath();
   const authInterceptor = (currentPath: string, nextPath: string) => {
     const nextRoute: Route | undefined = getNextRoute(nextPath);
-
-    console.log(path);
 
     if (!nextRoute || !nextRoute.auth) {
       return nextPath;
@@ -22,11 +20,10 @@ const Auth = (props: { children: any }) => {
 
   const { children } = props;
   useInterceptor(authInterceptor);
-  // const path = usePath();
   const isAuthenticated = false;
 
   useEffect(() => {
-    const nextRoute: Route | undefined = getNextRoute(path);
+    const nextRoute: Route | undefined = getNextRoute(initialPath);
 
     if (!isAuthenticated && get(nextRoute, "auth", false)) {
       navigate(login.path);
