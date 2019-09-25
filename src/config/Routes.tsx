@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import Login from "views/Account/Login";
 
 export type Route = {
   path: string;
@@ -13,22 +14,22 @@ export const redirect = {
 
 export const login = {
   path: "/login",
-  component: () => <h1>ورود</h1>,
+  component: Login,
   auth: false
 };
 
 const routes: Route[] = [
+  login,
   {
     path: "/home",
     component: () => <h1>خانه</h1>,
-    auth: false
+    auth: true
   },
   {
     path: "/about",
     component: () => <h1>درباره ما</h1>,
     auth: true
-  },
-  login
+  }
 ];
 
 export default routes;

@@ -10,9 +10,9 @@ const processRoutes = (routes: Route[]) => {
 };
 
 const Router = () => {
-  useRedirect(redirect.from, redirect.to);
   const routes = processRoutes(Routes);
   const routeResult = useRoutes(routes);
+  useRedirect(redirect.from, redirect.to);
 
   return routeResult || <NotFound />;
 };
