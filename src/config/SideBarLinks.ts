@@ -2,24 +2,54 @@ import { ComponentType } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 
-export type SideBarLink = {
+export type TSideBarLink = {
   icon: ComponentType;
   title: String;
+  path?: string;
+  selected: (p: string) => boolean;
+  subItems?: TSideBarLink[];
+};
+
+export type TSideBarLinks = TSideBarLink[][];
+
+function isSelected(match: string) {
+  return (path: string) => path === match;
 }
 
-export type SideBarLinks = SideBarLink[][]
+function parent(path: string) {
+  return false;
+}
 
-const SideBarLinks: SideBarLinks = [
+const SideBarLinks: TSideBarLinks = [
   [
     {
       icon: HomeIcon,
-      title: "خانه"
+      title: "خانه",
+      selected: parent,
+      path: "/home",
+      subItems: [
+        {
+          icon: HomeIcon,
+          title: "خانه",
+          path: "/home",
+          selected: isSelected("/user/home")
+        }
+      ]
     }
   ],
   [
     {
       icon: DashboardIcon,
-      title: "داشبوردهای من"
+      title: "داشبوردهای من",
+      selected: parent,
+      subItems: [
+        {
+          icon: DashboardIcon,
+          title: "داشبوردهای من",
+          path: "/about",
+          selected: isSelected("/user/about")
+        }
+      ]
     }
   ]
 ];

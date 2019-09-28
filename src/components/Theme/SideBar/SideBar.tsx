@@ -2,19 +2,15 @@ import React from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import MuiDrawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import AdjustIcon from "@material-ui/icons/Adjust";
 import PanoramaFishEyeIcon from "@material-ui/icons/PanoramaFishEye";
 import { useThemeStore } from "components/Theme";
-import { drawerWidth } from "./theme.constants";
+import { drawerWidth } from "../theme.constants";
 import { SideBarLinks } from "config";
+import Sections from "./Sections";
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -47,16 +43,10 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 1, 0, 1),
     ...theme.mixins.toolbar
   },
-  listItemText: {
-    textAlign: theme.direction === "rtl" ? "right" : "left"
-  },
   border: {
     [theme.direction === "rtl"
       ? "borderLeftColor"
       : "borderRightColor"]: "#00000026"
-  },
-  divider: {
-    backgroundColor: "#00000026"
   },
   paper: {
     overflow: "hidden"
@@ -127,22 +117,7 @@ const Drawer: React.FC = () => {
           </IconButton>
         )}
       </div>
-      {SideBarLinks.map((section, i) => (
-        <div key={i}>
-          <Divider className={classes.divider} />
-          <List>
-            {section.map((link, index) => (
-              <ListItem button key={index}>
-                <ListItemIcon>{<link.icon />}</ListItemIcon>
-                <ListItemText
-                  primary={link.title}
-                  className={classes.listItemText}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      ))}
+      <Sections sections={SideBarLinks} />
     </MuiDrawer>
   );
 };

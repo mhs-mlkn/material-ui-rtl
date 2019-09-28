@@ -15,17 +15,17 @@ const styles = (theme: Theme) =>
     }
   });
 
-type LoadingButtonProps = {
+type TLoadingButtonProps = {
   text: string;
   icon: React.ComponentType<SvgIconProps>;
   loading: boolean;
   classes: { margin: string };
 } & ButtonProps;
 
-class LoadingButton extends Component<LoadingButtonProps> {
+class LoadingButton extends Component<TLoadingButtonProps> {
   getIcon() {
-    const { classes } = this.props;
-    return <this.props.icon className={classes.margin} />;
+    const { classes, icon: Icon } = this.props;
+    return <Icon className={classes.margin} />;
   }
 
   render() {

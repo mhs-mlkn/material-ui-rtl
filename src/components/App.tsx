@@ -1,43 +1,21 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import Snackbar from "components/CustomSnackbar";
 import Theme from "components/Theme";
-import LoadingBar, { useLoadingBarStore } from "components/LoadingBar";
-import { navigate } from "hookrouter";
-import { Auth } from "components/Auth";
-import Router from "components/Router";
-
-// const Test: React.FC = () => {
-//   const loadingActions = useLoadingBarStore()[1];
-
-//   const startLoadingBar = () => {
-//     loadingActions.start();
-//     navigate("/");
-//   };
-
-//   const completeLoadingBar = () => {
-//     loadingActions.complete();
-//     navigate("/about");
-//   };
-
-//   return (
-//     <>
-//       <button onClick={startLoadingBar}>startLoadingBar</button>
-//       <button onClick={completeLoadingBar}>completeLoadingBar</button>
-//     </>
-//   );
-// };
+import LoadingBar from "components/LoadingBar";
+import { Router } from "components/Auth";
 
 const App: React.FC = () => {
+  const supportsHistory = "pushState" in window.history;
   return (
-    <Theme>
-      <Snackbar>
-        <LoadingBar />
-        {/* <Test /> */}
-        <Auth>
+    <BrowserRouter forceRefresh={!supportsHistory}>
+      <Theme>
+        <Snackbar>
+          <LoadingBar />
           <Router />
-        </Auth>
-      </Snackbar>
-    </Theme>
+        </Snackbar>
+      </Theme>
+    </BrowserRouter>
   );
 };
 

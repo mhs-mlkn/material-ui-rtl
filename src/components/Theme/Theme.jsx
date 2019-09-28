@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { create } from "jss";
 import rtl from "jss-rtl";
 import JssProvider from "react-jss/lib/JssProvider";
@@ -56,6 +56,10 @@ const Theme = ({ children }) => {
       }
     }
   });
+
+  useEffect(() => {
+    document.getElementsByTagName("body")[0].setAttribute("dir", state.direction);
+  }, [state.direction]);
 
   const useStyles = makeStyles({
     root: {

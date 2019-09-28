@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 import classNames from "classnames";
 import { withStyles, createStyles, Theme } from "@material-ui/core/styles";
 import MuiAppBar from "@material-ui/core/AppBar";
@@ -10,6 +11,7 @@ import PowerSettingsIcon from "@material-ui/icons/PowerSettingsNew";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import { useThemeStore } from "components/Theme";
 import { drawerWidth } from "./theme.constants";
+import { AuthService } from "components/Auth";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -54,9 +56,11 @@ const styles = (theme: Theme) =>
 const AppBar = (props: any) => {
   const { classes } = props;
   const [state, actions] = useThemeStore();
+  let history = useHistory();
 
   const handleLogoutClick = () => {
-    console.log("logout...");
+    AuthService.logout();
+    history.push("/");
   };
 
   const handleToggleDrawer = () => {

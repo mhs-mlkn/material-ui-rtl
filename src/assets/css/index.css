@@ -4,6 +4,16 @@
   font-family: "Yekan";
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #c5c5c5;
+}
+::-webkit-scrollbar-thumb {
+  background: #666;
+}
+
 body:-webkit-full-screen #appSpacer,
 body:-webkit-full-screen #appBar,
 body:-webkit-full-screen #sideBar {

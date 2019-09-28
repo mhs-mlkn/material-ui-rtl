@@ -1,6 +1,6 @@
-import { Store } from "store";
+import { TStore } from "store";
 
-export type ThemeState = {
+export type TThemeState = {
   direction: "rtl" | "ltr";
   type: "dark" | "light";
   isDrawerOpen: boolean;
@@ -10,6 +10,6 @@ export type ThemeState = {
   isFullContent: boolean;
 };
 
-type t = Store<ThemeState>;
+type t = TStore<TThemeState>;
 
 export default t;

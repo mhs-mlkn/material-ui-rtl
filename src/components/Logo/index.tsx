@@ -1,8 +1,8 @@
 import React from "react";
-import { useThemeStore, ThemeState } from "components/Theme";
+import { useThemeStore, TThemeState } from "components/Theme";
 
 const Logo = () => {
-  const state: ThemeState = useThemeStore()[0];
+  const state: TThemeState = useThemeStore()[0];
   const fill = state.type === "dark" ? "#fff" : "#000";
 
   return (

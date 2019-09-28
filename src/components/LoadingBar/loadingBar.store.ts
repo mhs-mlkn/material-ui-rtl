@@ -1,9 +1,9 @@
 import React from "react";
 import useGlobalHook from "use-global-hook";
 import * as actions from "./loadingBar.actions";
-import {LoadingBarState} from "./loadingBar.types";
+import { TLoadingBarState } from "./loadingBar.types";
 
-const initialState: LoadingBarState = {
+const initialState: TLoadingBarState = {
   progress: 0,
   count: 0
 };

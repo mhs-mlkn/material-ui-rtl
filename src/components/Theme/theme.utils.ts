@@ -1,3 +1,8 @@
+import { TThemeState } from "./theme.types";
+import { get } from "lodash";
+
+const SETTINGS = "DU_SETTINGS";
+
 export function toggleDirection(dir: "rtl" | "ltr") {
   return dir === "rtl" ? "ltr" : "rtl";
 }
@@ -16,4 +21,27 @@ export function toggleFullScreen() {
   } else {
     document.exitFullscreen();
   }
+}
+
+export function saveSettings(state: TThemeState) {
+  setTimeout(() => localStorage.setItem(SETTINGS, JSON.stringify(state)), 1000);
+}
+
+export function loadSettings(): TThemeState {
+  let settings = {};
+  const get2 = (key: string, def: any) => get(settings, key, def);
+
+  try {
+    settings = JSON.parse(localStorage.getItem(SETTINGS) || "");
+  } catch (error) {}
+
+  return {
+    direction: get2("direction", "rtl"),
+    type: get2("type", "dark"),
+    isDrawerOpen: get2("isDrawerOpen", false),
+    drawerType: get2("drawerType", "permanent"),
+    showAppBar: get2("showAppBar", true),
+    showSideBar: get2("showSideBar", true),
+    isFullContent: false
+  };
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Redirect, RouteProps } from "react-router";
+import { get } from "lodash";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
-import { navigate } from "hookrouter";
 import Grid from "@material-ui/core/Grid";
 import Zoom from "@material-ui/core/Zoom";
 import Paper from "@material-ui/core/Paper";
@@ -24,9 +25,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Login() {
+export default function Login(props: RouteProps) {
   const [hasError, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -45,6 +47,7 @@ export default function Login() {
     async function fetchToken(ssoCode: string) {
       try {
         await AuthService.fetchToken(ssoCode);
+        setRedirect(true);
       } catch (error) {
         setError(true);
       }
@@ -60,6 +63,11 @@ export default function Login() {
     setLoading(true);
     window.location.href = AuthService.getLoginUrl();
   };
+
+  if (redirect) {
+    const { from } = get(props, "location.state", { from: { pathname: "/" } });
+    return <Redirect to={from} />;
+  }
 
   return (
     <FullContent>

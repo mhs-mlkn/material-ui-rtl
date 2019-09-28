@@ -1,28 +1,34 @@
-import React, { ReactNode } from "react";
+import React, { ComponentType } from "react";
 import Login from "views/Account/Login";
 
-export type Route = {
+export type TRoute = {
   path: string;
-  component: ReactNode;
+  component: ComponentType;
   auth: boolean;
 };
+
+export const basePath = "/user";
 
 export const redirect = {
   from: "/",
   to: "/home"
 };
 
-export const login = {
+export const loginRoute: TRoute = {
   path: "/login",
   component: Login,
   auth: false
 };
 
-const routes: Route[] = [
-  login,
+const routes: TRoute[] = [
+  loginRoute,
   {
     path: "/home",
-    component: () => <h1>خانه</h1>,
+    component: () => (
+      <div style={{ height: 1000 }}>
+        <h1>خانه</h1>
+      </div>
+    ),
     auth: true
   },
   {
