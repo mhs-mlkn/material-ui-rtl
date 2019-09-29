@@ -25,7 +25,7 @@ const routes: TRoute[] = [
   {
     path: "/home",
     component: () => (
-      <div style={{ height: 1000 }}>
+      <div style={{ height: 500 }}>
         <h1>خانه</h1>
       </div>
     ),
@@ -33,7 +33,11 @@ const routes: TRoute[] = [
   },
   {
     path: "/about",
-    component: () => <h1>درباره ما</h1>,
+    component: () => (
+      <div style={{ height: 500 }}>
+        <h1>درباره ما</h1>
+      </div>
+    ),
     auth: true
   }
 ];

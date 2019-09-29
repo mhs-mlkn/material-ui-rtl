@@ -55,6 +55,7 @@ export default function Login(props: RouteProps) {
 
     const qs = parseQueryString(window.location.search.slice(1));
     if (qs && qs.code) {
+      setLoading(true);
       fetchToken(qs.code);
     }
   }, []);
