@@ -16,40 +16,25 @@ function isSelected(match: string) {
   return (path: string) => path === match;
 }
 
-function parent(path: string) {
-  return false;
-}
+// function parent(path: string) {
+//   return false;
+// }
 
 const SideBarLinks: TSideBarLinks = [
   [
     {
       icon: HomeIcon,
       title: "خانه",
-      selected: parent,
-      path: "/home",
-      subItems: [
-        {
-          icon: HomeIcon,
-          title: "خانه",
-          path: "/home",
-          selected: isSelected("/user/home")
-        }
-      ]
+      selected: isSelected("/user/home"),
+      path: "/home"
     }
   ],
   [
     {
       icon: DashboardIcon,
       title: "داشبوردهای من",
-      selected: parent,
-      subItems: [
-        {
-          icon: DashboardIcon,
-          title: "داشبوردهای من",
-          path: "/about",
-          selected: isSelected("/user/about")
-        }
-      ]
+      selected: isSelected("/user/about"),
+      path: "/about"
     }
   ]
 ];

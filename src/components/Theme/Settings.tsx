@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "10px 5px",
     position: "fixed",
     bottom: 40,
-    [theme.direction === "rtl" ? "left" : "right"]: -30,
-    zIndex: 1000,
-    justifyContent: "start"
+    [theme.direction === "ltr" ? "left" : "right"]: -30,
+    zIndex: 100000,
+    justifyContent: "flex-end"
   },
   list: {
     width: 250

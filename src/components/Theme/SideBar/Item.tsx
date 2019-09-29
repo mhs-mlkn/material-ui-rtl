@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import clx from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
-import Collapse from "@material-ui/core/Collapse";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { TSideBarLink, basePath } from "config";
-import Items from "./Items";
 
 const useStyles = makeStyles(theme => ({
   listItem: {
@@ -50,11 +48,11 @@ const Item = (props: { item: TSideBarLink; nested?: boolean }) => {
         <ListItemText primary={item.title} className={classes.listItemText} />
         {item.subItems && (open ? <ExpandLess /> : <ExpandMore />)}
       </ListItem>
-      {item.subItems && item.subItems.length > 0 && (
+      {/* {item.subItems && item.subItems.length > 0 && (
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Items items={item.subItems} nested />
         </Collapse>
-      )}
+      )} */}
     </>
   );
 };
