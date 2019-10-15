@@ -1,10 +1,10 @@
 import { TStore } from "store";
 
-export type TLoadingBarState = {
+export type TLoadingBar = {
   progress: number;
   count: number;
 };
 
-type t = TStore<TLoadingBarState>;
+type t = TStore<TLoadingBar>;
 
 export default t;

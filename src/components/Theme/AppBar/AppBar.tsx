@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router";
 import classNames from "classnames";
 import { withStyles, createStyles, Theme } from "@material-ui/core/styles";
 import MuiAppBar from "@material-ui/core/AppBar";
@@ -7,11 +6,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import PowerSettingsIcon from "@material-ui/icons/PowerSettingsNew";
-import FullscreenIcon from "@material-ui/icons/Fullscreen";
+import { ToggleButton } from "components/Layout";
 import { useThemeStore } from "components/Theme";
-import { drawerWidth } from "./theme.constants";
-import { AuthService } from "components/Auth";
+import { drawerWidth } from "../theme.constants";
+import AppBarMenu from "./AppBarMenu";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -56,19 +54,9 @@ const styles = (theme: Theme) =>
 const AppBar = (props: any) => {
   const { classes } = props;
   const [state, actions] = useThemeStore();
-  let history = useHistory();
-
-  const handleLogoutClick = () => {
-    AuthService.logout();
-    history.push("/");
-  };
 
   const handleToggleDrawer = () => {
     actions.toggleDrawer();
-  };
-
-  const toggleFullScreen = () => {
-    actions.toggleFullScreen();
   };
 
   return (
@@ -106,12 +94,8 @@ const AppBar = (props: any) => {
         >
           داشبورد
         </Typography>
-        <IconButton title="نمایش تمام صفحه" onClick={toggleFullScreen}>
-          <FullscreenIcon />
-        </IconButton>
-        <IconButton title="خروج" onClick={handleLogoutClick}>
-          <PowerSettingsIcon />
-        </IconButton>
+        <ToggleButton />
+        <AppBarMenu />
       </Toolbar>
     </MuiAppBar>
   );

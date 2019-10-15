@@ -1,7 +1,8 @@
-import Axios, { AxiosInstance } from "axios";
+import { AxiosInstance } from "axios";
 import { get } from "lodash";
 import { createHash, randomBytes } from "crypto-browserify";
-import Api from "./Api";
+import AuthApi from "./Api";
+import { Api } from "utility";
 
 function getLS(key: string) {
   let val = localStorage.getItem(key) || "";
@@ -19,7 +20,7 @@ export class AuthService {
   private isRefreshTokenInIssued = false;
 
   constructor() {
-    this.axios = Axios.create();
+    this.axios = Api.axios;
 
     this.configAxios();
   }
@@ -35,7 +36,7 @@ export class AuthService {
 
   public fetchToken = async (code: string) => {
     let token_verifier = getLS(this.CODE_VERIFIER);
-    return Api.fetchToken(code, token_verifier).then(res => {
+    return AuthApi.fetchToken(code, token_verifier).then(res => {
       if (!!res.access_token && !!res.refresh_token) {
         this.saveToLS(res);
         return res;
@@ -104,7 +105,7 @@ export class AuthService {
   private refreshToken = async () => {
     const refresh_token = getLS(this.REFRESH_TOKEN);
     const token_verifier = getLS(this.CODE_VERIFIER);
-    const result = await Api.refreshToken(refresh_token, token_verifier);
+    const result = await AuthApi.refreshToken(refresh_token, token_verifier);
     this.saveToLS(result);
     return result;
   };

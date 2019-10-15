@@ -28,6 +28,12 @@ export const toggleDrawer = (store: TStore) => {
   utils.saveSettings(store.state);
 };
 
+export const toggleSettings = (store: TStore) => {
+  const { isSettingsOpen } = store.state;
+  store.setState({ isSettingsOpen: !isSettingsOpen });
+  utils.saveSettings(store.state);
+};
+
 export const toggleFullScreen = (store: TStore) => {
   utils.toggleFullScreen();
 };

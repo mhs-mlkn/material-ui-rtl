@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "10px 5px",
     position: "fixed",
     bottom: 40,
-    [theme.direction === "ltr" ? "left" : "right"]: -30,
+    [theme.direction === "ltr" ? "left" : "right"]: -31,
     zIndex: 100000,
     justifyContent: "flex-end"
   },
@@ -61,9 +61,11 @@ const Settings = () => {
       return;
     }
 
+    toggleSettings();
     toggleOpen(!open);
   };
 
+  const toggleSettings = () => actions.toggleSettings();
   const toggleDirection = () => actions.toggleDirection();
   const toggleThemeType = () => actions.toggleThemeType();
   const toggleFullScreen = () => actions.toggleFullScreen();
@@ -72,18 +74,20 @@ const Settings = () => {
 
   return (
     <>
-      <Button
-        variant="outlined"
-        title="تنظیمات"
-        size="small"
-        onClick={() => toggleOpen(!open)}
-        className={classes.button}
-        id="settings-btn"
-        tabIndex={-1}
-      >
-        <SettingsIcon fontSize="small" />
-      </Button>
-      <Drawer open={open} onClose={toggleDrawer} anchor="right">
+      {!state.showAppBar && (
+        <Button
+          variant="outlined"
+          title="تنظیمات"
+          size="small"
+          onClick={toggleSettings}
+          className={classes.button}
+          id="settings-btn"
+          tabIndex={-1}
+        >
+          <SettingsIcon fontSize="small" />
+        </Button>
+      )}
+      <Drawer open={state.isSettingsOpen} onClose={toggleDrawer} anchor="right">
         <div className={classes.list} role="presentation">
           <List>
             <ListItem>

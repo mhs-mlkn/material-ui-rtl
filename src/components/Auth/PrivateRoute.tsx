@@ -1,7 +1,7 @@
 import React, { ComponentType } from "react";
 import { Route, Redirect, RouteProps } from "react-router";
 import AuthService from "./Auth.service";
-import { loginRoute, basePath } from "config";
+import { loginRoute, basePath } from "configs";
 
 type TPrivateRouteProps = {
   component: ComponentType;

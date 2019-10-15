@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
-import { TSideBarLinks } from "config";
+import { TSideBarLinks } from "configs";
 import Items from "./Items";
 
 const useStyles = makeStyles(theme => ({

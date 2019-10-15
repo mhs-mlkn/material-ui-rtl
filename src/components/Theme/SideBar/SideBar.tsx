@@ -9,7 +9,7 @@ import AdjustIcon from "@material-ui/icons/Adjust";
 import PanoramaFishEyeIcon from "@material-ui/icons/PanoramaFishEye";
 import { useThemeStore } from "components/Theme";
 import { drawerWidth } from "../theme.constants";
-import { SideBarLinks } from "config";
+import { SideBarLinks } from "configs";
 import Sections from "./Sections";
 
 const useStyles = makeStyles(theme => ({
@@ -31,9 +31,9 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen
     }),
     overflowX: "hidden",
-    width: theme.spacing(7) + 1,
+    width: 0, // theme.spacing(7) + 1,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(8) + 1
+      width: 0 // theme.spacing(8) + 1
     }
   },
   toolbar: {

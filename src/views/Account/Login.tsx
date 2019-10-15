@@ -8,8 +8,8 @@ import Paper from "@material-ui/core/Paper";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import InputIcon from "@material-ui/icons/Input";
-import FullContent from "hoc/FullContent";
-import { LoadingButton } from "components/Button";
+import FullContent from "components/FullContent";
+import { Button } from "components/Button";
 import Logo from "components/Logo";
 import { AuthService } from "components/Auth";
 
@@ -50,6 +50,7 @@ export default function Login(props: RouteProps) {
         setRedirect(true);
       } catch (error) {
         setError(true);
+        setLoading(false);
       }
     }
 
@@ -90,7 +91,7 @@ export default function Login(props: RouteProps) {
           >
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-                <LoadingButton
+                <Button
                   icon={InputIcon}
                   text="ورود به داشبورد"
                   loading={loading}

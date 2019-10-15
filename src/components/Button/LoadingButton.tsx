@@ -17,28 +17,32 @@ const styles = (theme: Theme) =>
 
 type TLoadingButtonProps = {
   text: string;
-  icon: React.ComponentType<SvgIconProps>;
-  loading: boolean;
+  icon?: React.ComponentType<SvgIconProps>;
+  loading?: boolean;
+  children?: React.ReactNode;
   classes: { margin: string };
 } & ButtonProps;
 
 class LoadingButton extends Component<TLoadingButtonProps> {
-  getIcon() {
-    const { classes, icon: Icon } = this.props;
-    return <Icon className={classes.margin} />;
-  }
-
   render() {
-    const { classes, icon, text, loading, ...rest } = this.props;
+    const {
+      classes,
+      icon: Icon,
+      text,
+      loading = false,
+      children,
+      ...rest
+    } = this.props;
     return (
       <Button color="primary" variant="contained" {...rest}>
         {loading && (
           <Progress color="inherit" className={classes.margin} size={28} />
         )}
-        {icon && !loading && this.getIcon()}
+        {!!Icon && !loading && <Icon className={classes.margin} />}
         <Typography gutterBottom variant="button" display="block">
           {text}
         </Typography>
+        {children}
       </Button>
     );
   }

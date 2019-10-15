@@ -1,6 +1,6 @@
 import { ComponentType } from "react";
 import HomeIcon from "@material-ui/icons/Home";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import ListIcon from "@material-ui/icons/List";
 
 export type TSideBarLink = {
   icon: ComponentType;
@@ -25,16 +25,24 @@ const SideBarLinks: TSideBarLinks = [
     {
       icon: HomeIcon,
       title: "خانه",
-      selected: isSelected("/user/home"),
-      path: "/home"
+      selected: isSelected("/user/dashboards"),
+      path: "/dashboards"
     }
   ],
   [
     {
-      icon: DashboardIcon,
+      icon: ListIcon,
+      title: "گزارش ها",
+      selected: isSelected("/user/reports"),
+      path: "/reports"
+    }
+  ],
+  [
+    {
+      icon: ListIcon,
       title: "داشبوردهای من",
-      selected: isSelected("/user/about"),
-      path: "/about"
+      selected: isSelected("/user/manage/dashboards"),
+      path: "/manage/dashboards"
     }
   ]
 ];

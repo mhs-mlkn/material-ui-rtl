@@ -1,5 +1,8 @@
-import React, { ComponentType } from "react";
+import { ComponentType } from "react";
 import Login from "views/Account/Login";
+import { Reports } from "views/Reports";
+import { Dashboards } from "views/Dashboards";
+import { DashboardManager } from "views/DashboardManager";
 
 export type TRoute = {
   path: string;
@@ -11,7 +14,7 @@ export const basePath = "/user";
 
 export const redirect = {
   from: "/",
-  to: "/home"
+  to: "/dashboards"
 };
 
 export const loginRoute: TRoute = {
@@ -23,21 +26,18 @@ export const loginRoute: TRoute = {
 const routes: TRoute[] = [
   loginRoute,
   {
-    path: "/home",
-    component: () => (
-      <div style={{ height: 500 }}>
-        <h1>خانه</h1>
-      </div>
-    ),
+    path: "/dashboards",
+    component: Dashboards,
     auth: true
   },
   {
-    path: "/about",
-    component: () => (
-      <div style={{ height: 500 }}>
-        <h1>درباره ما</h1>
-      </div>
-    ),
+    path: "/reports",
+    component: Reports,
+    auth: true
+  },
+  {
+    path: "/manage/dashboards",
+    component: DashboardManager,
     auth: true
   }
 ];

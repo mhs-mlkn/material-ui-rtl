@@ -1,10 +1,10 @@
 import React from "react";
 import useGlobalHook from "use-global-hook";
 import * as actions from "./theme.actions";
-import { TThemeState } from "./theme.types";
+import { TTheme } from "./theme.types";
 import { loadSettings } from "./theme.utils";
 
-const initialState: TThemeState = loadSettings();
+const initialState: TTheme = loadSettings();
 
 const useThemeStore = useGlobalHook(React, initialState, actions);
 

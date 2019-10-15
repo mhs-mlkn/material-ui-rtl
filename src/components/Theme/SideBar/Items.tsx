@@ -1,6 +1,6 @@
 import React from "react";
 import List from "@material-ui/core/List";
-import { TSideBarLink } from "config";
+import { TSideBarLink } from "configs";
 import Item from "./Item";
 
 const Items = (props: { items: TSideBarLink[]; nested?: boolean }) => {
