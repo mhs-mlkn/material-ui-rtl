@@ -1,10 +1,11 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import AspectRatioIcon from "@material-ui/icons/AspectRatio";
-import useLayoutStore from "./layout.store";
+import { useLayoutStore, TLayout, TActions } from ".";
 
 const ToggleButton = () => {
-  const actions = useLayoutStore()[1];
+  const actions = useLayoutStore<TLayout, TActions>()[1];
+
   const toggleEditLayout = () => {
     actions.toggleEditable();
   };

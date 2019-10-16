@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { ToggleButton } from "components/Layout";
-import { useThemeStore } from "components/Theme";
+import { useThemeStore, TTheme, TActions } from "components/Theme";
 import { drawerWidth } from "../theme.constants";
 import AppBarMenu from "./AppBarMenu";
 
@@ -53,7 +53,7 @@ const styles = (theme: Theme) =>
 
 const AppBar = (props: any) => {
   const { classes } = props;
-  const [state, actions] = useThemeStore();
+  const [state, actions] = useThemeStore<TTheme, TActions>();
 
   const handleToggleDrawer = () => {
     actions.toggleDrawer();

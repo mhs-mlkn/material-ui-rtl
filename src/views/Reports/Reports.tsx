@@ -5,10 +5,10 @@ import ToolBox, { TView, TOrderBy, TOrderDir } from "components/ToolBox";
 import Pagination from "components/Pagination";
 import GridView from "./GridView";
 import ListView from "./ListView";
-import { useReports, TReports } from ".";
+import { useReports, TReports, TActions } from ".";
 
 const Reports = () => {
-  const [state, actions]: [TReports, any] = useReports();
+  const [state, actions] = useReports<TReports, TActions>();
   const { q, view, orderBy, orderDir, page, pageSize } = state;
 
   useEffect(() => {

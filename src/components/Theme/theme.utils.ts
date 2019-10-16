@@ -3,7 +3,7 @@ import { get } from "lodash";
 
 const SETTINGS = "DU_SETTINGS";
 
-export function toggleDirection(dir: "rtl" | "ltr") {
+export function toggleDirection(dir: "rtl" | "ltr"): "ltr" | "rtl" {
   return dir === "rtl" ? "ltr" : "rtl";
 }
 

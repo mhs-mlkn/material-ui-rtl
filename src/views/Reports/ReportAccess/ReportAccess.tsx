@@ -5,10 +5,10 @@ import { Search } from "components/Inputs";
 import Loading from "components/Loading";
 import Alert from "components/Alert";
 import Users from "./Users";
-import { useAccess, TAccess } from ".";
+import { useAccess, TAccess, TActions } from ".";
 
 const ReportAccess = (props: { reportId: number }) => {
-  const [state, actions]: [TAccess, any] = useAccess();
+  const [state, actions] = useAccess<TAccess, TActions>();
   const { loading, error, users, q } = state;
   const { reportId } = props;
 

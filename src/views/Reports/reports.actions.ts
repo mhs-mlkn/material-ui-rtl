@@ -1,6 +1,6 @@
-import TStore from "./reports.types";
+import { Store } from "use-global-hook";
 import { TView, TOrderBy, TOrderDir } from "components/ToolBox";
-import { ReportsService as Reports, TReports } from ".";
+import { ReportsService as Reports, TReports, TActions } from ".";
 
 const errorMsg = "دریافت اطلاعات با خطا مواجه شد";
 
@@ -14,38 +14,45 @@ function saveSettings(state: TReports) {
   );
 }
 
-export function get(store: TStore, bypassCache?: boolean) {
-  store.setState({ loading: true, error: false });
+export function get(store: Store<TReports, TActions>, bypassCache?: boolean) {
+  store.setState({ ...store.state, loading: true, error: false });
   const { q, orderBy, orderDir, page, pageSize } = store.state;
   Reports.get(q, orderBy, orderDir, page, pageSize, bypassCache)
     .then(reports => {
-      store.setState({ reports, count: Reports.count, loading: false });
+      store.setState({
+        ...store.state,
+        reports,
+        count: Reports.count,
+        loading: false
+      });
     })
-    .catch(() => store.setState({ error: errorMsg, loading: false }));
+    .catch(() =>
+      store.setState({ ...store.state, error: errorMsg, loading: false })
+    );
 }
 
-export function changeSearch(store: TStore, q: string) {
-  store.setState({ q });
+export function changeSearch(store: Store<TReports, TActions>, q: string) {
+  store.setState({ ...store.state, q });
 }
 
-export function changeView(store: TStore, view: TView) {
+export function changeView(store: Store<TReports, TActions>, view: TView) {
   saveSettings({ ...store.state, view });
-  store.setState({ view });
+  store.setState({ ...store.state, view });
 }
 
 export function changeOrder(
-  store: TStore,
+  store: Store<TReports, TActions>,
   orderBy: TOrderBy,
   orderDir: TOrderDir
 ) {
   saveSettings({ ...store.state, orderBy, orderDir });
-  store.setState({ orderBy, orderDir });
+  store.setState({ ...store.state, orderBy, orderDir });
 }
 
 export function changePagination(
-  store: TStore,
+  store: Store<TReports, TActions>,
   page: number,
   pageSize: number
 ) {
-  store.setState({ page, pageSize });
+  store.setState({ ...store.state, page, pageSize });
 }

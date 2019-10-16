@@ -8,7 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { TSideBarLink, basePath } from "configs";
-import { useThemeStore } from "components/Theme";
+import { useThemeStore, TTheme, TActions } from "components/Theme";
 
 const useStyles = makeStyles(theme => ({
   listItem: {
@@ -28,7 +28,7 @@ const Item = (props: { item: TSideBarLink; nested?: boolean }) => {
   const location = useLocation();
   const [open, setOpen] = useState(true);
   const classes = useStyles();
-  const actions = useThemeStore()[1];
+  const actions = useThemeStore<TTheme, TActions>()[1];
 
   const handleClick = () => {
     if (item.subItems) {

@@ -1,9 +1,9 @@
 import React from "react";
 import User from "./User";
-import { useAccess, TUser, TAccess } from ".";
+import { useAccess, TUser, TAccess, TActions } from ".";
 
 const Users = () => {
-  const [state, actions]: [TAccess, any] = useAccess();
+  const [state, actions] = useAccess<TAccess, TActions>();
   const { users } = state;
 
   const handleDelete = (user: TUser) => {

@@ -1,10 +1,9 @@
-import { TStore } from "store";
-
 export type TLoadingBar = {
   progress: number;
   count: number;
 };
 
-type t = TStore<TLoadingBar>;
-
-export default t;
+export type TActions = {
+  start: () => void;
+  complete: () => void;
+};

@@ -1,7 +1,7 @@
 import React from "react";
 import useGlobalHook from "use-global-hook";
 import * as actions from "./access.actions";
-import { TAccess } from ".";
+import { TAccess, TActions } from ".";
 
 const initialState: TAccess = {
   loading: false,
@@ -11,6 +11,6 @@ const initialState: TAccess = {
   q: ""
 };
 
-const access = useGlobalHook(React, initialState, actions);
+const access = useGlobalHook<TAccess, TActions>(React, initialState, actions);
 
 export default access;

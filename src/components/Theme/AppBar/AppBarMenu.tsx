@@ -10,7 +10,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PowerSettingsIcon from "@material-ui/icons/PowerSettingsNew";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { AuthService } from "components/Auth";
-import { useThemeStore } from "components/Theme";
+import { useThemeStore, TTheme, TActions } from "components/Theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const AppBarMenu = () => {
   const classes = useStyles();
   let history = useHistory();
-  const actions = useThemeStore()[1];
+  const actions = useThemeStore<TTheme, TActions>()[1];
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

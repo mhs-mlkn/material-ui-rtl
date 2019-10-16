@@ -2,7 +2,7 @@ import React from "react";
 import { get } from "lodash";
 import useGlobalHook from "use-global-hook";
 import * as actions from "./reports.actions";
-import { TReports } from ".";
+import { TReports, TActions } from ".";
 
 export function loadSettings(): TReports {
   let settings = {};
@@ -30,6 +30,10 @@ export function loadSettings(): TReports {
 
 const initialState: TReports = loadSettings();
 
-const useReports = useGlobalHook(React, initialState, actions);
+const useReports = useGlobalHook<TReports, TActions>(
+  React,
+  initialState,
+  actions
+);
 
 export default useReports;

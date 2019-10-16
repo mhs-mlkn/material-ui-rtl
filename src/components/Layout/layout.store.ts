@@ -1,5 +1,5 @@
 import React from "react";
-import useGlobalHook, { Store } from "use-global-hook";
+import useGlobalHook from "use-global-hook";
 import * as actions from "./layout.actions";
 import { TLayout, TActions } from "./layout.types";
 

@@ -1,5 +1,3 @@
-import { TStore } from "store";
-
 export type TTheme = {
   direction: "rtl" | "ltr";
   type: "dark" | "light";
@@ -11,6 +9,14 @@ export type TTheme = {
   isFullContent: boolean;
 };
 
-type t = TStore<TTheme>;
-
-export default t;
+export type TActions = {
+  toggleDirection: (value?: "rtl" | "ltr") => void;
+  toggleThemeType: (value?: "dark" | "light") => void;
+  toggleDrawerType: (value: "temporary" | "permanent") => void;
+  toggleDrawer: () => void;
+  toggleSettings: () => void;
+  toggleFullScreen: () => void;
+  toggleAppBar: (value?: boolean) => void;
+  toggleSideBar: (value?: boolean) => void;
+  toggleFullContent: (value: boolean) => void;
+};

@@ -1,4 +1,3 @@
-import { TStore } from "store";
 import { TOrderBy, TOrderDir, TView } from "components/ToolBox";
 
 export type TReportType =
@@ -33,6 +32,10 @@ export type TReports = {
   pageSize: number;
 };
 
-type t = TStore<TReports>;
-
-export default t;
+export type TActions = {
+  get: (bp?: boolean) => void;
+  changeSearch: (q: string) => void;
+  changeView: (view: TView) => void;
+  changeOrder: (orderBy: TOrderBy, orderDir: TOrderDir) => void;
+  changePagination: (page: number, pageSize: number) => void;
+};

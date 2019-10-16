@@ -2,7 +2,7 @@ import { Api } from "utility";
 import { TOrderBy, TOrderDir } from "components/ToolBox";
 import { includes, orderBy as order } from "lodash";
 import { TReport } from ".";
-import data from "./reports.json";
+// import data from "./reports.json";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
@@ -45,10 +45,10 @@ export class ReportsService {
   }
 
   private async fetchReports() {
-    // const url = `${baseUrl}/report/CollaboratorReports`;
-    // const response = await Api.get(url, { params: { page: 0, size: 0 } });
-    // this._reports = response.data.result.data;
-    this._reports = data;
+    const url = `${baseUrl}/report/CollaboratorReports`;
+    const response = await Api.get(url, { params: { page: 0, size: 0 } });
+    this._reports = response.data.result.data;
+    // this._reports = data;
     this._count = this._reports.length;
     this.hasInit.reports = true;
     return this._reports;

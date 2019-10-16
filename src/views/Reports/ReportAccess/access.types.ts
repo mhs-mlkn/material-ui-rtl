@@ -1,5 +1,3 @@
-import { TStore } from "store";
-
 export type TUser = {
   id: number;
   username: string;
@@ -14,6 +12,9 @@ export type TAccess = {
   q: string;
 };
 
-type t = TStore<TAccess>;
-
-export default t;
+export type TActions = {
+  getUsers: (reportId: number, bypassCache?: boolean) => void;
+  changeSearch: (q: string) => void;
+  subscribe: (username: string) => void;
+  unSubscribe: (userId: number) => void;
+};

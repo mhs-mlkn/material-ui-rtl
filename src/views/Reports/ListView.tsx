@@ -6,7 +6,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import MuiTableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import { useReports, ReportRow, TReport } from ".";
+import { useReports, ReportRow, TReport, TReports, TActions } from ".";
 
 const TableCell = withStyles(() => ({
   root: {
@@ -15,7 +15,7 @@ const TableCell = withStyles(() => ({
 }))(MuiTableCell);
 
 const ListView = () => {
-  const [state] = useReports();
+  const [state] = useReports<TReports, TActions>();
   return (
     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
       <Table>

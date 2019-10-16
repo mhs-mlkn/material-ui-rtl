@@ -16,7 +16,7 @@ import DarkThemeIcon from "@material-ui/icons/Brightness3";
 import LightThemeIcon from "@material-ui/icons/WbSunny";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import FullscreenExitIcon from "@material-ui/icons/FullscreenExit";
-import { useThemeStore } from "components/Theme";
+import { useThemeStore, TTheme, TActions } from "components/Theme";
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
@@ -42,7 +42,7 @@ const Settings = () => {
   const classes = useStyles();
   const [open, toggleOpen] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [state, actions] = useThemeStore();
+  const [state, actions] = useThemeStore<TTheme, TActions>();
 
   useEffect(() => {
     const toggleFullScreen = () => setIsFullScreen(document.fullscreen);
