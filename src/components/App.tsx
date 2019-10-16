@@ -1,35 +1,24 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import moment from "moment-jalaali";
 import Snackbar from "components/CustomSnackbar";
 import Theme from "components/Theme";
-import LoadingBar, { useLoadingBarStore } from "components/LoadingBar";
-
-const TestSnackbar: React.FC = () => {
-  const loadingActions = useLoadingBarStore()[1];
-
-  const startLoadingBar = () => {
-    loadingActions.start();
-  };
-
-  const completeLoadingBar = () => {
-    loadingActions.complete();
-  };
-
-  return (
-    <>
-      <button onClick={startLoadingBar}>startLoadingBar</button>
-      <button onClick={completeLoadingBar}>completeLoadingBar</button>
-    </>
-  );
-};
+import LoadingBar from "components/LoadingBar";
+import Router from "components/Router";
 
 const App: React.FC = () => {
+  const supportsHistory = "pushState" in window.history;
+  moment.loadPersian({ dialect: "persian-modern", usePersianDigits: false });
+
   return (
-    <Theme>
-      <Snackbar>
-        <LoadingBar />
-        <TestSnackbar />
-      </Snackbar>
-    </Theme>
+    <BrowserRouter forceRefresh={!supportsHistory}>
+      <Theme>
+        <Snackbar>
+          <LoadingBar />
+          <Router />
+        </Snackbar>
+      </Theme>
+    </BrowserRouter>
   );
 };
 

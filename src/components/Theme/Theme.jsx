@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { create } from "jss";
 import rtl from "jss-rtl";
 import JssProvider from "react-jss/lib/JssProvider";
@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createGenerateClassName, makeStyles, jssPreset } from "@material-ui/styles";
-import { lightBlue, lightGreen, red } from "@material-ui/core/colors";
+import { blue, pink, red } from "@material-ui/core/colors";
 import { useThemeStore } from "components/Theme";
 import AppBar from "./AppBar";
 import SideBar from "./SideBar";
@@ -34,9 +34,9 @@ const Theme = ({ children }) => {
         paper: state.type === "dark" ? "#343a40" : "#fff", //424951
         default: state.type === "dark" ? "#3a4047" : "#f5f5f5"
       },
-      primary: lightBlue.main,
-      secondary: lightGreen.main,
-      error: red.main,
+      primary: blue,
+      secondary: pink,
+      error: red,
       text: {
         primary: state.type === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.87)",
         secondary: "#999"
@@ -48,6 +48,15 @@ const Theme = ({ children }) => {
       htmlFontSize: 8,
       fontFamily: "Yekan, sans-serif"
     },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 1921
+      }
+    },
     overrides: {
       MuiAppBar: {
         colorPrimary: {
@@ -56,6 +65,10 @@ const Theme = ({ children }) => {
       }
     }
   });
+
+  useEffect(() => {
+    document.getElementsByTagName("body")[0].setAttribute("dir", state.direction);
+  }, [state.direction]);
 
   const useStyles = makeStyles({
     root: {
@@ -77,13 +90,13 @@ const Theme = ({ children }) => {
       <JssProvider jss={jss} generateClassName={generateClassName}>
         <div className={classes.root}>
           <CssBaseline />
-          <AppBar />
-          <SideBar />
+          {!state.isFullContent && state.showAppBar && <AppBar />}
+          {!state.isFullContent && state.showSideBar && <SideBar />}
           <main className={classes.content}>
-            <div id="appSpacer" className={classes.appBarSpacer} />
+            {!state.isFullContent && state.showAppBar && <div id="appSpacer" className={classes.appBarSpacer} />}
             {children}
           </main>
-          <Settings />
+          {!state.isFullContent && <Settings />}
         </div>
       </JssProvider>
     </MuiThemeProvider>

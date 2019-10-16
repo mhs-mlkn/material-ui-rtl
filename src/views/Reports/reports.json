@@ -1,0 +1,587 @@
+[
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-07T06:16:07.798Z[UTC]",
+    "drillDownId": -1,
+    "id": 637,
+    "name": "گزارشات کاربران - گزارش پاد - فیلتر سال - گردش ماهانه کیف پول کاربر",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-12T12:30:47.893Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-06T10:29:42.997Z[UTC]",
+    "description": "توضیحات",
+    "drillDownId": -1,
+    "id": 635,
+    "name": "تست محسن",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "ELASTICSEARCH",
+    "type": "Table",
+    "updated": "2019-10-06T10:29:42.997Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-06T08:28:47.046Z[UTC]",
+    "drillDownId": -1,
+    "id": 634,
+    "name": "گزارشات کاربران - گزارش های POD Space - نوع و تعداد عملیات انجام شده کاربر",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Pie",
+    "updated": "2019-10-06T08:28:47.046Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-06T08:21:13.743Z[UTC]",
+    "drillDownId": -1,
+    "id": 633,
+    "name": "گزارشات کاربران - گزارش های POD Space - پسوند فایل های موجود کاربر و حجم آنها",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Bar",
+    "updated": "2019-10-07T06:06:55.991Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-06T08:15:05.636Z[UTC]",
+    "drillDownId": -1,
+    "id": 632,
+    "name": "گزارشات کاربران - گزارش های POD Space - پسوند فایل های موجود کاربر و تعداد آنها",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Bar",
+    "updated": "2019-10-07T06:04:53.269Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-06T08:09:14.306Z[UTC]",
+    "drillDownId": -1,
+    "id": 631,
+    "name": "گزارشات کاربران - گزارش های POD Space - مجموع حجم فایل های موجود کاربر",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Scalar",
+    "updated": "2019-10-07T06:56:42.743Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-06T08:04:55.827Z[UTC]",
+    "drillDownId": -1,
+    "id": 630,
+    "name": "گزارشات کاربران - گزارش های POD Space - تعداد کل فایل های موجود کاربر",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Scalar",
+    "updated": "2019-10-06T08:04:55.827Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-06T07:46:19.81Z[UTC]",
+    "drillDownId": -1,
+    "id": 629,
+    "name": "گزارشات کاربران - گزارش پاد - گردش ماهانه کیف پول کاربر",
+    "publicized": true,
+    "query": {
+      "queryColumns": [],
+      "queryFilters": [
+        {
+          "id": 227,
+          "key": "\"سال و ماه\"",
+          "operator": "CONTAIN",
+          "required": false,
+          "title": "سال",
+          "type": "TEXT",
+          "validValue": "637",
+          "validValueType": "QUERY_LIST"
+        }
+      ],
+      "queryParams": []
+    },
+    "source": "SQL",
+    "type": "Bar",
+    "updated": "2019-10-12T11:55:20.847Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-06T07:37:41.63Z[UTC]",
+    "drillDownId": -1,
+    "id": 627,
+    "name": "گزارشات کاربران - گزارش پاد - موجودی کیف پول کاربر",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Scalar",
+    "updated": "2019-10-06T07:40:39.62Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-05T06:45:11.928Z[UTC]",
+    "drillDownId": -1,
+    "id": 554,
+    "name": "report",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-05T06:45:11.928Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-02T10:51:03.315Z[UTC]",
+    "drillDownId": -1,
+    "id": 491,
+    "name": "report",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-02T10:51:03.315Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-02T10:50:17.998Z[UTC]",
+    "drillDownId": -1,
+    "id": 489,
+    "name": "report",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-02T10:50:17.998Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-02T10:49:04.348Z[UTC]",
+    "drillDownId": -1,
+    "id": 487,
+    "name": "report",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-02T10:49:04.348Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-02T10:47:20.448Z[UTC]",
+    "drillDownId": -1,
+    "id": 485,
+    "name": "report",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-02T10:47:20.448Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-02T10:46:12.745Z[UTC]",
+    "drillDownId": -1,
+    "id": 483,
+    "name": "report",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-02T10:46:12.745Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-02T10:42:10.62Z[UTC]",
+    "drillDownId": -1,
+    "id": 481,
+    "name": "report",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-02T10:42:10.62Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:26:04.516Z[UTC]",
+    "drillDownId": -1,
+    "id": 423,
+    "name": "report5",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:26:04.516Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:26:03.896Z[UTC]",
+    "drillDownId": -1,
+    "id": 421,
+    "name": "report3",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:26:03.896Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:26:03.547Z[UTC]",
+    "drillDownId": -1,
+    "id": 420,
+    "name": "report2",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:26:03.547Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:21:34.594Z[UTC]",
+    "drillDownId": -1,
+    "id": 417,
+    "name": "report5",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:21:34.594Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:21:33.969Z[UTC]",
+    "drillDownId": -1,
+    "id": 415,
+    "name": "report3",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:21:33.969Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:21:33.66Z[UTC]",
+    "drillDownId": -1,
+    "id": 414,
+    "name": "report2",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:21:33.66Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:19:59.38Z[UTC]",
+    "drillDownId": -1,
+    "id": 411,
+    "name": "report5",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:19:59.38Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:19:58.631Z[UTC]",
+    "drillDownId": -1,
+    "id": 409,
+    "name": "report3",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:19:58.631Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "created": "2019-10-01T13:19:58.347Z[UTC]",
+    "drillDownId": -1,
+    "id": 408,
+    "name": "report2",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-10-01T13:19:58.347Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-10-01T05:55:30.566Z[UTC]",
+    "drillDownId": -1,
+    "id": 398,
+    "name": "test 23",
+    "publicized": true,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Line",
+    "updated": "2019-10-01T05:55:30.566Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-09-23T11:53:07.014Z[UTC]",
+    "drillDownId": -1,
+    "id": 366,
+    "name": "تست الستیک محسن",
+    "publicized": false,
+    "query": {
+      "queryColumns": [],
+      "queryFilters": [],
+      "queryParams": [],
+      "template": "{\n  xAxis: {\n    source: \"aggregations.2.buckets[*]\",\n    path: \"key\",\n    type: \"DATE\"\n  },\n series: {\n      source: \"3.buckets[*]\",\n      path: \"key\",\n      value: \"4.buckets.fasokhan.doc_count\"\n    }\n}"
+    },
+    "source": "ELASTICSEARCH",
+    "type": "Line",
+    "updated": "2019-09-23T13:28:46.341Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-08-06T10:51:44.225Z[UTC]",
+    "drillDownId": -1,
+    "id": 256,
+    "name": "تست الستیک",
+    "publicized": false,
+    "query": {
+      "queryColumns": [],
+      "queryFilters": [],
+      "queryParams": [],
+      "template": "{\n  xAxis: {\n    source: \"aggregations.2.buckets[*]\",\n    path: \"key\",\n    type: \"DATE\"\n  },\n  yAxis: [\n    {\n      source: \"3.buckets[?(@.key == 'IOT')]\",\n      path: \"doc_count\",\n      title: \"IOT\"\n    },\n    {\n      source: \"3.buckets[?(@.key == 'ASR')]\",\n      path: \"doc_count\",\n      title: \"ASR\"\n    },\n    {\n      source: \"3.buckets[?(@.key == 'NLU')]\",\n      path: \"doc_count\",\n      title: \"NLU\"\n    }\n  ]\n}"
+    },
+    "source": "ELASTICSEARCH",
+    "tags": "الستیک",
+    "type": "Bar",
+    "updated": "2019-09-18T11:56:30.401Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-08-05T12:41:22.863Z[UTC]",
+    "drillDownId": -1,
+    "id": 247,
+    "name": "elastic test",
+    "publicized": false,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "ELASTICSEARCH",
+    "type": "Table",
+    "updated": "2019-08-05T12:41:22.863Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":10}",
+    "created": "2019-07-29T10:06:22.809Z[UTC]",
+    "drillDownId": -1,
+    "id": 26,
+    "name": "تعداد فایل های آپلود و دانلود شده و میانگین یک ماه در یک سال گذشته",
+    "publicized": false,
+    "query": {
+      "queryColumns": [],
+      "queryFilters": [
+        {
+          "id": 196,
+          "key": "text",
+          "operator": "EQ",
+          "required": false,
+          "title": "تکست",
+          "type": "TEXT",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 197,
+          "key": "deciml",
+          "operator": "EQ",
+          "required": false,
+          "title": "دسیمال",
+          "type": "DECIMAL",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 198,
+          "key": "float",
+          "operator": "EQ",
+          "required": false,
+          "title": "فلوت",
+          "type": "FLOAT",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 199,
+          "key": "bool",
+          "operator": "EQ",
+          "required": false,
+          "title": "بولین",
+          "type": "BOOLEAN",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 200,
+          "key": "date",
+          "operator": "EQ",
+          "required": false,
+          "title": "دیت",
+          "type": "DATE",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 201,
+          "key": "dateString",
+          "operator": "EQ",
+          "required": false,
+          "title": "دیت استرینگ",
+          "type": "DATE_STRING",
+          "validValueType": "NONE"
+        }
+      ],
+      "queryParams": []
+    },
+    "source": "SQL",
+    "type": "Bar",
+    "updated": "2019-08-31T12:44:08.386Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-07-23T08:12:48.088Z[UTC]",
+    "drillDownId": -1,
+    "id": 17,
+    "name": "تعداد فایل های آپلود و دانلود شده و میانگین یک ماه در یک سال گذشته",
+    "publicized": false,
+    "query": {
+      "queryColumns": [],
+      "queryFilters": [
+        {
+          "id": 216,
+          "key": "\"ماه\"",
+          "operator": "CONTAIN",
+          "required": false,
+          "title": "ماه",
+          "type": "TEXT",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 217,
+          "key": "\"بولین\"",
+          "operator": "EQ",
+          "required": false,
+          "title": "bo",
+          "type": "BOOLEAN",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 218,
+          "key": "\"تاریخ\"",
+          "operator": "EQ",
+          "required": false,
+          "title": "date",
+          "type": "DATE",
+          "validValueType": "NONE"
+        }
+      ],
+      "queryParams": []
+    },
+    "source": "SQL",
+    "type": "Line",
+    "updated": "2019-09-01T08:16:06.481Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-07-23T05:11:51.623Z[UTC]",
+    "drillDownId": -1,
+    "id": 14,
+    "name": "تعداد دانلود ها در یک هفته اخیر",
+    "publicized": false,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Pie",
+    "updated": "2019-07-23T05:11:51.623Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-07-23T04:51:53.57Z[UTC]",
+    "drillDownId": -1,
+    "id": 13,
+    "name": "حجم فایل های بارگزاری شده کاربران",
+    "publicized": false,
+    "query": {
+      "queryColumns": [],
+      "queryFilters": [
+        {
+          "id": 21,
+          "key": "\"نام کاربری\"",
+          "operator": "CONTAIN",
+          "required": false,
+          "title": "نام کاربری",
+          "type": "TEXT",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 22,
+          "key": "\"تاریخ\"",
+          "operator": "EQ",
+          "required": false,
+          "title": "تاریخ",
+          "type": "DATE_STRING",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 23,
+          "key": "\"مجموع حجم فایل های بارگزاری شده یک کاربر\"",
+          "operator": "GTE",
+          "required": false,
+          "title": "از حجم",
+          "type": "DECIMAL",
+          "validValueType": "NONE"
+        },
+        {
+          "id": 24,
+          "key": "\"مجموع حجم فایل های بارگزاری شده یک کاربر\"",
+          "operator": "LTE",
+          "required": false,
+          "title": "تا حجم",
+          "type": "DECIMAL",
+          "validValueType": "NONE"
+        }
+      ],
+      "queryParams": []
+    },
+    "source": "SQL",
+    "type": "Table",
+    "updated": "2019-07-23T06:16:52.489Z[UTC]"
+  },
+  {
+    "chartType": "Simple",
+    "config": "{\"refreshInterval\":0}",
+    "created": "2019-07-22T11:11:22.383Z[UTC]",
+    "drillDownId": -1,
+    "id": 7,
+    "name": "تعداد فایل های موجود",
+    "publicized": false,
+    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "source": "SQL",
+    "type": "Scalar",
+    "updated": "2019-07-22T11:11:22.383Z[UTC]"
+  }
+]

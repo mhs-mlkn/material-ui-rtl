@@ -1,12 +1,22 @@
-import { Store } from "store";
-
-export type ThemeState = {
+export type TTheme = {
   direction: "rtl" | "ltr";
   type: "dark" | "light";
   isDrawerOpen: boolean;
+  isSettingsOpen: boolean;
   drawerType: "temporary" | "permanent";
+  showAppBar: boolean;
+  showSideBar: boolean;
+  isFullContent: boolean;
 };
 
-type t = Store<ThemeState>;
-
-export default t;
+export type TActions = {
+  toggleDirection: (value?: "rtl" | "ltr") => void;
+  toggleThemeType: (value?: "dark" | "light") => void;
+  toggleDrawerType: (value: "temporary" | "permanent") => void;
+  toggleDrawer: () => void;
+  toggleSettings: () => void;
+  toggleFullScreen: () => void;
+  toggleAppBar: (value?: boolean) => void;
+  toggleSideBar: (value?: boolean) => void;
+  toggleFullContent: (value: boolean) => void;
+};

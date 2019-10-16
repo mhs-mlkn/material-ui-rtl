@@ -8,6 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import Switch from "@material-ui/core/Switch";
 import SettingsIcon from "@material-ui/icons/Settings";
 import LTRIcon from "@material-ui/icons/FormatTextdirectionLToR";
 import RTLIcon from "@material-ui/icons/FormatTextdirectionRToL";
@@ -15,16 +16,16 @@ import DarkThemeIcon from "@material-ui/icons/Brightness3";
 import LightThemeIcon from "@material-ui/icons/WbSunny";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import FullscreenExitIcon from "@material-ui/icons/FullscreenExit";
-import { useThemeStore } from "components/Theme";
+import { useThemeStore, TTheme, TActions } from "components/Theme";
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
     padding: "10px 5px",
     position: "fixed",
     bottom: 40,
-    [theme.direction === "rtl" ? "left" : "right"]: -30,
-    zIndex: 1000,
-    justifyContent: "end"
+    [theme.direction === "ltr" ? "left" : "right"]: -31,
+    zIndex: 100000,
+    justifyContent: "flex-end"
   },
   list: {
     width: 250
@@ -41,7 +42,7 @@ const Settings = () => {
   const classes = useStyles();
   const [open, toggleOpen] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [state, actions] = useThemeStore();
+  const [state, actions] = useThemeStore<TTheme, TActions>();
 
   useEffect(() => {
     const toggleFullScreen = () => setIsFullScreen(document.fullscreen);
@@ -60,25 +61,33 @@ const Settings = () => {
       return;
     }
 
+    toggleSettings();
     toggleOpen(!open);
   };
 
+  const toggleSettings = () => actions.toggleSettings();
   const toggleDirection = () => actions.toggleDirection();
   const toggleThemeType = () => actions.toggleThemeType();
   const toggleFullScreen = () => actions.toggleFullScreen();
+  const toggleAppBar = () => actions.toggleAppBar();
+  const toggleSideBar = () => actions.toggleSideBar();
 
   return (
     <>
-      <Button
-        variant="outlined"
-        title="تنظیمات"
-        size="small"
-        onClick={() => toggleOpen(!open)}
-        className={classes.button}
-      >
-        <SettingsIcon fontSize="small" />
-      </Button>
-      <Drawer open={open} onClose={toggleDrawer} anchor="right">
+      {!state.showAppBar && (
+        <Button
+          variant="outlined"
+          title="تنظیمات"
+          size="small"
+          onClick={toggleSettings}
+          className={classes.button}
+          id="settings-btn"
+          tabIndex={-1}
+        >
+          <SettingsIcon fontSize="small" />
+        </Button>
+      )}
+      <Drawer open={state.isSettingsOpen} onClose={toggleDrawer} anchor="right">
         <div className={classes.list} role="presentation">
           <List>
             <ListItem>
@@ -143,6 +152,28 @@ const Settings = () => {
                   <FullscreenExitIcon />
                 </ToggleButton>
               </ToggleButtonGroup>
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                className={classes.listItemText}
+                primary="نمایش نوار ابزار"
+              />
+              <Switch
+                checked={state.showAppBar}
+                onChange={toggleAppBar}
+                value={state.showAppBar}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                className={classes.listItemText}
+                primary="نمایش منو"
+              />
+              <Switch
+                checked={state.showSideBar}
+                onChange={toggleSideBar}
+                value={state.showSideBar}
+              />
             </ListItem>
           </List>
           <Divider />
