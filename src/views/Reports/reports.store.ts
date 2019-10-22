@@ -1,5 +1,5 @@
 import React from "react";
-import { get } from "lodash";
+import get from "lodash/get";
 import useGlobalHook from "use-global-hook";
 import * as actions from "./reports.actions";
 import { TReports, TActions } from ".";

@@ -7,6 +7,10 @@
 ::-webkit-scrollbar {
   width: 5px;
 }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
 ::-webkit-scrollbar-track {
   background: #c5c5c5;
 }
@@ -37,6 +41,10 @@ body:fullscreen #sideBar,
 #root.full-content #sideBar,
 #root.full-content #settings-btn {
   display: none;
+}
+
+.table-wrapper {
+  overflow: auto;
 }
 
 .layout .react-grid-item > .react-resizable-handle::after {

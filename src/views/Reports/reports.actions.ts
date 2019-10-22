@@ -1,8 +1,7 @@
 import { Store } from "use-global-hook";
 import { TView, TOrderBy, TOrderDir } from "components/ToolBox";
 import { ReportsService as Reports, TReports, TActions } from ".";
-
-const errorMsg = "دریافت اطلاعات با خطا مواجه شد";
+import { errorHandler } from "utility";
 
 export const REPORTS_CONFIG = "DU_RC";
 
@@ -26,9 +25,7 @@ export function get(store: Store<TReports, TActions>, bypassCache?: boolean) {
         loading: false
       });
     })
-    .catch(() =>
-      store.setState({ ...store.state, error: errorMsg, loading: false })
-    );
+    .catch(errorHandler<TReports, TActions>(store));
 }
 
 export function changeSearch(store: Store<TReports, TActions>, q: string) {

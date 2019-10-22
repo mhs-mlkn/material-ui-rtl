@@ -4,7 +4,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 
 const Loading = (props: { text?: string }) => {
-  const { text = "" } = props;
+  const { text = "درحال دریافت اطلاعات" } = props;
   return (
     <Grid
       container

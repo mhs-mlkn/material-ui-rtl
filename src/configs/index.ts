@@ -1,5 +1,5 @@
 export * from "./SideBarLinks";
 export * from "./Routes";
-export { default as NotFound } from "views/Exceptions/NotFound";
+export { NotFound, ServerError } from "views/Exceptions";
 export { default as SideBarLinks } from "./SideBarLinks";
 export { default as Routes } from "./Routes";

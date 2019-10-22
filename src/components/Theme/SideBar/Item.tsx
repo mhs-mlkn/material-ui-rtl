@@ -28,14 +28,17 @@ const Item = (props: { item: TSideBarLink; nested?: boolean }) => {
   const location = useLocation();
   const [open, setOpen] = useState(true);
   const classes = useStyles();
-  const actions = useThemeStore<TTheme, TActions>()[1];
+  const [state, actions] = useThemeStore<TTheme, TActions>();
 
   const handleClick = () => {
     if (item.subItems) {
       return setOpen(!open);
     }
-    actions.toggleDrawer();
-    history.push(`${basePath}${item.path}`);
+    if (state.drawerType === "temporary") {
+      actions.toggleDrawer();
+    }
+    const path = typeof item.path === "function" ? item.path() : item.path;
+    history.push(`${basePath}${path}`, { title: item.title });
   };
 
   return (

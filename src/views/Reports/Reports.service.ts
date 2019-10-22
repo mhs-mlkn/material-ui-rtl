@@ -1,6 +1,7 @@
 import { Api } from "utility";
 import { TOrderBy, TOrderDir } from "components/ToolBox";
-import { includes, orderBy as order } from "lodash";
+import includes from "lodash/includes";
+import order from "lodash/orderBy";
 import { TReport } from ".";
 // import data from "./reports.json";
 

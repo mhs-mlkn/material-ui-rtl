@@ -101,9 +101,9 @@ const ReportThumb = (props: { report: TReport; loading?: boolean }) => {
           title="تاریخ ایجاد"
         />
         <Typography
-          variant="body2"
-          color="textSecondary"
+          variant="caption"
           component="p"
+          color="textSecondary"
           noWrap
           className={classes.description}
           title={report.description}

@@ -3,13 +3,14 @@ import Grid from "@material-ui/core/Grid";
 import { Search } from "components/Inputs";
 import ToolBox, { TView, TOrderBy, TOrderDir } from "components/ToolBox";
 import Pagination from "components/Pagination";
+import Error from "components/Error";
 import GridView from "./GridView";
 import ListView from "./ListView";
 import { useReports, TReports, TActions } from ".";
 
 const Reports = () => {
   const [state, actions] = useReports<TReports, TActions>();
-  const { q, view, orderBy, orderDir, page, pageSize } = state;
+  const { q, view, orderBy, orderDir, page, pageSize, error } = state;
 
   useEffect(() => {
     actions.get();
@@ -36,7 +37,7 @@ const Reports = () => {
   };
 
   return (
-    <>
+    <Error error={error}>
       <Grid container spacing={1} alignItems="center">
         <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
           <Search
@@ -58,7 +59,7 @@ const Reports = () => {
         {state.view === "grid" ? <GridView /> : <ListView />}
         <Pagination count={state.count} onChange={handlePaginationChanged} />
       </Grid>
-    </>
+    </Error>
   );
 };
 

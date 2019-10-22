@@ -1,4 +1,6 @@
 import React from "react";
+import get from "lodash/get";
+import { useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { withStyles, createStyles, Theme } from "@material-ui/core/styles";
 import MuiAppBar from "@material-ui/core/AppBar";
@@ -6,7 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { ToggleButton } from "components/Layout";
+import { DashboardToolBox } from "components/Dashboard";
 import { useThemeStore, TTheme, TActions } from "components/Theme";
 import { drawerWidth } from "../theme.constants";
 import AppBarMenu from "./AppBarMenu";
@@ -53,6 +55,7 @@ const styles = (theme: Theme) =>
 
 const AppBar = (props: any) => {
   const { classes } = props;
+  let location = useLocation();
   const [state, actions] = useThemeStore<TTheme, TActions>();
 
   const handleToggleDrawer = () => {
@@ -83,18 +86,19 @@ const AppBar = (props: any) => {
             <MenuIcon />
           </IconButton>
         )}
-        <Typography
-          component="h6"
-          variant="h6"
-          color="textPrimary"
-          noWrap
+        <div
           className={classNames(classes.title, {
             [classes.titleOpen]: state.isDrawerOpen
           })}
         >
-          داشبورد
-        </Typography>
-        <ToggleButton />
+          {window.location.pathname.startsWith("/user/dashboards") ? (
+            <DashboardToolBox />
+          ) : (
+            <Typography component="h6" variant="h6" color="textPrimary" noWrap>
+              {get(location, "state.title")}
+            </Typography>
+          )}
+        </div>
         <AppBarMenu />
       </Toolbar>
     </MuiAppBar>

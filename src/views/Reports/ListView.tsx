@@ -1,23 +1,24 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
-import MuiTableCell from "@material-ui/core/TableCell";
+import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import { useReports, ReportRow, TReport, TReports, TActions } from ".";
-
-const TableCell = withStyles(() => ({
-  root: {
-    textAlign: "start"
-  }
-}))(MuiTableCell);
 
 const ListView = () => {
   const [state] = useReports<TReports, TActions>();
   return (
-    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+    <Grid
+      item
+      xs={12}
+      sm={12}
+      md={12}
+      lg={12}
+      xl={12}
+      className="table-wrapper"
+    >
       <Table>
         <TableHead>
           <TableRow>

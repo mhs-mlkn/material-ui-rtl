@@ -1,6 +1,6 @@
 import { Store } from "use-global-hook";
 import { TLoadingBar, TActions } from ".";
-import { random } from "lodash";
+import random from "lodash/random";
 
 let interval: NodeJS.Timeout;
 

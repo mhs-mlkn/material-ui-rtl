@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "components/Layout";
 import ReportCard from "components/ReportCard/ReportCard";
 
@@ -30,7 +30,13 @@ const layouts = {
   ]
 };
 
-const Dashboards = () => {
+const Dashboard = (props: { id: number }) => {
+  let { id } = props;
+
+  useEffect(() => {
+    console.log("dashboard> ", id);
+  }, [id]);
+
   return (
     <Layout layouts={layouts}>
       {[0, 1, 2].map(key => (
@@ -42,4 +48,4 @@ const Dashboards = () => {
   );
 };
 
-export default Dashboards;
+export default Dashboard;

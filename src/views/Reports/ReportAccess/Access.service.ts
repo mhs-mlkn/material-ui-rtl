@@ -1,5 +1,5 @@
 import { Api } from "utility";
-import { includes } from "lodash";
+import includes from "lodash/includes";
 import { TUser } from ".";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;

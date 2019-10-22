@@ -62,6 +62,11 @@ const Theme = ({ children }) => {
         colorPrimary: {
           backgroundColor: state.type === "dark" ? "#424951" : "#fff"
         }
+      },
+      MuiTableCell : {
+        root: {
+          textAlign: "start"
+        }
       }
     }
   });

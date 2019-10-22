@@ -1,21 +1,16 @@
 import { ComponentType } from "react";
 import Login from "views/Account/Login";
 import { Reports } from "views/Reports";
-import { Dashboards } from "views/Dashboards";
-import { DashboardManager } from "views/DashboardManager";
+import { Dashboards } from "views/Dashboard/Dashboards";
+import { DashboardManager } from "views/Dashboard/DashboardManager";
 
 export type TRoute = {
   path: string;
-  component: ComponentType;
+  component: ComponentType<any>;
   auth: boolean;
 };
 
 export const basePath = "/user";
-
-export const redirect = {
-  from: "/",
-  to: "/dashboards"
-};
 
 export const loginRoute: TRoute = {
   path: "/login",
@@ -23,13 +18,23 @@ export const loginRoute: TRoute = {
   auth: false
 };
 
+export const defaultRoute: TRoute = {
+  path: "/dashboards/:dashboardId(\\d+)",
+  component: Dashboards,
+  auth: true
+};
+
+export const redirect = {
+  from: "/",
+  to: {
+    pathname: `${basePath}/dashboards/0`,
+    state: { title: "خانه" }
+  }
+};
+
 const routes: TRoute[] = [
   loginRoute,
-  {
-    path: "/dashboards",
-    component: Dashboards,
-    auth: true
-  },
+  defaultRoute,
   {
     path: "/reports",
     component: Reports,

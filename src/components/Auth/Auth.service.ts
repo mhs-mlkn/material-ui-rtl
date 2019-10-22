@@ -1,13 +1,8 @@
 import { AxiosInstance } from "axios";
-import { get } from "lodash";
+import get from "lodash/get";
 import { createHash, randomBytes } from "crypto-browserify";
 import AuthApi from "./Api";
-import { Api } from "utility";
-
-function getLS(key: string) {
-  let val = localStorage.getItem(key) || "";
-  return ["undefined", "null", "NaN"].indexOf(val) > -1 ? "" : val;
-}
+import { Api, getLS } from "utility";
 
 export class AuthService {
   private readonly ACCESS_TOKEN = "DU_ACCESS_TOKEN";

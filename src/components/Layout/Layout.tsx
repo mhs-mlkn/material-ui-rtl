@@ -26,7 +26,7 @@ const Layout = (props: TLayoutProps) => {
     currentLayout: TLayout[],
     allLayouts: TLayouts
   ) => {
-    console.dir(allLayouts);
+    // console.dir(allLayouts);
   };
 
   const handleBreakpointChanged = (bp: "xl" | "lg" | "md" | "sm" | "xs") => {

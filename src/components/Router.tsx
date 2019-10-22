@@ -1,6 +1,13 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Routes, basePath, redirect, NotFound, TRoute } from "configs";
+import {
+  Routes,
+  basePath,
+  redirect,
+  NotFound,
+  ServerError,
+  TRoute
+} from "configs";
 import { PrivateRoute } from "components/Auth";
 
 const Router = () => {
@@ -27,12 +34,9 @@ const Router = () => {
   return (
     <Switch>
       {Routes.map((route: TRoute, i: number) => getRoute(route, i))}
-      <Redirect exact from={redirect.from} to={`${base}${redirect.to}`} />
-      <Redirect
-        exact
-        from={`${base}${redirect.from}`}
-        to={`${base}${redirect.to}`}
-      />
+      <Route path={`${base}/error`} component={ServerError} exact />
+      <Redirect exact from={redirect.from} to={redirect.to} />
+      <Redirect exact from={`${base}${redirect.from}`} to={redirect.to} />
       <Route component={NotFound} />
     </Switch>
   );

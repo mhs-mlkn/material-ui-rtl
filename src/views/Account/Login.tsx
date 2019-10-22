@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, RouteProps } from "react-router";
-import { get } from "lodash";
+import get from "lodash/get";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Zoom from "@material-ui/core/Zoom";

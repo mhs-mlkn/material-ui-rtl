@@ -142,7 +142,8 @@ const ViewOrderToolBox = (props: TProps) => {
           color="default"
           title="بروزرسانی مجدد"
           size="small"
-          className={clx(classes.button, classes.refreshButton)}
+          className={clx(classes.refreshButton, classes.button)}
+          style={{ minWidth: "fit-content" }}
           onClick={handleRefreshClicked}
         >
           <SyncIcon fontSize="small" />

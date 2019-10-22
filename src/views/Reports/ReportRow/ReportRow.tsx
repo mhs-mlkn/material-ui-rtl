@@ -41,7 +41,12 @@ const ReportRow = (props: { report: TReport; loading?: boolean }) => {
       </TableCell>
       <TableCell>{moment(report.created.slice(0, -5)).format("LL")}</TableCell>
       <TableCell>
-        <Typography variant="body2" component="p" title={report.description}>
+        <Typography
+          variant="caption"
+          component="p"
+          color="textSecondary"
+          title={report.description}
+        >
           {report.description || <>&nbsp;</>}
         </Typography>
       </TableCell>

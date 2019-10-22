@@ -32,12 +32,20 @@ const ReportAccess = (props: { reportId: number }) => {
   };
 
   if (loading) {
-    return <Loading text="درحال دریافت اطلاعات" />;
+    return <Loading />;
   }
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        xl={12}
+        style={{ direction: "ltr" }}
+      >
         <Search
           initialValue={q}
           onChange={handleSearch}

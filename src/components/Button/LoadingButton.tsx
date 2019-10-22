@@ -27,18 +27,24 @@ class LoadingButton extends Component<TLoadingButtonProps> {
   render() {
     const {
       classes,
-      icon: Icon,
       text,
+      icon: Icon,
       loading = false,
       children,
       ...rest
     } = this.props;
+
     return (
-      <Button color="primary" variant="contained" {...rest}>
+      <Button
+        color="primary"
+        variant="contained"
+        style={{ minWidth: 80 }}
+        {...rest}
+      >
         {loading && (
           <Progress color="inherit" className={classes.margin} size={28} />
         )}
-        {!!Icon && !loading && <Icon className={classes.margin} />}
+        {!loading && !!Icon && <Icon className={classes.margin} />}
         <Typography gutterBottom variant="button" display="block">
           {text}
         </Typography>

@@ -1,11 +1,14 @@
 import { ComponentType } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import ListIcon from "@material-ui/icons/List";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+
+import { getLS } from "utility";
 
 export type TSideBarLink = {
   icon: ComponentType;
-  title: String;
-  path?: string;
+  title: string;
+  path?: string | (() => string);
   selected: (p: string) => boolean;
   subItems?: TSideBarLink[];
 };
@@ -25,8 +28,8 @@ const SideBarLinks: TSideBarLinks = [
     {
       icon: HomeIcon,
       title: "خانه",
-      selected: isSelected("/user/dashboards"),
-      path: "/dashboards"
+      selected: (path: string) => path.startsWith("/user/dashboards/"),
+      path: () => `/dashboards/${getLS("DU_DASHBOARD_ID")}`
     }
   ],
   [
@@ -39,7 +42,7 @@ const SideBarLinks: TSideBarLinks = [
   ],
   [
     {
-      icon: ListIcon,
+      icon: DashboardIcon,
       title: "داشبوردهای من",
       selected: isSelected("/user/manage/dashboards"),
       path: "/manage/dashboards"

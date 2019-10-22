@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -39,6 +39,7 @@ type TSearchInputProps = {
   loading?: boolean;
   icon?: React.ComponentType<SvgIconProps>;
   updateOnTyping?: boolean;
+  clearOnLoading?: boolean;
   onSubmit: (q: string) => any;
   onChange?: (q: string) => any;
 };
@@ -51,10 +52,17 @@ const SearchInput = (props: TSearchInputProps) => {
     loading = false,
     icon: Icon = SearchIcon,
     updateOnTyping = false,
+    clearOnLoading = false,
     onChange = () => {},
     onSubmit
   } = props;
   const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    if (clearOnLoading && !loading) {
+      setValue("");
+    }
+  }, [loading, clearOnLoading]);
 
   const handleSearchClicked = () => {
     onSubmit(value);

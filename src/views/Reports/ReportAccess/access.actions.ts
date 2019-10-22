@@ -1,15 +1,6 @@
 import { Store } from "use-global-hook";
+import { errorHandler } from "utility";
 import { AccessService as Access, TAccess, TActions } from ".";
-import { get } from "lodash";
-
-function handleError(store: Store<TAccess, TActions>, message: string) {
-  return (error: any) =>
-    store.setState({
-      ...store.state,
-      error: get(error, "response.data.message", message),
-      loading: false
-    });
-}
 
 export function getUsers(
   store: Store<TAccess, TActions>,
@@ -22,7 +13,7 @@ export function getUsers(
     .then(users => {
       store.setState({ ...store.state, users, reportId, loading: false });
     })
-    .catch(handleError(store, "دسترسی امکان پذیر نیست"));
+    .catch(errorHandler<TAccess, TActions>(store, "دسترسی امکان پذیر نیست"));
 }
 
 export function changeSearch(store: Store<TAccess, TActions>, q: string) {
@@ -38,7 +29,9 @@ export function subscribe(store: Store<TAccess, TActions>, username: string) {
     .then(users => store.setState({ ...store.state, users }))
     .catch(error => {
       store.setState({ ...store.state, users: Access.users });
-      return handleError(store, "کاربر مورد نظر یافت نشد")(error);
+      return errorHandler<TAccess, TActions>(store, "کاربر مورد نظر یافت نشد")(
+        error
+      );
     });
 }
 
@@ -49,6 +42,6 @@ export function unSubscribe(store: Store<TAccess, TActions>, userId: number) {
     .then(users => store.setState({ ...store.state, users }))
     .catch(error => {
       store.setState({ ...store.state, users: Access.users });
-      handleError(store, "خطای سرور")(error);
+      errorHandler<TAccess, TActions>(store, "خطای سرور")(error);
     });
 }

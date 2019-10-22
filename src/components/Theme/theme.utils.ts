@@ -1,5 +1,5 @@
 import { TTheme } from "./theme.types";
-import { get } from "lodash";
+import get from "lodash/get";
 
 const SETTINGS = "DU_SETTINGS";
 
