@@ -100,12 +100,12 @@ export async function remove(
   );
 }
 
-export async function rename(
+export async function update(
   store: Store<TDashboards, TActions>,
   dashboard: TDashboard,
-  name: string
+  updates: { [k: string]: any }
 ): Promise<any> {
-  return Dashboards.rename(dashboard.id, name, dashboard.shared).then(
+  return Dashboards.update(dashboard.id, updates, dashboard.shared).then(
     dashboards => store.setState({ ...store.state, dashboards })
   );
 }

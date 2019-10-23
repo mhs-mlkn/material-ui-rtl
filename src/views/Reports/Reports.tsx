@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import { Search } from "components/Inputs";
 import ToolBox, { TView, TOrderBy, TOrderDir } from "components/ToolBox";
 import Pagination from "components/Pagination";
-import Error from "components/Error";
+import { Error } from "components/Exceptions";
 import GridView from "./GridView";
 import ListView from "./ListView";
 import { useReports, TReports, TActions } from ".";

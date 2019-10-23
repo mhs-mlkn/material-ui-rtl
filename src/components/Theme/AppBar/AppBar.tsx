@@ -8,7 +8,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { DashboardToolBox } from "components/Dashboard";
+import { DashboardMenu } from "components/Dashboard";
+import { useLayout, ToggleButton, TLayout } from "components/Layout";
 import { useThemeStore, TTheme, TActions } from "components/Theme";
 import { drawerWidth } from "../theme.constants";
 import AppBarMenu from "./AppBarMenu";
@@ -57,6 +58,8 @@ const AppBar = (props: any) => {
   const { classes } = props;
   let location = useLocation();
   const [state, actions] = useThemeStore<TTheme, TActions>();
+  const [layout] = useLayout<TLayout, any>();
+  const isVisible = window.location.pathname.startsWith("/user/dashboard");
 
   const handleToggleDrawer = () => {
     actions.toggleDrawer();
@@ -91,14 +94,15 @@ const AppBar = (props: any) => {
             [classes.titleOpen]: state.isDrawerOpen
           })}
         >
-          {window.location.pathname.startsWith("/user/dashboards") ? (
-            <DashboardToolBox />
+          {isVisible ? (
+            <DashboardMenu />
           ) : (
             <Typography component="h6" variant="h6" color="textPrimary" noWrap>
               {get(location, "state.title")}
             </Typography>
           )}
         </div>
+        {isVisible && !layout.editable && <ToggleButton />}
         <AppBarMenu />
       </Toolbar>
     </MuiAppBar>

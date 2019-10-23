@@ -64,7 +64,7 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
   const handleEdit = (name: string) => {
     setRenameLoading(true);
     actions
-      .rename(dashboard, name)
+      .update(dashboard, { name })
       .catch(handleError)
       .finally(() => setRenameLoading(false));
   };
@@ -101,11 +101,13 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
         />
       </TableCell>
       <TableCell style={{ textAlign: "end", minWidth: 170 }}>
-        <EditButton
-          name={dashboard.name}
-          loading={renameLoading}
-          onEdit={handleEdit}
-        />
+        {!dashboard.shared && (
+          <EditButton
+            name={dashboard.name}
+            loading={renameLoading}
+            onEdit={handleEdit}
+          />
+        )}
         <DeleteButton onDelete={handleDelete} loading={deleteLoading} />
         <ChangeOrder onMoveUp={handleMoveUp} onMoveDown={handleMoveDown} />
       </TableCell>

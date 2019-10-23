@@ -28,8 +28,8 @@ const SideBarLinks: TSideBarLinks = [
     {
       icon: HomeIcon,
       title: "خانه",
-      selected: (path: string) => path.startsWith("/user/dashboards/"),
-      path: () => `/dashboards/${getLS("DU_DASHBOARD_ID")}`
+      selected: (path: string) => path.startsWith("/user/dashboard/"),
+      path: () => `/dashboard/${getLS("DU_DASHBOARD_ID")}`
     }
   ],
   [

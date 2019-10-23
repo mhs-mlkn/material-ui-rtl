@@ -4,7 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { useDashboards, TDashboards, TActions } from "components/Dashboard";
 
-const ToolBox = () => {
+const DashboardMenu = () => {
   const [state] = useDashboards<TDashboards, TActions>();
   const history = useHistory();
 
@@ -13,7 +13,7 @@ const ToolBox = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const id = +event.target.value;
     const dashboard = state.dashboards.find(d => d.id === id) || { name: "" };
-    history.push(`/user/dashboards/${id}`, { title: dashboard.name });
+    history.push(`/user/dashboard/${id}`, { title: dashboard.name });
   };
 
   return (
@@ -33,4 +33,4 @@ const ToolBox = () => {
   );
 };
 
-export default ToolBox;
+export default DashboardMenu;

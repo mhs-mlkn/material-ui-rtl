@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createGenerateClassName, makeStyles, jssPreset } from "@material-ui/styles";
-import { blue, pink, red } from "@material-ui/core/colors";
+import { blue, orange, red } from "@material-ui/core/colors";
 import { useThemeStore } from "components/Theme";
 import AppBar from "./AppBar";
 import SideBar from "./SideBar";
@@ -35,7 +35,7 @@ const Theme = ({ children }) => {
         default: state.type === "dark" ? "#3a4047" : "#f5f5f5"
       },
       primary: blue,
-      secondary: pink,
+      secondary: orange,
       error: red,
       text: {
         primary: state.type === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.87)",
@@ -82,7 +82,7 @@ const Theme = ({ children }) => {
     appBarSpacer: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
-      padding: theme.spacing(2),
+      padding: theme.spacing(2, 1),
       height: "100vh",
       overflow: "auto"
     }

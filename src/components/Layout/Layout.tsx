@@ -5,42 +5,55 @@ import { withSize } from "react-sizeme";
 import { Theme } from "@material-ui/core";
 import {
   Responsive as ResponsiveGridLayout,
-  Layout as TLayout,
-  Layouts as TLayouts
+  Layout as TRGLLayout,
+  Layouts as TRGLLayouts
 } from "react-grid-layout";
-import { useLayoutStore, TLayout as TMyLayout, TActions } from ".";
-import { RowHights, BreakPoints, Cols } from "./layout.constants";
+import { useLayout, TBreakPoint, TLayout, TActions } from ".";
+import { RowHights, BreakPoints, Cols, LAYOUT } from "./layout.constants";
+
+function getBP(width: number): TBreakPoint {
+  if (width >= BreakPoints["lg"]) {
+    return "lg";
+  } else if (width >= BreakPoints["md"]) {
+    return "md";
+  } else if (width >= BreakPoints["sm"]) {
+    return "sm";
+  } else if (width >= BreakPoints["xs"]) {
+    return "xs";
+  } else {
+    return "xxs";
+  }
+}
 
 type TLayoutProps = {
   size: { width: number; height: number };
-  layouts: TLayouts;
+  layouts: TRGLLayouts;
   children: React.ReactNode;
 };
 
 const Layout = (props: TLayoutProps) => {
-  const [rowHeight, setRowHeight] = useState();
   const theme: Theme = useTheme();
-  const state = useLayoutStore<TMyLayout, TActions>()[0];
+  const [state] = useLayout<TLayout, TActions>();
+  const [rowHeight, setRowHeight] = useState(
+    RowHights[getBP(props.size.width)]
+  );
+  const { size, layouts, children } = props;
+  const [_layouts, setLayouts] = useState(layouts);
 
-  const handleLayoutChanged = (
-    currentLayout: TLayout[],
-    allLayouts: TLayouts
-  ) => {
-    // console.dir(allLayouts);
+  const handleLayoutChanged = (layout: TRGLLayout[], layouts: TRGLLayouts) => {
+    localStorage.setItem(LAYOUT, JSON.stringify(layouts));
+    setLayouts(layouts);
   };
 
-  const handleBreakpointChanged = (bp: "xl" | "lg" | "md" | "sm" | "xs") => {
-    console.log(bp);
+  const handleBreakpointChanged = (bp: TBreakPoint) => {
     setRowHeight(RowHights[bp]);
   };
-
-  const { size, layouts, children } = props;
 
   return (
     <ResponsiveGridLayout
       width={size.width || undefined}
       className={clx("layout", theme.palette.type)}
-      layouts={layouts}
+      layouts={_layouts}
       breakpoints={BreakPoints}
       cols={Cols}
       rowHeight={rowHeight}
@@ -48,6 +61,8 @@ const Layout = (props: TLayoutProps) => {
       margin={[3, 3]}
       isDraggable={state.editable}
       isResizable={state.editable}
+      draggableCancel=".draggableCancel"
+      draggableHandle=".draggableHandle"
       onLayoutChange={handleLayoutChanged}
       onBreakpointChange={handleBreakpointChanged}
     >

@@ -1,12 +1,14 @@
 import React from "react";
+import clx from "classnames";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
-// import CardActions from "@material-ui/core/CardActions";
-// import IconButton from "@material-ui/core/IconButton";
-// import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import DragIcon from "@material-ui/icons/DragIndicator";
+import { useLayout, TLayout, TActions } from "components/Layout";
+// import CardActions from "@material-ui/core/CardActions";
+// import Avatar from "@material-ui/core/Avatar";
 // import KeyIcon from "@material-ui/icons/VpnKey";
 // import TodayIcon from "@material-ui/icons/Today";
 // import AddIcon from "@material-ui/icons/Add";
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     cardHeader: {
       alignItems: "unset",
+      padding: theme.spacing(1),
       paddingBottom: 0,
       [theme.breakpoints.down("xs")]: {
         alignItems: "center"
@@ -59,18 +62,27 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ReportCard = () => {
   const classes = useStyles();
+  const [state] = useLayout<TLayout, TActions>();
 
   return (
-    <Card className={classes.card} elevation={0}>
+    <Card className={clx(classes.card)} elevation={0}>
       <CardHeader
         classes={{
           root: classes.cardHeader,
           content: classes.cardContent
         }}
         title={
-          <Typography variant="body2" color="textPrimary" component="p">
-            نام گزارش خیلی طولانی برای نمونه آوردم
-          </Typography>
+          <>
+            {state.editable && (
+              <DragIcon
+                className="draggableHandle"
+                style={{ cursor: "move", zIndex: 200000 }}
+              />
+            )}
+            <Typography variant="body2" color="textPrimary" component="span">
+              نام گزارش خیلی طولانی برای نمونه آوردم
+            </Typography>
+          </>
         }
       />
       <CardContent></CardContent>

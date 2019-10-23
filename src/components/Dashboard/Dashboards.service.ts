@@ -1,5 +1,6 @@
 import { Api } from "utility";
 import sortBy from "lodash/sortBy";
+import { MIN_W, MIN_H, TBreakPoint } from "components/Layout";
 import { TDashboard, TConfig } from ".";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
@@ -14,14 +15,17 @@ type Dashboard = {
 
 export class DashboardsService {
   private _dashboards: TDashboard[] = [];
+  private _promise: Promise<any> = Promise.reject();
   private hasInit = false;
 
   public get dashboards() {
-    const promise = this.hasInit
-      ? Promise.resolve(this._dashboards)
-      : this.fetchDashboards();
+    const promise = this.hasInit ? this._promise : this.fetchDashboards();
 
     return promise.then(() => sortBy(this._dashboards, d => d.order));
+  }
+
+  public get(id: number) {
+    return this._dashboards.find(d => d.id === id);
   }
 
   public async save(dashboards: TDashboard[]) {
@@ -60,11 +64,15 @@ export class DashboardsService {
     });
   }
 
-  public async rename(id: number, name: string, shared: boolean) {
+  public async update(
+    id: number,
+    updates: { [k: string]: any },
+    shared: boolean
+  ) {
     const url = `${baseUrl}/dashboard/${shared ? "shared/" : ""}${id}`;
-    return Api.put(url, { name }).then(() => {
+    return Api.put(url, updates).then(() => {
       this._dashboards = this._dashboards.map(d =>
-        d.id === id ? { ...d, name } : d
+        d.id === id ? { ...d, ...updates } : d
       );
       return this._dashboards;
     });
@@ -76,33 +84,47 @@ export class DashboardsService {
 
   private async fetchDashboards() {
     const url = `${baseUrl}/dashboard/all`;
-    const response = await Api.get(url);
-    const dashboards = response.data.result.data as Dashboard[];
-    this._dashboards = sortBy(dashboards, d => d.order).map(
-      (dashboard, order) => {
-        const config: TConfig = this.parseConfig(dashboard.config);
-        return {
-          ...dashboard,
-          order,
-          config
-        } as TDashboard;
-      }
-    );
+    this._promise = Api.get(url);
     this.hasInit = true;
-    return this._dashboards;
+    this._promise.then(response => {
+      const dashboards = response.data.result.data as Dashboard[];
+      this._dashboards = sortBy(dashboards, d => d.order).map(
+        (dashboard, order) => {
+          const config: TConfig = this.parseConfig(dashboard.config);
+          return {
+            ...dashboard,
+            order,
+            config
+          } as TDashboard;
+        }
+      );
+      return this._dashboards;
+    });
+    return this._promise;
   }
 
   private parseConfig = (configString: string): TConfig => {
     try {
-      return JSON.parse(configString);
+      const config: TConfig = JSON.parse(configString);
+      const { layouts } = config;
+      for (const bp in layouts) {
+        if (layouts.hasOwnProperty(bp)) {
+          const items = layouts[bp as TBreakPoint];
+          for (const item of items) {
+            item.minW = MIN_W[bp as TBreakPoint];
+            item.minH = MIN_H[bp as TBreakPoint];
+          }
+        }
+      }
+      return { ...config, layouts };
     } catch (error) {
       return {
         layouts: {
-          xl: [],
           lg: [],
           md: [],
           sm: [],
-          xs: []
+          xs: [],
+          xxs: []
         },
         slide: {
           isVisible: false,

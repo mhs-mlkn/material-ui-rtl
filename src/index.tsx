@@ -6,9 +6,9 @@ import "assets/css/index.css";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-console.log(
-  "%c DASHBOARD ",
-  "font-size: 170px; background: #222; color: #bada55"
-);
+// console.log(
+//   "%c DASHBOARD ",
+//   "font-size: 170px; background: #222; color: #bada55"
+// );
 
 ReactDOM.render(<App />, document.getElementById("root"));

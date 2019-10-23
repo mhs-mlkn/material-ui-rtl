@@ -3,14 +3,11 @@ import get from "lodash/get";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { RouteChildrenProps } from "react-router";
+import { useHistory } from "react-router-dom";
 
-const ServerError = (props: RouteChildrenProps) => {
-  const message = get(
-    props.location.state,
-    "message",
-    "دریافت اطلاعات از سرور با خطا مواجه شد"
-  );
+const ErrorMessage = (props: { message?: string }) => {
+  const history = useHistory();
+  const msg = get(props, "message", "دریافت اطلاعات از سرور با خطا مواجه شد");
 
   return (
     <Grid
@@ -22,19 +19,19 @@ const ServerError = (props: RouteChildrenProps) => {
     >
       <Grid item>
         <Typography variant="h1" gutterBottom>
-          500
+          خطا
         </Typography>
       </Grid>
       <Grid item>
         <Typography variant="h4" component="h2" gutterBottom>
-          {message}
+          {msg}
         </Typography>
       </Grid>
       <Grid item>
         <Button
           variant="contained"
           color="primary"
-          onClick={() => props.history.goBack()}
+          onClick={() => history.replace("/")}
         >
           بازگشت
         </Button>
@@ -43,4 +40,4 @@ const ServerError = (props: RouteChildrenProps) => {
   );
 };
 
-export default ServerError;
+export default ErrorMessage;

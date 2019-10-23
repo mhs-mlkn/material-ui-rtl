@@ -1,14 +1,4 @@
-export type TLayoutItem = {
-  w: number;
-  h: number;
-  x: number;
-  y: number;
-  i: string;
-  minW: number;
-  minH: number;
-  moved: boolean;
-  static: boolean;
-};
+import { TLayouts } from "components/Layout";
 
 export type TSlide = {
   isVisible: boolean;
@@ -16,13 +6,7 @@ export type TSlide = {
 };
 
 export type TConfig = {
-  layouts: {
-    xl: TLayoutItem[];
-    lg: TLayoutItem[];
-    md: TLayoutItem[];
-    sm: TLayoutItem[];
-    xs: TLayoutItem[];
-  };
+  layouts: TLayouts;
   slide: TSlide;
 };
 
@@ -49,5 +33,8 @@ export type TActions = {
   save: () => Promise<any>;
   add: (name: string) => Promise<TDashboard[]>;
   remove: (id: number) => Promise<TDashboard[]>;
-  rename: (d: TDashboard, name: string) => Promise<TDashboard[]>;
+  update: (
+    d: TDashboard,
+    updated: { [k: string]: any }
+  ) => Promise<TDashboard[]>;
 };
