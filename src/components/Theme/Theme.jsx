@@ -82,7 +82,7 @@ const Theme = ({ children }) => {
     appBarSpacer: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
-      padding: theme.spacing(2, 1),
+      padding: theme.spacing(1),
       height: "100vh",
       overflow: "auto"
     }

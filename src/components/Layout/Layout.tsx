@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clx from "classnames";
 import { useTheme } from "@material-ui/styles";
 import { withSize } from "react-sizeme";
@@ -40,6 +40,10 @@ const Layout = (props: TLayoutProps) => {
   const { size, layouts, children } = props;
   const [_layouts, setLayouts] = useState(layouts);
 
+  useEffect(() => {
+    setLayouts(layouts);
+  }, [layouts]);
+
   const handleLayoutChanged = (layout: TRGLLayout[], layouts: TRGLLayouts) => {
     localStorage.setItem(LAYOUT, JSON.stringify(layouts));
     setLayouts(layouts);
@@ -48,6 +52,7 @@ const Layout = (props: TLayoutProps) => {
   const handleBreakpointChanged = (bp: TBreakPoint) => {
     setRowHeight(RowHights[bp]);
   };
+
 
   return (
     <ResponsiveGridLayout

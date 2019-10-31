@@ -37,11 +37,10 @@ const Dashboard = (props: { id: number }) => {
     );
 
   useEffect(() => {
-    actions.get().then(dashboards => {
-      const d = dashboards.find(d => d.id === id);
-      setDashboard(d);
-    });
-  }, [id, actions]);
+    setDashboard(undefined);
+    const d = state.dashboards.find(d => d.id === id);
+    setDashboard(d);
+  }, [id, state, actions]);
 
   const handleSaveClick = () => {
     if (!!dashboard) {
@@ -71,7 +70,7 @@ const Dashboard = (props: { id: number }) => {
 
   return (
     <>
-      <Layout layouts={dashboard.config.layouts}>
+      <Layout layouts={get(dashboard, "config.layouts", {})}>
         {get(dashboard, "config.layouts.lg", []).map((r: TLayoutItem) => (
           <div key={r.i}>
             <ReportCard key={r.i} />

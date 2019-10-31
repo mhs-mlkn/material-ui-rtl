@@ -12,7 +12,7 @@ import {
 
 const DashboardId = "DU_DASHBOARD_ID";
 
-const Dashboards = (props: RouteChildrenProps) => {
+const Home = (props: RouteChildrenProps) => {
   const [state, actions] = useDashboards<TDashboards, TActions>();
   const { dashboards, error } = state;
   let { dashboardId = "0" } = useParams();
@@ -37,7 +37,7 @@ const Dashboards = (props: RouteChildrenProps) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dashboardId, props.history]);
+  }, [dashboardId]);
 
   return (
     <Error error={error}>
@@ -46,4 +46,4 @@ const Dashboards = (props: RouteChildrenProps) => {
   );
 };
 
-export default Dashboards;
+export default Home;

@@ -2,6 +2,7 @@ import { Api } from "utility";
 import sortBy from "lodash/sortBy";
 import { MIN_W, MIN_H, TBreakPoint } from "components/Layout";
 import { TDashboard, TConfig } from ".";
+import data from "./dashboards.json";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
@@ -83,9 +84,11 @@ export class DashboardsService {
   }
 
   private async fetchDashboards() {
-    const url = `${baseUrl}/dashboard/all`;
-    this._promise = Api.get(url);
-    this.hasInit = true;
+    // const url = `${baseUrl}/dashboard/all`;
+    // this._promise = Api.get(url);
+    this._promise = new Promise((resolve) => {
+      return resolve({ data: { result: { data } } });
+    });
     this._promise.then(response => {
       const dashboards = response.data.result.data as Dashboard[];
       this._dashboards = sortBy(dashboards, d => d.order).map(
@@ -98,6 +101,7 @@ export class DashboardsService {
           } as TDashboard;
         }
       );
+      this.hasInit = true;
       return this._dashboards;
     });
     return this._promise;
@@ -127,7 +131,7 @@ export class DashboardsService {
           xxs: []
         },
         slide: {
-          isVisible: false,
+          isVisible: true,
           duration: 60
         }
       };

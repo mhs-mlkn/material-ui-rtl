@@ -1,0 +1,23 @@
+[
+    {
+        "id": 47,
+        "name": "dashboard 1",
+        "order": 0,
+        "shared": false,
+        "config": "{\"layouts\":{\"lg\":[],\"md\":[],\"sm\":[],\"xs\":[],\"xxs\":[]},\"slide\":{\"isVisible\":true,\"duration\":10}}"
+    },
+    {
+        "id": 1,
+        "name": "محسن",
+        "order": 1,
+        "shared": false,
+        "config": "{\"layouts\":{\"lg\":[],\"md\":[],\"sm\":[],\"xs\":[],\"xxs\":[]},\"slide\":{\"isVisible\":false,\"duration\":10}}"
+    },
+    {
+        "id": 179,
+        "name": "notification",
+        "order": 2,
+        "shared": true,
+        "config": "{\"layouts\":{\"lg\":[{\"w\":7,\"h\":17,\"x\":0,\"y\":0,\"i\":\"97\",\"minW\":6,\"minH\":14,\"moved\":false,\"static\":false}],\"md\":[{\"i\":\"97\",\"x\":0,\"y\":0,\"w\":6,\"h\":14,\"minW\":6,\"minH\":14}],\"sm\":[{\"i\":\"97\",\"x\":0,\"y\":0,\"w\":6,\"h\":15,\"minW\":6,\"minH\":15}],\"xs\":[{\"i\":\"97\",\"x\":0,\"y\":0,\"w\":12,\"h\":20,\"minW\":12,\"minH\":20}],\"xxs\":[{\"w\":2,\"h\":20,\"x\":0,\"y\":0,\"i\":\"97\",\"minW\":12,\"minH\":20,\"moved\":false,\"static\":false}]},\"slide\":{\"isVisible\":true,\"duration\":10}}"
+    }
+]

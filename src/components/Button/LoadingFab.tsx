@@ -1,27 +1,45 @@
 import React from "react";
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import Fab, { FabProps } from "@material-ui/core/Fab";
-import Progress from "@material-ui/core/CircularProgress";
+import Progress, { CircularProgressProps } from "@material-ui/core/CircularProgress";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    position: "relative",
+    margin: theme.spacing(0, 1)
+  }
+}));
 
 type TLoadingFabProps = {
   loading?: boolean;
   children?: React.ReactNode;
+  progress?: CircularProgressProps;
 } & FabProps;
 
+const SIZE = {
+  small: 40,
+  medium: 48,
+  large: 56
+}
+
 const LoadingFab = (props: TLoadingFabProps) => {
-  const { loading = false, children, ...rest } = props;
+  const classes = useStyles();
+  const { loading = false, children, progress, ...rest } = props;
+
   return (
-    <>
+    <div className={classes.root}>
       <Fab {...rest}>
         {children}
-        {loading && (
-          <Progress
-            color={rest.color === "primary" ? "secondary" : "primary"}
-            size={56}
-            style={rest.style}
-          />
-        )}
       </Fab>
-    </>
+      {loading && (
+        <Progress
+          size={rest.size ? SIZE[rest.size] : 56}
+          color={rest.color === "primary" ? "secondary" : "primary"}
+          style={!!rest.style ? rest.style : { position: "absolute", top: 0, left: 0 }}
+          {...progress}
+        />
+      )}
+    </div>
   );
 };
 

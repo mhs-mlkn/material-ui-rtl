@@ -4,11 +4,16 @@ import AspectRatioIcon from "@material-ui/icons/AspectRatio";
 import { useLayout, TLayout, TActions } from ".";
 
 const ToggleButton = () => {
-  const actions = useLayout<TLayout, TActions>()[1];
+  const [state, actions] = useLayout<TLayout, TActions>();
+  const isVisible = window.location.pathname.startsWith("/user/dashboard");
 
   const toggleEditLayout = () => {
     actions.toggleEditable();
   };
+
+  if(!isVisible || state.editable) {
+    return null;
+  }
 
   return (
     <IconButton title="ویرایش چینش " onClick={toggleEditLayout}>
