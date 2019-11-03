@@ -1,8 +1,10 @@
 import { Api } from "utility";
 import sortBy from "lodash/sortBy";
-import { MIN_W, MIN_H, TBreakPoint } from "components/Layout";
+import has from "lodash/has";
+import differenceWith from "lodash/differenceWith";
+import { MIN_W, MIN_H, TBreakPoint, TLayoutItem } from "components/Layout";
 import { TDashboard, TConfig } from ".";
-import data from "./dashboards.json";
+// import data from "./dashboards.json";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
@@ -50,7 +52,8 @@ export class DashboardsService {
         name,
         order,
         shared: false,
-        config
+        config,
+        userReports: []
       };
       this._dashboards = [...this._dashboards, newDashboard];
       return this._dashboards;
@@ -72,6 +75,9 @@ export class DashboardsService {
   ) {
     const url = `${baseUrl}/dashboard/${shared ? "shared/" : ""}${id}`;
     return Api.put(url, updates).then(() => {
+      if (has(updates, "config")) {
+        updates.config = JSON.parse(updates.config);
+      }
       this._dashboards = this._dashboards.map(d =>
         d.id === id ? { ...d, ...updates } : d
       );
@@ -84,26 +90,43 @@ export class DashboardsService {
   }
 
   private async fetchDashboards() {
-    // const url = `${baseUrl}/dashboard/all`;
-    // this._promise = Api.get(url);
-    this._promise = new Promise((resolve) => {
-      return resolve({ data: { result: { data } } });
-    });
-    this._promise.then(response => {
-      const dashboards = response.data.result.data as Dashboard[];
-      this._dashboards = sortBy(dashboards, d => d.order).map(
-        (dashboard, order) => {
+    // this._promise = new Promise(resolve =>
+    //   resolve({ data: { result: { data } } })
+    // )
+    const url = `${baseUrl}/dashboard/all`;
+    this._promise = Api.get(url)
+      .then((response: any) => {
+        const dashboards = response.data.result.data as Dashboard[];
+        return dashboards.map((dashboard, order) => {
           const config: TConfig = this.parseConfig(dashboard.config);
           return {
             ...dashboard,
             order,
             config
           } as TDashboard;
-        }
-      );
-      this.hasInit = true;
-      return this._dashboards;
-    });
+        });
+      })
+      .then((dashboards: TDashboard[]) => {
+        this._dashboards = dashboards.map(d => {
+          const { layouts } = d.config;
+          const diff = differenceWith(
+            d.userReports,
+            layouts.lg,
+            (a: number, b: TLayoutItem) => a === +b.i
+          );
+          for (const id of diff) {
+            const li = this.newItem(id);
+            for (const bp in layouts) {
+              if (layouts.hasOwnProperty(bp)) {
+                layouts[bp as TBreakPoint].push(li[bp as TBreakPoint]);
+              }
+            }
+          }
+          return d;
+        });
+        this.hasInit = true;
+        return this._dashboards;
+      });
     return this._promise;
   }
 
@@ -136,6 +159,46 @@ export class DashboardsService {
         }
       };
     }
+  };
+
+  private newItem = (id: number): { [key in TBreakPoint]: TLayoutItem } => {
+    return {
+      lg: {
+        i: id.toString(),
+        x: 0,
+        y: Infinity,
+        w: MIN_W.lg,
+        h: MIN_H.lg
+      },
+      md: {
+        i: id.toString(),
+        x: 0,
+        y: Infinity,
+        w: MIN_W.md,
+        h: MIN_H.md
+      },
+      sm: {
+        i: id.toString(),
+        x: 0,
+        y: Infinity,
+        w: MIN_W.sm,
+        h: MIN_H.sm
+      },
+      xs: {
+        i: id.toString(),
+        x: 0,
+        y: Infinity,
+        w: MIN_W.xs,
+        h: MIN_H.xs
+      },
+      xxs: {
+        i: id.toString(),
+        x: 0,
+        y: Infinity,
+        w: MIN_W.xxs,
+        h: MIN_H.xxs
+      }
+    };
   };
 
   private reOrder(): TDashboard[] {

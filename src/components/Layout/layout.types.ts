@@ -9,7 +9,7 @@ export type TLayoutItem = {
   minH?: number;
   maxH?: number;
   static?: boolean;
-  moved: boolean;
+  moved?: boolean;
 };
 
 export type TBreakPoint = "lg" | "md" | "sm" | "xs" | "xxs";

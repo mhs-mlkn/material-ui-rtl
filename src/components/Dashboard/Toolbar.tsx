@@ -1,27 +1,56 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import AppBar from "@material-ui/core/AppBar";
+import MuiToolbar from "@material-ui/core/Toolbar";
+import Hidden from "@material-ui/core/Hidden";
+import { DashboardTimer } from "components/Dashboard";
+import { ToggleButton } from "components/Layout";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      marginTop: theme.mixins.toolbar.minHeight
+    },
     appBar: {
-        position: 'relative'
+      top: "auto",
+      bottom: 0
+    },
+    grow: {
+      flexGrow: 1,
+      textAlign: "center",
+      [theme.breakpoints.down("xs")]: {
+        textAlign: "start"
+      }
     }
-}));
+  })
+);
 
-export default function FullScreenDialog() {
-    const classes = useStyles();
+const Toolbar = () => {
+  const classes = useStyles();
 
-    return (
-        <Toolbar disableGutters variant="dense">
-            <Typography variant="h6">
-                Sound
-                </Typography>
-            <Button autoFocus color="inherit">
-                save
-                </Button>
-        </Toolbar>
-    );
-}
+  return (
+    <Hidden smUp>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        xl={12}
+        className={classes.root}
+      >
+        <AppBar position="fixed" color="secondary" className={classes.appBar}>
+          <MuiToolbar variant="dense">
+            <div className={classes.grow} style={{ textAlign: "start" }}>
+              <ToggleButton />
+            </div>
+            <DashboardTimer />
+          </MuiToolbar>
+        </AppBar>
+      </Grid>
+    </Hidden>
+  );
+};
+
+export default Toolbar;

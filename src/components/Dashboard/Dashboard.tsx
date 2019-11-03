@@ -20,6 +20,7 @@ import {
   TActions as TLayoutActions,
   LAYOUT
 } from "components/Layout";
+import Toolbar from "./Toolbar";
 
 const Dashboard = (props: { id: number }) => {
   const [state, actions] = useDashboards<TDashboards, TActions>();
@@ -43,13 +44,14 @@ const Dashboard = (props: { id: number }) => {
   }, [id, state, actions]);
 
   const handleSaveClick = () => {
-    if (!!dashboard) {
+    const layout = localStorage.getItem(LAYOUT);
+    if (!!dashboard && !!layout) {
       setUpdateLoading(true);
       actions
         .update(dashboard, {
           config: JSON.stringify({
             ...dashboard.config,
-            layouts: JSON.parse(localStorage.getItem(LAYOUT) || "{}")
+            layouts: JSON.parse(layout)
           })
         })
         .catch(handleError)
@@ -57,6 +59,8 @@ const Dashboard = (props: { id: number }) => {
           layoutActions.toggleEditable();
           setUpdateLoading(false);
         });
+    } else {
+      layoutActions.toggleEditable();
     }
   };
 
@@ -82,11 +86,12 @@ const Dashboard = (props: { id: number }) => {
           color="primary"
           onClick={handleSaveClick}
           loading={updateLoading}
-          style={{ position: "fixed", bottom: 25, right: 35 }}
+          style={{ position: "fixed", bottom: 55, right: 25 }}
         >
           <SaveIcon />
         </Fab>
       )}
+      <Toolbar />
     </>
   );
 };

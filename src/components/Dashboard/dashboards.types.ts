@@ -16,6 +16,7 @@ export type TDashboard = {
   config: TConfig;
   order: number;
   shared: boolean;
+  userReports: number[];
 };
 
 export type TDashboards = {
@@ -35,6 +36,6 @@ export type TActions = {
   remove: (id: number) => Promise<TDashboard[]>;
   update: (
     d: TDashboard,
-    updated: { [k: string]: any }
+    updates: { [k: string]: any }
   ) => Promise<TDashboard[]>;
 };

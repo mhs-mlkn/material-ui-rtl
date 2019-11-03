@@ -3,6 +3,7 @@ import get from "lodash/get";
 import { useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { withStyles, createStyles, Theme } from "@material-ui/core/styles";
+import Hidden from "@material-ui/core/Hidden";
 import MuiAppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -96,13 +97,16 @@ const AppBar = (props: any) => {
           {isVisible ? (
             <DashboardMenu />
           ) : (
-              <Typography component="h6" variant="h6" color="textPrimary" noWrap>
-                {get(location, "state.title")}
-              </Typography>
-            )}
+            <Typography component="h6" variant="h6" color="textPrimary" noWrap>
+              {get(location, "state.title")}
+            </Typography>
+          )}
         </div>
-        <ToggleButton />
-        <DashboardTimer />
+
+        <Hidden xsDown>
+          <ToggleButton />
+          <DashboardTimer />
+        </Hidden>
         <AppBarMenu />
       </Toolbar>
     </MuiAppBar>
