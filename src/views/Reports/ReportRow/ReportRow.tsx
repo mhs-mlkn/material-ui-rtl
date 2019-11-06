@@ -5,7 +5,8 @@ import TableRow from "@material-ui/core/TableRow";
 import MuiTableCell from "@material-ui/core/TableCell";
 import MuiTypography from "@material-ui/core/Typography";
 import Skeleton from "./ReportRow.skeleton";
-import { AccessButton, SelectButton, TReport, ReportAvatar } from "..";
+import { TReport } from "components/Report";
+import { AccessButton, SelectButton, ReportAvatar } from "..";
 
 const TableCell = withStyles(() => ({
   root: {

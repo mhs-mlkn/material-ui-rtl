@@ -1,8 +1,8 @@
 import { Api } from "utility";
-import { TOrderBy, TOrderDir } from "components/ToolBox";
 import includes from "lodash/includes";
 import order from "lodash/orderBy";
-import { TReport } from ".";
+import { TOrderBy, TOrderDir } from "components/ToolBox";
+import { TReport } from "components/Report";
 // import data from "./reports.json";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
@@ -42,7 +42,7 @@ export class ReportsService {
   get Instances() {
     return this.hasInit.instances
       ? Promise.resolve(this._instances)
-      : this.getInstances();
+      : this.fetchInstances();
   }
 
   private async fetchReports() {
@@ -61,7 +61,7 @@ export class ReportsService {
     );
   }
 
-  private async getInstances() {
+  private async fetchInstances() {
     const url = `${baseUrl}/userreport`;
     const response = await Api.get(url);
     this._instances = response.data.result.data;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import get from "lodash/get";
 import { useSnackbar } from "notistack";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
@@ -7,7 +6,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import ChangeOrder from "components/ChangeOrder";
+import { displayErrMsg } from "utility";
 import { DeleteButton } from "components/Button";
 import {
   useDashboards,
@@ -15,6 +14,7 @@ import {
   TActions,
   TDashboard
 } from "components/Dashboard";
+import ChangeOrder from "./ChangeOrder";
 import EditButton from "./EditButton";
 
 const DashboardRow = (props: { dashboard: TDashboard }) => {
@@ -23,12 +23,6 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [renameLoading, setRenameLoading] = useState(false);
   const { dashboard } = props;
-
-  const handleError = (error: any) =>
-    enqueueSnackbar(
-      get(error, "response.data.message", "درخواست با خطا مواجه شد"),
-      { variant: "error" }
-    );
 
   const handleVisibilityChange = () => {
     const { isVisible, duration } = dashboard.config.slide;
@@ -57,7 +51,7 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
     setDeleteLoading(true);
     actions
       .remove(dashboard.id)
-      .catch(handleError)
+      .catch(displayErrMsg(enqueueSnackbar))
       .finally(() => setDeleteLoading(false));
   };
 
@@ -65,7 +59,7 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
     setRenameLoading(true);
     actions
       .update(dashboard, { name })
-      .catch(handleError)
+      .catch(displayErrMsg(enqueueSnackbar))
       .finally(() => setRenameLoading(false));
   };
 

@@ -9,8 +9,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { DashboardMenu, DashboardTimer } from "components/Dashboard";
-import { ToggleButton } from "components/Layout";
+import {
+  DashboardMenu,
+  DashboardTimer,
+  SaveDashboard
+} from "components/Dashboard";
 import { useThemeStore, TTheme, TActions } from "components/Theme";
 import { drawerWidth } from "../theme.constants";
 import AppBarMenu from "./AppBarMenu";
@@ -104,7 +107,7 @@ const AppBar = (props: any) => {
         </div>
 
         <Hidden xsDown>
-          <ToggleButton />
+          <SaveDashboard />
           <DashboardTimer />
         </Hidden>
         <AppBarMenu />

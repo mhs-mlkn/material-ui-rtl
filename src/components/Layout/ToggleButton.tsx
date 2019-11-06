@@ -21,7 +21,7 @@ const ToggleButton = () => {
 
   return (
     <IconButton
-      title={state.editable ? "خروج از حالت ویرایش" : "ویرایش چینش"}
+      title={state.editable ? "خروج از حالت ویرایش" : "ویرایش داشبورد"}
       style={{ marginLeft: 8, marginRight: 8 }}
       onClick={toggleEditLayout}
     >

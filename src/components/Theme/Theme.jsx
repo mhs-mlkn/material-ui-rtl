@@ -10,6 +10,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { createGenerateClassName, makeStyles, jssPreset } from "@material-ui/styles";
 import { blue, orange, red } from "@material-ui/core/colors";
 import { useThemeStore } from "components/Theme";
+import Snackbar from "components/CustomSnackbar";
 import AppBar from "./AppBar";
 import SideBar from "./SideBar";
 import Settings from "./Settings";
@@ -93,6 +94,7 @@ const Theme = ({ children }) => {
   return (
     <MuiThemeProvider theme={theme}>
       <JssProvider jss={jss} generateClassName={generateClassName}>
+      <Snackbar>
         <div className={classes.root}>
           <CssBaseline />
           {!state.isFullContent && state.showAppBar && <AppBar />}
@@ -103,6 +105,7 @@ const Theme = ({ children }) => {
           </main>
           {!state.isFullContent && <Settings />}
         </div>
+        </Snackbar>
       </JssProvider>
     </MuiThemeProvider>
   );

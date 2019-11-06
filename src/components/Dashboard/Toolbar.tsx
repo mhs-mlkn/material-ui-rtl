@@ -4,8 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
 import MuiToolbar from "@material-ui/core/Toolbar";
 import Hidden from "@material-ui/core/Hidden";
-import { DashboardTimer } from "components/Dashboard";
-import { ToggleButton } from "components/Layout";
+import { DashboardTimer, SaveDashboard } from "components/Dashboard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +42,7 @@ const Toolbar = () => {
         <AppBar position="fixed" color="secondary" className={classes.appBar}>
           <MuiToolbar variant="dense">
             <div className={classes.grow} style={{ textAlign: "start" }}>
-              <ToggleButton />
+              <SaveDashboard />
             </div>
             <DashboardTimer />
           </MuiToolbar>

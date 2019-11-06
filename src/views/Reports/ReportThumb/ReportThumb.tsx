@@ -9,8 +9,9 @@ import Typography from "@material-ui/core/Typography";
 import KeyIcon from "@material-ui/icons/VpnKey";
 import TodayIcon from "@material-ui/icons/Today";
 import Chip from "components/Chip";
+import { TReport } from "components/Report";
+import { AccessButton, SelectButton, ReportAvatar } from "..";
 import Skeleton from "./ReportThumb.skeleton";
-import { AccessButton, SelectButton, TReport, ReportAvatar } from "..";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -78,7 +79,7 @@ const ReportThumb = (props: { report: TReport; loading?: boolean }) => {
           content: classes.cardContent,
           avatar: classes.cardAvatar
         }}
-        avatar={<ReportAvatar type="Pie" />}
+        avatar={<ReportAvatar type={report.type} />}
         title={
           <Typography variant="body2" color="textPrimary" component="p">
             {report.name}

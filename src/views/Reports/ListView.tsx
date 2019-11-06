@@ -5,7 +5,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import { useReports, ReportRow, TReport, TReports, TActions } from ".";
+import { TReport } from "components/Report";
+import { useReports, ReportRow, TReports, TActions } from ".";
 
 const ListView = () => {
   const [state] = useReports<TReports, TActions>();

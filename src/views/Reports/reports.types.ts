@@ -1,23 +1,5 @@
 import { TOrderBy, TOrderDir, TView } from "components/ToolBox";
-
-export type TReportType =
-  | "Bar"
-  | "Area"
-  | "Line"
-  | "Pie"
-  | "Scatter"
-  | "Radar"
-  | "Scalar"
-  | "Table";
-
-export type TReport = {
-  id: number;
-  name: string;
-  type: TReportType;
-  created: string;
-  publicized: boolean;
-  description: string;
-};
+import { TReport } from "components/Report";
 
 export type TReports = {
   loading: boolean;

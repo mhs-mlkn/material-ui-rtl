@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import IconButton, { IconButtonProps } from "@material-ui/core/IconButton";
 import ShareIcon from "@material-ui/icons/Share";
 import { Modal } from "components/Modal";
-import { TReport } from "..";
+import { TReport } from "components/Report";
 import { ReportAccess } from ".";
 
 const AccessButton = (props: { report: TReport } & IconButtonProps) => {

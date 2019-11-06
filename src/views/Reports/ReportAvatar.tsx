@@ -1,12 +1,14 @@
 import React from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import { TReportType } from ".";
+import { TReportType } from "components/Report";
 import Bar from "assets/img/bar.svg";
 import Line from "assets/img/line.svg";
 import Pie from "assets/img/pie.svg";
 import Scatter from "assets/img/scatter.svg";
 import Radar from "assets/img/radar.svg";
+import Table from "assets/img/table.svg";
+import Scalar from "assets/img/scalar.svg";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,10 +46,10 @@ const ReportAvatar = (props: { type: TReportType; size?: number }) => {
         return Radar;
 
       case "Scalar":
-        return "Scalar";
+        return Scalar;
 
       case "Table":
-        return "Table";
+        return Table;
 
       default:
         return "Unknown";

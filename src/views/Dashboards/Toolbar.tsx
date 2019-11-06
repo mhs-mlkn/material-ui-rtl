@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import get from "lodash/get";
 import { useSnackbar } from "notistack";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import MuiToolbar from "@material-ui/core/Toolbar";
 import SaveIcon from "@material-ui/icons/Save";
 import AddIcon from "@material-ui/icons/Add";
+import { displayErrMsg } from "utility";
 import { Button } from "components/Button";
 import { Search } from "components/Inputs";
 import { useDashboards, TDashboards, TActions } from "components/Dashboard";
@@ -27,18 +27,12 @@ const Toolbar = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [state, actions] = useDashboards<TDashboards, TActions>();
 
-  const handleError = (error: any) =>
-    enqueueSnackbar(
-      get(error, "response.data.message", "درخواست با خطا مواجه شد"),
-      { variant: "error" }
-    );
-
   const handleAddDashboard = (name: string) => {
     if (name) {
       setAddLoading(true);
       actions
         .add(name)
-        .catch(handleError)
+        .catch(displayErrMsg(enqueueSnackbar))
         .finally(() => setAddLoading(false));
     }
   };
@@ -48,7 +42,7 @@ const Toolbar = () => {
       setSaveLoading(true);
       actions
         .save()
-        .catch(handleError)
+        .catch(displayErrMsg(enqueueSnackbar))
         .finally(() => setSaveLoading(false));
     }
   };

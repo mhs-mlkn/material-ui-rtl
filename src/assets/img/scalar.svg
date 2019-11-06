@@ -1,0 +1,26 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <defs>
+  <filter id="svg_5_blur">
+   <feGaussianBlur stdDeviation="0.6" in="SourceGraphic"/>
+  </filter>
+  <filter id="svg_3_blur">
+   <feGaussianBlur stdDeviation="0.5" in="SourceGraphic"/>
+  </filter>
+  <filter id="svg_4_blur">
+   <feGaussianBlur stdDeviation="1.4" in="SourceGraphic"/>
+  </filter>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect height="402" width="402" y="-1" x="-1" fill="#fff" id="canvas_background"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <line y2="32.5" x2="360.612" y1="32.5" x1="39.388" stroke-width="15" stroke-linejoin="undefined" stroke-linecap="undefined" fill="#fff" id="svg_1"/>
+  <rect height="317" width="337" y="37.67" x="31.5" stroke-width="12" stroke="#293c54" fill-opacity="0" fill="#000000" id="svg_2"/>
+  <text xml:space="preserve" y="93.9543" x="132.1836" transform="matrix(4.25, 0, 0, 2.46252, -446.875, -112.527)" text-anchor="start" stroke-width="0" stroke="#293c54" fill="#293c54" style="cursor: move; pointer-events: inherit;" filter="url(#svg_3_blur)" font-size="24px" font-family="Helvetica,Arial,sans-serif" id="svg_3">123</text>
+  <ellipse ry="36.5" rx="36.5" cy="198" cx="199" stroke-width="12" stroke="#00ff7f" fill="#00ff7f" filter="url(#svg_4_blur)" id="svg_4"/>
+  <text xml:space="preserve" y="302.0389" x="120.3278" transform="matrix(3.02235, 0, 0, 3.80003, -308.806, -816.288)" text-anchor="start" stroke-width="0" stroke="#00ff7f" fill="#293c54" filter="url(#svg_5_blur)" font-size="24px" font-family="Helvetica,Arial,sans-serif" id="svg_5">SCALAR</text>
+ </g>
+</svg>

@@ -24,11 +24,13 @@ export type TDashboards = {
   error: string | boolean;
   changed: boolean;
   dashboards: TDashboard[];
+  selected: TDashboard | undefined;
 };
 
 export type TActions = {
   get: () => Promise<TDashboard[]>;
   setSlideConfig: (d: TDashboard, slide: TSlide) => void;
+  setSelectedDashboard: (d?: TDashboard) => void;
   moveUp: (d: TDashboard) => void;
   moveDown: (d: TDashboard) => void;
   save: () => Promise<any>;

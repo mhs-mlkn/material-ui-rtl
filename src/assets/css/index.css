@@ -55,3 +55,10 @@ body:fullscreen #sideBar,
   border-right: 2px solid #3a4047;
   border-bottom: 2px solid #3a4047;
 }
+
+.layout .draggableHandle {
+  position: absolute;
+  top: 8px;
+  cursor: move;
+  z-index: 200000;
+}

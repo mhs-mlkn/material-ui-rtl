@@ -36,6 +36,16 @@ export function setSlideConfig(
   });
 }
 
+export function setSelectedDashboard(
+  store: Store<TDashboards, TActions>,
+  dashboard?: TDashboard
+) {
+  store.setState({
+    ...store.state,
+    selected: dashboard
+  });
+}
+
 export function moveUp(
   store: Store<TDashboards, TActions>,
   dashboard: TDashboard

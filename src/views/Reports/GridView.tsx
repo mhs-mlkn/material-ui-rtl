@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { useReports, ReportThumb, TReport, TReports, TActions } from ".";
+import { TReport } from "components/Report";
+import { useReports, ReportThumb, TReports, TActions } from ".";
 
 const GridView = () => {
   const [state] = useReports<TReports, TActions>();

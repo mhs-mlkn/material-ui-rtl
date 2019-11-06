@@ -4,7 +4,7 @@ import * as actions from "./layout.actions";
 import { TLayout, TActions } from "./layout.types";
 
 const initialState: TLayout = {
-  editable: false
+  editable: true
 };
 
 const useLoadingBarStore = useGlobalHook<TLayout, TActions>(
