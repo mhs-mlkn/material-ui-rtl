@@ -2,6 +2,7 @@ import { Api } from "utility";
 import sortBy from "lodash/sortBy";
 import has from "lodash/has";
 import differenceWith from "lodash/differenceWith";
+import remove from "lodash/remove";
 import { MIN_W, MIN_H, TBreakPoint, TLayoutItem } from "components/Layout";
 import { TDashboard, TConfig } from ".";
 // import data from "./dashboards.json";
@@ -31,16 +32,7 @@ export class DashboardsService {
     return this._dashboards.find(d => d.id === id);
   }
 
-  public async save(dashboards: TDashboard[]) {
-    return Api.put(
-      `${baseUrl}/dashboard`,
-      dashboards.map(d => ({ ...d, config: JSON.stringify(d.config) }))
-    ).then(() => {
-      this._dashboards = dashboards;
-    });
-  }
-
-  public async add(name: string, order: number) {
+  public async create(name: string, order: number) {
     const config = this.parseConfig("");
     return Api.post(`${baseUrl}/dashboard`, {
       name,
@@ -56,14 +48,6 @@ export class DashboardsService {
         userReports: []
       };
       this._dashboards = [...this._dashboards, newDashboard];
-      return this._dashboards;
-    });
-  }
-
-  public async delete(id: number) {
-    return Api.delete(`${baseUrl}/dashboard/${id}`).then(() => {
-      this._dashboards = this._dashboards.filter(d => d.id !== id);
-      this._dashboards = this.reOrder();
       return this._dashboards;
     });
   }
@@ -85,8 +69,35 @@ export class DashboardsService {
     });
   }
 
-  public isValidId(id: number) {
-    return this._dashboards.some(d => d.id === id);
+  public async updateAll(dashboards: TDashboard[]) {
+    return Api.put(
+      `${baseUrl}/dashboard`,
+      dashboards.map(d => ({ ...d, config: JSON.stringify(d.config) }))
+    ).then(() => {
+      this._dashboards = dashboards;
+    });
+  }
+
+  public async delete(id: number) {
+    return Api.delete(`${baseUrl}/dashboard/${id}`).then(() => {
+      this._dashboards = this._dashboards.filter(d => d.id !== id);
+      this._dashboards = this.reOrder();
+      return this._dashboards;
+    });
+  }
+
+  public removeReport(dashboardId: number, instanceId: number): TDashboard[] {
+    const dash = this.get(dashboardId);
+    if (dash) {
+      const { layouts } = dash.config;
+      for (const bp in layouts) {
+        if (layouts.hasOwnProperty(bp)) {
+          const items = layouts[bp as TBreakPoint];
+          remove(items, item => +item.i === instanceId);
+        }
+      }
+    }
+    return this._dashboards;
   }
 
   private async fetchDashboards() {

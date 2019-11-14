@@ -84,19 +84,21 @@ export function moveDown(
   });
 }
 
-export async function save(store: Store<TDashboards, TActions>): Promise<any> {
+export async function updateAll(
+  store: Store<TDashboards, TActions>
+): Promise<any> {
   const { dashboards } = store.state;
-  return Dashboards.save(dashboards).then(() =>
+  return Dashboards.updateAll(dashboards).then(() =>
     store.setState({ ...store.state, changed: false })
   );
 }
 
-export async function add(
+export async function create(
   store: Store<TDashboards, TActions>,
   name: string
 ): Promise<any> {
   const order = store.state.dashboards.length;
-  return Dashboards.add(name, order).then(dashboards =>
+  return Dashboards.create(name, order).then(dashboards =>
     store.setState({ ...store.state, dashboards })
   );
 }
@@ -115,7 +117,19 @@ export async function update(
   dashboard: TDashboard,
   updates: { [k: string]: any }
 ): Promise<any> {
+  store.setState({ ...store.state, saving: true });
   return Dashboards.update(dashboard.id, updates, dashboard.shared).then(
-    dashboards => store.setState({ ...store.state, dashboards })
+    dashboards => store.setState({ ...store.state, dashboards, saving: false })
   );
+}
+
+export async function removeReport(
+  store: Store<TDashboards, TActions>,
+  dashboardId: number,
+  instanceId: number
+) {
+  store.setState({
+    ...store.state,
+    dashboards: Dashboards.removeReport(dashboardId, instanceId)
+  });
 }

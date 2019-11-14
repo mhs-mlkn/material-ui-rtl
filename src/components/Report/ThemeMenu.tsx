@@ -4,6 +4,12 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import PaletteIcon from "@material-ui/icons/Palette";
 import { Themes, TThemes } from ".";
+import "assets/themes/dark";
+import "assets/themes/vintage";
+import "assets/themes/macarons";
+import "assets/themes/shine";
+import "assets/themes/roma";
+import "assets/themes/infographic";
 
 type propsType = {
   theme: TThemes;

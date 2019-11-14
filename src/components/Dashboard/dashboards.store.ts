@@ -8,7 +8,8 @@ const initialState: TDashboards = {
   error: false,
   changed: false,
   dashboards: [],
-  selected: undefined
+  selected: undefined,
+  saving: false
 };
 
 const useDashboards = useGlobalHook<TDashboards, TActions>(

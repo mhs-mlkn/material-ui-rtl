@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSnackbar } from "notistack";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import SaveIcon from "@material-ui/icons/Save";
@@ -18,14 +18,12 @@ const SaveButton = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [state, actions] = useDashboards<TDashboards, TActions>();
-  const [loading, setLoading] = useState(false);
   const isVisible = window.location.pathname.startsWith("/user/dashboard");
 
   const handleSaveClick = () => {
     const layout = localStorage.getItem(LAYOUT);
     const { selected: dashboard } = state;
     if (!!dashboard && !!layout) {
-      setLoading(true);
       actions
         .update(dashboard, {
           config: JSON.stringify({
@@ -33,10 +31,7 @@ const SaveButton = () => {
             layouts: JSON.parse(layout)
           })
         })
-        .catch(displayErrMsg(enqueueSnackbar))
-        .finally(() => {
-          setLoading(false);
-        });
+        .catch(displayErrMsg(enqueueSnackbar));
     }
   };
 
@@ -48,7 +43,7 @@ const SaveButton = () => {
     <Button
       text="ذخیره"
       icon={SaveIcon}
-      loading={loading}
+      loading={state.saving}
       variant="outlined"
       size="small"
       className={classes.button}

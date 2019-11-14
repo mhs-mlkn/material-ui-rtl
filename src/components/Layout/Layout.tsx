@@ -53,7 +53,6 @@ const Layout = (props: TLayoutProps) => {
     setRowHeight(RowHights[bp]);
   };
 
-
   return (
     <ResponsiveGridLayout
       width={size.width || undefined}
@@ -63,7 +62,7 @@ const Layout = (props: TLayoutProps) => {
       cols={Cols}
       rowHeight={rowHeight}
       style={{ direction: "ltr" }}
-      margin={[3, 3]}
+      margin={[5, 5]}
       isDraggable={state.editable}
       isResizable={state.editable}
       draggableCancel=".draggableCancel"

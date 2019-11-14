@@ -1,115 +1,90 @@
-import React, { useState } from "react";
-import clx from "classnames";
-import {
-  makeStyles,
-  Theme,
-  createStyles,
-  useTheme
-} from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import DragIcon from "@material-ui/icons/DragIndicator";
-import SettingsIcon from "@material-ui/icons/Settings";
+import React, { Component } from "react";
+import { withSnackbar, WithSnackbarProps } from "notistack";
+import { displayErrMsg } from "utility";
+import { TReportInstance } from "components/Report";
 import Chart from "components/Chart";
-import ThemeMenu from "./ThemeMenu";
-import { ReportService, TThemes, TReportInstance, TReportType } from ".";
-import "assets/themes/dark";
-import "assets/themes/infographic";
-import "assets/themes/macarons";
-import "assets/themes/roma";
-import "assets/themes/shine";
-import "assets/themes/vintage";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    card: {
-      direction: theme.direction,
-      height: "100%"
-    },
-    cardContent: {
-      padding: theme.spacing(),
-      height: "100%",
-      "&:last-child": {
-        padding: theme.spacing()
-      }
-    },
-    cardAvatar: {
-      [theme.direction === "rtl" ? "marginLeft" : "marginRight"]: theme.spacing(
-        2
-      ),
-      [theme.direction === "ltr" ? "marginLeft" : "marginRight"]: "unset"
-    },
-    settingsIcon: {
-      position: "absolute",
-      top: 8,
-      border: "1px solid",
-      [theme.direction === "rtl" ? "left" : "right"]: 2,
-      cursor: "pointer",
-      zIndex: 10000
-    }
-  })
-);
+import ReportCard from "components/ReportCard";
+import {
+  ReportService,
+  ExecError,
+  TReportData,
+  TReportExecParams
+} from "components/Report";
 
 type propsType = {
-  instanceId: number;
+  instance: TReportInstance;
+  onDelete: (instanceId: number) => void;
+} & WithSnackbarProps;
+
+type stateType = {
+  loading: boolean;
+  error: boolean;
+  data: TReportData | undefined;
 };
 
-const Report = ({ instanceId }: propsType) => {
-  const _muiTheme = useTheme();
-  const classes = useStyles();
-  const [customizable, setCustomizable] = useState(false);
-  const [instance] = useState<TReportInstance | undefined>(
-    ReportService.get(instanceId)
-  );
-  const [theme, setTheme] = useState<TThemes>(
-    _muiTheme.palette.type === "dark" ? "dark" : "default"
-  );
-
-  const handleSelectTheme = (t: TThemes) => {
-    setTheme(t);
+class Report extends Component<propsType, stateType> {
+  state = {
+    loading: false,
+    error: false,
+    data: undefined
   };
 
-  const toggleCustomizable = () => setCustomizable(!customizable);
-
-  const getReport = (t: TReportType) => {
-    return <Chart theme={theme} loading={false} />;
-    // switch (t) {
-    //   case "Scalar":
-    //     return <h4>Scalar</h4>;
-    //   case "Table":
-    //   return <h4>Table</h4>;
-
-    //   default:
-    //     return <Chart theme={theme} />;
-    // }
-  };
-
-  if (!instance) {
-    return null;
+  componentDidMount() {
+    console.log(this.props.instance.report.type);
+    this.execReport();
   }
 
-  return (
-    <Card className={clx(classes.card)} elevation={0}>
-      <CardContent
-        classes={{ root: classes.cardContent }}
-        style={{ height: customizable ? "calc(100% - 68px)" : "100%" }}
-      >
-        <SettingsIcon
-          className={classes.settingsIcon}
-          fontSize="small"
-          onClick={toggleCustomizable}
-        />
-        <DragIcon className="draggableHandle" />
-        {getReport(instance.report.type)}
-      </CardContent>
-      {customizable && (
-        <CardActions disableSpacing>
-          <ThemeMenu theme={theme} onChange={handleSelectTheme} />
-        </CardActions>
-      )}
-    </Card>
-  );
-};
+  componentDidCatch(error: any, errorInfo: any) {
+    this.setState({ error: true });
+    console.error("Report ErrorBoundary> ", error);
+    // console.dir(errorInfo);
+  }
 
-export default Report;
+  execReport(params?: TReportExecParams) {
+    const { id: instanceId } = this.props.instance;
+    this.setState({ loading: true, error: false });
+    ReportService.execute(instanceId, params)
+      .then(data => this.setState({ data }))
+      .catch(() => this.setState({ error: true }))
+      .finally(() => this.setState({ loading: false }));
+  }
+
+  handleRetry = () => {
+    this.execReport({ loadFromCache: false });
+  };
+
+  handleDelete = () => {
+    const { id: instanceId } = this.props.instance;
+    ReportService.delete(instanceId)
+      .then(() => this.props.onDelete(instanceId))
+      .catch(displayErrMsg(this.props.enqueueSnackbar));
+  };
+
+  render() {
+    const { data, loading, error } = this.state;
+    const { instance } = this.props;
+
+    if (error) {
+      return (
+        <ReportCard>
+          <ExecError onRetry={this.handleRetry} onDelete={this.handleDelete} />
+        </ReportCard>
+      );
+    }
+
+    return instance.report.type === "Scalar" ? (
+      <div>Scalar</div>
+    ) : instance.report.type === "Table" ? (
+      <div>Table</div>
+    ) : (
+      <Chart
+        instance={instance}
+        loading={loading}
+        data={data}
+        onDelete={this.handleDelete}
+      />
+    );
+  }
+}
+
+export default withSnackbar(Report);

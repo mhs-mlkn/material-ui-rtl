@@ -32,4 +32,19 @@ export type TReportInstance = {
   dashboardId: number;
   name?: string;
   report: TReport;
+  config: string;
+};
+
+export type TReportData = {
+  cols: { key: string; type: string }[];
+  rows: { cols: any[] }[];
+};
+
+export type TReportExecParams = {
+  filterVOS?: any[];
+  parentParams?: any[];
+  orderByElementVOS?: { name: string; isDesc: boolean }[];
+  loadFromCache?: boolean;
+  page?: number;
+  size?: number;
 };

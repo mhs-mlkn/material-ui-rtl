@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import get from "lodash/get";
 import Layout from "components/Layout";
-import Report from "components/Report";
+import { Report, ReportService } from "components/Report";
 import { Error } from "components/Exceptions";
 import { TLayoutItem } from "components/Layout";
 import {
@@ -24,6 +24,15 @@ const Dashboard = (props: { id: number }) => {
     setDashboard(d);
   }, [id, state.dashboards, actions]);
 
+  const handleDelete = (instanceId: number) => {
+    actions.removeReport(id, instanceId);
+    if (!!dashboard) {
+      actions.update(dashboard, {
+        config: JSON.stringify(dashboard.config)
+      });
+    }
+  };
+
   if (!dashboard) {
     return <Error error="شناسه داشبورد نامعتبر است" />;
   }
@@ -33,7 +42,10 @@ const Dashboard = (props: { id: number }) => {
       <Layout layouts={get(dashboard, "config.layouts", {})}>
         {get(dashboard, "config.layouts.lg", []).map((r: TLayoutItem) => (
           <div key={r.i}>
-            <Report instanceId={+r.i} />
+            <Report
+              instance={ReportService.get(+r.i)}
+              onDelete={handleDelete}
+            />
           </div>
         ))}
       </Layout>

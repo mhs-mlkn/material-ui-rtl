@@ -25,6 +25,7 @@ export type TDashboards = {
   changed: boolean;
   dashboards: TDashboard[];
   selected: TDashboard | undefined;
+  saving: boolean;
 };
 
 export type TActions = {
@@ -33,11 +34,12 @@ export type TActions = {
   setSelectedDashboard: (d?: TDashboard) => void;
   moveUp: (d: TDashboard) => void;
   moveDown: (d: TDashboard) => void;
-  save: () => Promise<any>;
-  add: (name: string) => Promise<TDashboard[]>;
+  updateAll: () => Promise<any>;
+  create: (name: string) => Promise<TDashboard[]>;
   remove: (id: number) => Promise<TDashboard[]>;
   update: (
     d: TDashboard,
     updates: { [k: string]: any }
   ) => Promise<TDashboard[]>;
+  removeReport: (dashboardId: number, instanceId: number) => void;
 };

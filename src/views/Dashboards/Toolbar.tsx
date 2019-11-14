@@ -31,7 +31,7 @@ const Toolbar = () => {
     if (name) {
       setAddLoading(true);
       actions
-        .add(name)
+        .create(name)
         .catch(displayErrMsg(enqueueSnackbar))
         .finally(() => setAddLoading(false));
     }
@@ -41,7 +41,7 @@ const Toolbar = () => {
     if (!saveLoading) {
       setSaveLoading(true);
       actions
-        .save()
+        .updateAll()
         .catch(displayErrMsg(enqueueSnackbar))
         .finally(() => setSaveLoading(false));
     }
