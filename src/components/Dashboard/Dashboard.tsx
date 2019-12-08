@@ -3,7 +3,6 @@ import get from "lodash/get";
 import Layout from "components/Layout";
 import { Report, ReportService } from "components/Report";
 import { Error } from "components/Exceptions";
-import { TLayoutItem } from "components/Layout";
 import {
   useDashboards,
   Toolbar,
@@ -40,12 +39,9 @@ const Dashboard = (props: { id: number }) => {
   return (
     <>
       <Layout layouts={get(dashboard, "config.layouts", {})}>
-        {get(dashboard, "config.layouts.lg", []).map((r: TLayoutItem) => (
-          <div key={r.i}>
-            <Report
-              instance={ReportService.get(+r.i)}
-              onDelete={handleDelete}
-            />
+        {dashboard.userReportIds.map((id: number) => (
+          <div key={id}>
+            <Report instance={ReportService.get(id)} onDelete={handleDelete} />
           </div>
         ))}
       </Layout>

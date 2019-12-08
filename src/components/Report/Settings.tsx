@@ -1,24 +1,30 @@
 import React, { useState } from "react";
+import clx from "classnames";
 import { JsonEditor as Editor } from "jsoneditor-react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme, Theme } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import TuneIcon from "@material-ui/icons/Tune";
 import { Modal } from "components/Modal";
-import { Button } from "components/Button";
-import { ReportService } from "components/Report";
 import "jsoneditor-react/es/editor.min.css";
 
 let options: object;
 
 type propsType = {
-  instanceId: number;
   json: object;
   onChange: (p: object) => void;
 };
 
 const Settings = (props: propsType) => {
+  const theme: Theme = useTheme();
+  const displayBlock = useMediaQuery(theme.breakpoints.down("xs"));
   const [open, setOpen] = useState(false);
-  const [updating, setUpdating] = useState(false);
-  const { instanceId, json, onChange } = props;
+  const { json, onChange } = props;
+  const className = clx({
+    "jsoneditor-wrapper": theme.palette.type === "dark"
+  });
+  const style = { style: { direction: "ltr", height: "100%", flexGrow: 1 } };
 
   const handleChange = (value: object) => (options = value);
 
@@ -30,35 +36,19 @@ const Settings = (props: propsType) => {
     }
   };
 
-  const handleSaveClick = () => {
-    if (!options) {
-      return toggleOpen();
-    }
-    setUpdating(true);
-    ReportService.update(instanceId, {
-      config: JSON.stringify(options)
-    })
-      .then(() => onChange(options))
-      .finally(() => setUpdating(false));
-  };
-
   const actions = (
     <>
       <Button
-        size="small"
+        variant="outlined"
         color="primary"
-        text="اعمال و ذخیره"
-        loading={updating}
-        onClick={handleSaveClick}
-        style={{ margin: "0 8px" }}
-      />
-      <Button
-        size="small"
-        color="secondary"
-        text="اعمال"
         onClick={handleApplyClick}
-      />
-      <Button size="small" color="default" text="خروج" onClick={toggleOpen} />
+        style={{ margin: "0 8px" }}
+      >
+        اعمال
+      </Button>
+      <Button variant="outlined" onClick={toggleOpen}>
+        خروج
+      </Button>
     </>
   );
 
@@ -68,12 +58,17 @@ const Settings = (props: propsType) => {
         <TuneIcon />
       </IconButton>
       <Modal open={open} onClose={toggleOpen} actions={actions}>
-        <Editor
-          value={json}
-          mode="form"
-          onChange={handleChange}
-          htmlElementProps={{ style: { direction: "ltr", height: "100%" } }}
-        />
+        <div
+          className={className}
+          style={{ display: displayBlock ? "block" : "flex" }}
+        >
+          <Editor
+            value={json}
+            mode="form"
+            onChange={handleChange}
+            htmlElementProps={style}
+          />
+        </div>
       </Modal>
     </>
   );

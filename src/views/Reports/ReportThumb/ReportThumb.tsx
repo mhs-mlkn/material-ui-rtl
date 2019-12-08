@@ -113,7 +113,7 @@ const ReportThumb = (props: { report: TReport; loading?: boolean }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing className={classes.cardActions}>
-        <SelectButton />
+        <SelectButton report={report} />
         <AccessButton report={report} />
       </CardActions>
     </Card>

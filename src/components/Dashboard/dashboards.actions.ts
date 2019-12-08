@@ -105,9 +105,9 @@ export async function create(
 
 export async function remove(
   store: Store<TDashboards, TActions>,
-  id: number
+  d: TDashboard
 ): Promise<any> {
-  return Dashboards.delete(id).then(dashboards =>
+  return Dashboards.delete(d).then(dashboards =>
     store.setState({ ...store.state, dashboards })
   );
 }
@@ -118,8 +118,12 @@ export async function update(
   updates: { [k: string]: any }
 ): Promise<any> {
   store.setState({ ...store.state, saving: true });
-  return Dashboards.update(dashboard.id, updates, dashboard.shared).then(
-    dashboards => store.setState({ ...store.state, dashboards, saving: false })
+  return Dashboards.update(
+    dashboard.id,
+    updates,
+    dashboard.shared
+  ).then(dashboards =>
+    store.setState({ ...store.state, dashboards, saving: false })
   );
 }
 

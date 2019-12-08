@@ -3,7 +3,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import PaletteIcon from "@material-ui/icons/Palette";
-import { Themes, TThemes } from ".";
+import { Themes, TChartTheme } from ".";
 import "assets/themes/dark";
 import "assets/themes/vintage";
 import "assets/themes/macarons";
@@ -12,8 +12,8 @@ import "assets/themes/roma";
 import "assets/themes/infographic";
 
 type propsType = {
-  theme: TThemes;
-  onChange: (t: TThemes) => void;
+  theme: TChartTheme;
+  onChange: (t: TChartTheme) => void;
 };
 
 const ThemeMenu = (props: propsType) => {
@@ -28,14 +28,14 @@ const ThemeMenu = (props: propsType) => {
     setAnchorEl(null);
   };
 
-  const handleSelectTheme = (t: TThemes) => () => {
+  const handleSelectTheme = (t: TChartTheme) => () => {
     props.onChange(t);
   };
 
   return (
     <>
       <IconButton
-        color="default"
+        color="primary"
         title={`انتخاب تِم (${theme})`}
         onClick={handleClick}
       >
@@ -47,7 +47,7 @@ const ThemeMenu = (props: propsType) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {Themes.map((t: TThemes) => (
+        {Themes.map((t: TChartTheme) => (
           <MenuItem
             key={t}
             selected={t === theme}

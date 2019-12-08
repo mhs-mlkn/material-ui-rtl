@@ -1,6 +1,6 @@
-import { TThemes } from ".";
+import { TChartTheme } from ".";
 
-const themes: TThemes[] = [
+const themes: TChartTheme[] = [
   "default",
   "light",
   "dark",

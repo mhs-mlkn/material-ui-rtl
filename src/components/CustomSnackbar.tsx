@@ -1,7 +1,7 @@
 import React from "react";
 import { SnackbarProvider } from "notistack";
 import { makeStyles } from "@material-ui/styles";
-import { Theme } from "@material-ui/core";
+import { Theme } from "@material-ui/core/styles";
 import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 import HighlightOff from "@material-ui/icons/HighlightOff";
 import Warning from "@material-ui/icons/Warning";

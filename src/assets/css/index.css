@@ -62,3 +62,21 @@ body:fullscreen #sideBar,
   cursor: move;
   z-index: 200000;
 }
+
+.jsoneditor-wrapper .jsoneditor-field {
+  color: #c8b6b6 !important;
+}
+
+.jsoneditor-wrapper .jsoneditor-value {
+  color: #d5d5d5 !important;
+}
+
+.jsoneditor-wrapper .jsoneditor-value[contenteditable="true"]:hover,
+.jsoneditor-wrapper .jsoneditor-value[contenteditable="true"]:visited,
+.jsoneditor-wrapper .jsoneditor-value[contenteditable="true"]:focus {
+  background-color: #fff2 !important;
+}
+
+.tableColDragHnadler {
+  border-left: 1px solid #999999;
+}

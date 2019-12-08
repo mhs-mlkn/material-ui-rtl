@@ -38,7 +38,7 @@ const ReportRow = (props: { report: TReport; loading?: boolean }) => {
         </Typography>
       </TableCell>
       <TableCell>
-        <ReportAvatar type="Pie" size={40} />
+        <ReportAvatar type={report.type} size={40} />
       </TableCell>
       <TableCell>{moment(report.created.slice(0, -5)).format("LL")}</TableCell>
       <TableCell>
@@ -52,7 +52,7 @@ const ReportRow = (props: { report: TReport; loading?: boolean }) => {
         </Typography>
       </TableCell>
       <TableCell style={{ textAlign: "end" }}>
-        <SelectButton />
+        <SelectButton report={report} />
         <AccessButton report={report} />
       </TableCell>
     </TableRow>

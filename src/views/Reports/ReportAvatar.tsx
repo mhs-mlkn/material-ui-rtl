@@ -29,26 +29,26 @@ const ReportAvatar = (props: { type: TReportType; size?: number }) => {
 
   const getIcon = (type: TReportType) => {
     switch (type) {
-      case "Bar":
+      case "BAR":
         return Bar;
 
-      case "Line":
-      case "Area":
+      case "LINE":
+      case "AREA":
         return Line;
 
-      case "Pie":
+      case "PIE":
         return Pie;
 
-      case "Scatter":
+      case "SCATTER":
         return Scatter;
 
-      case "Radar":
+      case "RADAR":
         return Radar;
 
-      case "Scalar":
+      case "SCALAR":
         return Scalar;
 
-      case "Table":
+      case "TABLE":
         return Table;
 
       default:
@@ -58,7 +58,7 @@ const ReportAvatar = (props: { type: TReportType; size?: number }) => {
 
   return (
     <Avatar
-      title="نوع نمودار"
+      title={type}
       src={getIcon(type)}
       className={classes.avatar}
       style={{ width: size, height: size }}

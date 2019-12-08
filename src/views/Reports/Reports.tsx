@@ -4,13 +4,25 @@ import { Search } from "components/Inputs";
 import ToolBox, { TView, TOrderBy, TOrderDir } from "components/ToolBox";
 import Pagination from "components/Pagination";
 import { Error } from "components/Exceptions";
+import { Modal } from "components/Modal";
+import ConfigParams from "./ConfigParams";
 import GridView from "./GridView";
 import ListView from "./ListView";
+import {
+  useDashboards,
+  TDashboards,
+  TActions as TDashboardActions
+} from "components/Dashboard";
 import { useReports, TReports, TActions } from ".";
 
 const Reports = () => {
   const [state, actions] = useReports<TReports, TActions>();
+  const dashboardActions = useDashboards<TDashboards, TDashboardActions>()[1];
   const { q, view, orderBy, orderDir, page, pageSize, error } = state;
+
+  useEffect(() => {
+    dashboardActions.get();
+  }, [dashboardActions]);
 
   useEffect(() => {
     actions.get();
@@ -38,10 +50,19 @@ const Reports = () => {
 
   return (
     <Error error={error}>
+      <Modal
+        open={state.showParams}
+        onClose={actions.closeParamsModal}
+        maxWidth="md"
+        keepMounted={false}
+        actions={<></>}
+      >
+        <ConfigParams />
+      </Modal>
       <Grid container spacing={1} alignItems="center">
         <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
           <Search
-            initialValue=""
+            initialValue={state.q}
             placeholder="قسمتی از نام یا توضیحات گزارش"
             onSubmit={handleSearch}
           />

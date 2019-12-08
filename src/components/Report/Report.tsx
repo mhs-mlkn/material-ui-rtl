@@ -1,8 +1,13 @@
 import React, { Component } from "react";
+import get from "lodash/get";
 import { withSnackbar, WithSnackbarProps } from "notistack";
+import { withTheme, Theme } from "@material-ui/core/styles";
 import { displayErrMsg } from "utility";
+import { withBreakPoint, TBreakPoint } from "components/Layout";
 import { TReportInstance } from "components/Report";
 import Chart from "components/Chart";
+import Scalar from "components/Scalar";
+import Table from "components/Table";
 import ReportCard from "components/ReportCard";
 import {
   ReportService,
@@ -14,7 +19,7 @@ import {
 type propsType = {
   instance: TReportInstance;
   onDelete: (instanceId: number) => void;
-} & WithSnackbarProps;
+} & WithSnackbarProps & { bp: TBreakPoint } & { theme: Theme };
 
 type stateType = {
   loading: boolean;
@@ -30,27 +35,33 @@ class Report extends Component<propsType, stateType> {
   };
 
   componentDidMount() {
-    console.log(this.props.instance.report.type);
-    this.execReport();
+    if (this.props.instance.report.type !== "TABLE") {
+      this.execReport();
+    }
   }
 
   componentDidCatch(error: any, errorInfo: any) {
     this.setState({ error: true });
-    console.error("Report ErrorBoundary> ", error);
-    // console.dir(errorInfo);
+    console.error(`Report ErrorBoundary> (${this.props.instance.id}) `, error);
   }
 
-  execReport(params?: TReportExecParams) {
-    const { id: instanceId } = this.props.instance;
+  execReport = (params?: TReportExecParams) => {
     this.setState({ loading: true, error: false });
+    const { id: instanceId } = this.props.instance;
     ReportService.execute(instanceId, params)
       .then(data => this.setState({ data }))
       .catch(() => this.setState({ error: true }))
       .finally(() => this.setState({ loading: false }));
-  }
+  };
 
   handleRetry = () => {
     this.execReport({ loadFromCache: false });
+  };
+
+  handleChangeOption = (options: object) => {
+    const { instance, bp, theme } = this.props;
+    const type = theme.palette.type;
+    instance.config.options[type][bp] = options;
   };
 
   handleDelete = () => {
@@ -62,7 +73,10 @@ class Report extends Component<propsType, stateType> {
 
   render() {
     const { data, loading, error } = this.state;
-    const { instance } = this.props;
+    const { instance, bp, theme } = this.props;
+
+    const type = theme.palette.type;
+    const options = get(instance, `config.options.${type}.${bp}`, {});
 
     if (error) {
       return (
@@ -72,19 +86,38 @@ class Report extends Component<propsType, stateType> {
       );
     }
 
-    return instance.report.type === "Scalar" ? (
-      <div>Scalar</div>
-    ) : instance.report.type === "Table" ? (
-      <div>Table</div>
+    return instance.report.type === "SCALAR" ? (
+      <Scalar
+        instance={instance}
+        options={options}
+        data={data}
+        loading={loading}
+        onChangeOption={this.handleChangeOption}
+        onDelete={this.handleDelete}
+      />
+    ) : instance.report.type === "TABLE" ? (
+      <Table
+        instance={instance}
+        options={options}
+        data={data}
+        loading={loading}
+        onChangeOption={this.handleChangeOption}
+        onDelete={this.handleDelete}
+        execReport={this.execReport}
+      />
     ) : (
       <Chart
         instance={instance}
-        loading={loading}
+        options={options}
         data={data}
+        loading={loading}
+        onChangeOption={this.handleChangeOption}
         onDelete={this.handleDelete}
       />
     );
   }
 }
 
-export default withSnackbar(Report);
+const WithTheme = withTheme(Report);
+const WithBreakPoint = withBreakPoint(WithTheme);
+export default withSnackbar(WithBreakPoint);

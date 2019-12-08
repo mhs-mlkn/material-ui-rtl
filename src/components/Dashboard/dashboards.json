@@ -4,7 +4,7 @@
     "name": "dashboard 1",
     "order": 0,
     "shared": false,
-    "config": "",
-    "userReports": [1]
+    "config": { "layouts": {}, "slide": {} },
+    "userReportIds": [1]
   }
 ]

@@ -124,7 +124,7 @@ const Pagination = (props: TPropsType) => {
               select
               value={page}
               margin="none"
-              color="inherit"
+              color="primary"
               onChange={handlePageChanged}
             >
               {pages.map((_, i: number) => (
@@ -164,7 +164,7 @@ const Pagination = (props: TPropsType) => {
               select
               value={size}
               margin="none"
-              color="inherit"
+              color="primary"
               onChange={handleSizeChanged}
             >
               {sizeOptions.map(opt => (

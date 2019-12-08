@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import {
-  DashboardMenu,
+  DashboardSelect,
   DashboardTimer,
   SaveDashboard
 } from "components/Dashboard";
@@ -98,7 +98,7 @@ const AppBar = (props: any) => {
           })}
         >
           {isVisible ? (
-            <DashboardMenu />
+            <DashboardSelect />
           ) : (
             <Typography component="h6" variant="h6" color="textPrimary" noWrap>
               {get(location, "state.title")}

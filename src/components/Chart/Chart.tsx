@@ -1,76 +1,63 @@
 import React, { useState, useEffect } from "react";
+import get from "lodash/get";
+import merge from "lodash/merge";
 import ReportCard from "components/ReportCard";
 import { DeleteButton } from "components/Button";
 import {
+  Settings,
+  SaveButton,
   ThemeMenu,
-  TThemes,
+  TChartTheme,
   TReportInstance,
   TReportData
 } from "components/Report";
-import { Settings, Echarts, getSeries } from ".";
+import { Echarts, getOptions, getData } from ".";
 
 type propsType = {
   instance: TReportInstance;
+  options: object;
   loading: boolean;
   data: TReportData | undefined;
+  onChangeOption: (opt: object) => void;
   onDelete: () => void;
 };
 
 const Chart = (props: propsType) => {
-  const { loading, instance, data, onDelete } = props;
-  const [theme, setTheme] = useState<TThemes>("default");
-  const [options, setOptions] = useState<object>({});
+  const { instance, loading, data, options, onDelete } = props;
+  const _chartTheme = get(instance, "config.theme", "default");
+  const [chartTheme, setChartTheme] = useState<TChartTheme>(_chartTheme);
+  const [_options, setOptions] = useState<object>(options);
 
-  const handleSelectTheme = (t: TThemes) => {
-    setTheme(t);
+  const handleSelectTheme = (t: TChartTheme) => {
+    instance.config.theme = t;
+    setChartTheme(t);
   };
 
   const handleOptionChange = (value: object) => {
+    props.onChangeOption(value);
     setOptions(value);
-  };
-
-  const getChartOptions = () => {
-    let _options = {};
-    try {
-      _options = JSON.parse(instance.config || "{}");
-    } catch (error) {
-      _options = {};
-    }
-    return _options;
   };
 
   useEffect(() => {
     if (data) {
-      const _options = getChartOptions();
-      setOptions({
-        ..._options,
-        title: { text: instance.name || instance.report.name },
-        dataset: {
-          dimensions: data.cols.map(c => c.key),
-          source: data.rows.map(r => r.cols)
-        },
-        series: data.cols
-          .slice(1)
-          .map(c => (getSeries(instance.report.type)))
-      });
+      setOptions(
+        merge(getOptions(instance), _options, getData(instance, data))
+      );
     }
-  }, [data]);
+  }, [data, instance]);
 
   const actions = (
     <>
-      <ThemeMenu theme={theme} onChange={handleSelectTheme} />
+      <ThemeMenu theme={chartTheme} onChange={handleSelectTheme} />
+      <Settings json={_options} onChange={handleOptionChange} />
       <DeleteButton onDelete={onDelete} />
-      <Settings
-        instanceId={instance.id}
-        json={options}
-        onChange={handleOptionChange}
-      />
+      <SaveButton instanceId={instance.id} />
     </>
   );
 
   return (
     <ReportCard action={actions}>
-      <Echarts options={options} loading={loading} theme={theme} />
+      <Echarts options={_options} loading={loading} theme={chartTheme} />
     </ReportCard>
   );
 };

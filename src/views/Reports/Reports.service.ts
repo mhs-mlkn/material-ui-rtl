@@ -10,8 +10,7 @@ const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 export class ReportsService {
   private _reports: TReport[] = [];
   private _count: number = 0;
-  private _instances = [];
-  private hasInit = { reports: false, instances: false };
+  private hasInit = false;
 
   get count() {
     return this._count;
@@ -26,7 +25,7 @@ export class ReportsService {
     bypassCache?: boolean
   ) {
     const reportsPromise =
-      !bypassCache && this.hasInit.reports
+      !bypassCache && this.hasInit
         ? Promise.resolve(this._reports)
         : this.fetchReports();
 
@@ -39,19 +38,17 @@ export class ReportsService {
     });
   }
 
-  get Instances() {
-    return this.hasInit.instances
-      ? Promise.resolve(this._instances)
-      : this.fetchInstances();
+  getById(id: number) {
+    return this._reports.find(report => report.id === id);
   }
 
   private async fetchReports() {
+    // this._reports = data;
     const url = `${baseUrl}/report/CollaboratorReports`;
     const response = await Api.get(url, { params: { page: 0, size: 0 } });
     this._reports = response.data.result.data;
-    // this._reports = data;
     this._count = this._reports.length;
-    this.hasInit.reports = true;
+    this.hasInit = true;
     return this._reports;
   }
 
@@ -59,14 +56,6 @@ export class ReportsService {
     return this._reports.filter(
       r => includes(r.name, q) || includes(r.description, q)
     );
-  }
-
-  private async fetchInstances() {
-    const url = `${baseUrl}/userreport`;
-    const response = await Api.get(url);
-    this._instances = response.data.result.data;
-    this.hasInit.instances = true;
-    return this._instances;
   }
 }
 

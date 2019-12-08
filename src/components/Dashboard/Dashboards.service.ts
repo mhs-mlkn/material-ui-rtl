@@ -45,7 +45,7 @@ export class DashboardsService {
         order,
         shared: false,
         config,
-        userReports: []
+        userReportIds: []
       };
       this._dashboards = [...this._dashboards, newDashboard];
       return this._dashboards;
@@ -78,8 +78,10 @@ export class DashboardsService {
     });
   }
 
-  public async delete(id: number) {
-    return Api.delete(`${baseUrl}/dashboard/${id}`).then(() => {
+  public async delete(dashboard: TDashboard) {
+    const { id } = dashboard;
+    const url = `${baseUrl}/dashboard/${id}`;
+    return Api.delete(url).then(() => {
       this._dashboards = this._dashboards.filter(d => d.id !== id);
       this._dashboards = this.reOrder();
       return this._dashboards;
@@ -89,6 +91,7 @@ export class DashboardsService {
   public removeReport(dashboardId: number, instanceId: number): TDashboard[] {
     const dash = this.get(dashboardId);
     if (dash) {
+      dash.userReportIds = dash.userReportIds.filter(id => id !== instanceId);
       const { layouts } = dash.config;
       for (const bp in layouts) {
         if (layouts.hasOwnProperty(bp)) {
@@ -101,10 +104,7 @@ export class DashboardsService {
   }
 
   private async fetchDashboards() {
-    // this._promise = new Promise(resolve =>
-    //   resolve({ data: { result: { data } } })
-    // )
-    const url = `${baseUrl}/dashboard/all`;
+    const url = `${baseUrl}/dashboard/allWithReport`;
     this._promise = Api.get(url)
       .then((response: any) => {
         const dashboards = response.data.result.data as Dashboard[];
@@ -118,27 +118,31 @@ export class DashboardsService {
         });
       })
       .then((dashboards: TDashboard[]) => {
-        this._dashboards = dashboards.map(d => {
-          const { layouts } = d.config;
-          const diff = differenceWith(
-            d.userReports,
-            layouts.lg,
-            (a: number, b: TLayoutItem) => a === +b.i
-          );
-          for (const id of diff) {
-            const li = this.newItem(id);
-            for (const bp in layouts) {
-              if (layouts.hasOwnProperty(bp)) {
-                layouts[bp as TBreakPoint].push(li[bp as TBreakPoint]);
-              }
-            }
-          }
-          return d;
-        });
+        this._dashboards = dashboards.map(d =>
+          this.addItems(d, d.userReportIds)
+        );
         this.hasInit = true;
         return this._dashboards;
       });
     return this._promise;
+  }
+
+  public addItems(d: TDashboard, userReportIds: number[]) {
+    const { layouts } = d.config;
+    const diff = differenceWith(
+      userReportIds,
+      layouts.lg,
+      (a: number, b: TLayoutItem) => a === +b.i
+    );
+    for (const id of diff) {
+      const li = this.newItem(id);
+      for (const bp in layouts) {
+        if (layouts.hasOwnProperty(bp)) {
+          layouts[bp as TBreakPoint].push(li[bp as TBreakPoint]);
+        }
+      }
+    }
+    return d;
   }
 
   private parseConfig = (configString: string): TConfig => {

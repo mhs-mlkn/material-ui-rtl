@@ -24,7 +24,10 @@ export function loadSettings(): TReports {
     orderDir: get2("orderDir", "desc"),
     view: get2("view", "grid"),
     page: 0,
-    pageSize: 12
+    pageSize: 12,
+    showParams: false,
+    selectedDashboard: undefined,
+    selectedReport: undefined
   };
 }
 

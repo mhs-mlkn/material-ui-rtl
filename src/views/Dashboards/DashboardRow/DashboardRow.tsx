@@ -50,7 +50,7 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
   const handleDelete = () => {
     setDeleteLoading(true);
     actions
-      .remove(dashboard.id)
+      .remove(dashboard)
       .catch(displayErrMsg(enqueueSnackbar))
       .finally(() => setDeleteLoading(false));
   };

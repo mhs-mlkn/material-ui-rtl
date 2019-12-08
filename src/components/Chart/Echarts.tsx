@@ -1,78 +1,46 @@
-import React from "react";
-import defaultsDeep from "lodash/defaultsDeep";
+import React, { useEffect, useState } from "react";
+import get from "lodash/get";
 import ReactEcharts from "echarts-for-react";
 import { useTheme, Theme } from "@material-ui/core/styles";
-import { TThemes } from "components/Report";
-import { getThemeDefaults } from ".";
+import { TChartTheme } from "components/Report";
 
-const Echarts = (props: {
+type propsType = {
   options: object;
   loading: boolean;
-  theme: TThemes;
-}) => {
-  const { options, loading, theme } = props;
-  const _theme: Theme = useTheme();
+  theme: TChartTheme;
+};
+
+const Echarts = (props: propsType) => {
+  const { options, loading, theme: chartTheme } = props;
+  const _theme = useTheme<Theme>();
+  const [updated, setUpdated] = useState(false);
   const {
-    direction,
-    typography: { fontFamily },
-    palette: { type }
+    palette: { type, primary }
   } = _theme;
 
-  const defaultOptions = {
-    title: {
-      show: true,
-      textAlign: "left",
-      [direction === "rtl" ? "right" : "left"]: "32px",
-      textStyle: {
-        fontSize: 15,
-        fontWeight: "lighter"
-      }
-    },
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow" // 'line' | 'shadow'
-      }
-    },
-    legend: {
-      show: true,
-      type: "plain",
-      top: "top",
-      left: direction === "rtl" ? "left" : "right"
-    },
-    grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true
-    },
-    xAxis: {
-      show: true,
-      type: "category",
-      splitLine: { show: false }
-    },
-    yAxis: {
-      show: true,
-      type: "value"
-    },
-    textStyle: {
-      fontFamily
+  useEffect(() => {
+    const type = get(options, "legend.type", "scroll");
+    if (type === "plain") {
+      setUpdated(true);
+      setTimeout(() => setUpdated(false), 10);
     }
-  };
+  }, [options]);
+
+  if (updated) {
+    return <div>Appliying ...</div>;
+  }
 
   return (
     <ReactEcharts
-      option={defaultsDeep(
-        options,
-        defaultOptions,
-        getThemeDefaults(theme, type)
-      )}
+      option={options}
       showLoading={loading}
-      theme={theme}
+      theme={chartTheme}
       loadingOption={{
         text: "درحال بارگذاری",
+        textColor: _theme.palette.text.primary,
+        color: primary.main,
         maskColor:
-          type === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.3)"
+          type === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0)"
       }}
       style={{ height: "100%", width: "100%" }}
     />

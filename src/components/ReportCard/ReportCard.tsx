@@ -14,7 +14,9 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%"
     },
     cardContent: {
+      overflow: "auto",
       padding: theme.spacing(),
+      transition: "0.1s",
       height: "100%",
       "&:last-child": {
         padding: theme.spacing()
@@ -38,8 +40,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type propsType = {
-  children: ReactNode;
   action?: ReactNode;
+  children: ReactNode;
 };
 
 const ReportCard = (props: propsType) => {

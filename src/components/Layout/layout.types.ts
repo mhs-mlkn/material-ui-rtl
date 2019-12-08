@@ -20,8 +20,10 @@ export type TLayouts = {
 
 export type TLayout = {
   editable: boolean;
+  bp: TBreakPoint;
 };
 
 export type TActions = {
   toggleEditable: () => void;
+  setBP: (bp: TBreakPoint) => void;
 };

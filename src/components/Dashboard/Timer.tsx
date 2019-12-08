@@ -1,8 +1,9 @@
 /* eslint react-hooks/exhaustive-deps: 0 */
 import React, { useState, useEffect } from "react";
-import { findIndex } from "lodash";
+import findIndex from "lodash/findIndex";
+import get from "lodash/get";
 import { useHistory } from "react-router-dom";
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
@@ -21,10 +22,10 @@ const Timer = () => {
   const [isVisible, setVisibility] = useState(false);
   const [dashboard, setDashboard] = useState<TDashboard | undefined>(undefined);
 
-  const clearInterval = (intervalId: number | undefined) => {
+  const clearInterval = (_intervalId: number | undefined) => {
     setValue(0);
-    window.clearInterval(intervalId);
     intervalId = 0;
+    window.clearInterval(_intervalId);
   };
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const Timer = () => {
   }, [state.dashboards, window.location.pathname]);
 
   useEffect(() => {
-    if (dashboard && dashboard.config.slide.isVisible) {
+    if (dashboard && get(dashboard, "config.slide.isVisible", false)) {
       let visibles = 0;
       for (const d of state.dashboards) {
         visibles += d.config.slide.isVisible ? 1 : 0;

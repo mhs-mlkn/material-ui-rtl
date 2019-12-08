@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useTheme } from "@material-ui/styles";
-import { Theme } from "@material-ui/core";
+import { Theme } from "@material-ui/core/styles";
 import TopLoadingBar from "react-top-loading-bar";
 import { useLoadingBarStore } from "components/LoadingBar";
 import { Api } from "utility";

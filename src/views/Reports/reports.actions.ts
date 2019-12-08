@@ -1,4 +1,6 @@
 import { Store } from "use-global-hook";
+import { TReport } from "components/Report";
+import { TDashboard } from "components/Dashboard";
 import { TView, TOrderBy, TOrderDir } from "components/ToolBox";
 import { ReportsService as Reports, TReports, TActions } from ".";
 import { errorHandler } from "utility";
@@ -52,4 +54,26 @@ export function changePagination(
   pageSize: number
 ) {
   store.setState({ ...store.state, page, pageSize });
+}
+
+export function openParamsModal(
+  store: Store<TReports, TActions>,
+  report: TReport,
+  dashboard: TDashboard
+) {
+  store.setState({
+    ...store.state,
+    selectedReport: report,
+    selectedDashboard: dashboard,
+    showParams: true
+  });
+}
+
+export function closeParamsModal(store: Store<TReports, TActions>) {
+  store.setState({
+    ...store.state,
+    selectedReport: undefined,
+    selectedDashboard: undefined,
+    showParams: false
+  });
 }

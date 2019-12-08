@@ -7,7 +7,40 @@
     "id": 637,
     "name": "گزارشات کاربران - گزارش پاد - فیلتر سال - گردش ماهانه کیف پول کاربر",
     "publicized": true,
-    "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
+    "query": {
+      "queryColumns": [],
+      "queryFilters": [],
+      "queryParams": [
+        {
+          "key": "test1",
+          "value": "value",
+          "hint": "hint",
+          "type": "TEXT",
+          "fill": "BY_BUSINESS"
+        },
+        {
+          "key": "test2",
+          "value": "value",
+          "hint": "hint",
+          "type": "DECIMAL",
+          "fill": "BY_BUSINESS"
+        },
+        {
+          "key": "test3",
+          "value": "value",
+          "hint": "hint",
+          "type": "FLOAT",
+          "fill": "BY_BUSINESS"
+        },
+        {
+          "key": "test4",
+          "value": "value",
+          "hint": "hint",
+          "type": "BOOLEAN",
+          "fill": "BY_BUSINESS"
+        }
+      ]
+    },
     "source": "SQL",
     "type": "Table",
     "updated": "2019-10-12T12:30:47.893Z[UTC]"

@@ -1,23 +1,76 @@
+import { TBreakPoint } from "components/Layout";
+
 export type TReportType =
-  | "Bar"
-  | "Area"
-  | "Line"
-  | "Pie"
-  | "Scatter"
-  | "Radar"
-  | "Scalar"
-  | "Table";
+  | "BAR"
+  | "AREA"
+  | "LINE"
+  | "PIE"
+  | "SCATTER"
+  | "RADAR"
+  | "SCALAR"
+  | "TABLE";
+
+export type TQueryParam = {
+  key: string;
+  value: string;
+  hint: string;
+  type: "TEXT" | "DECIMAL" | "FLOAT" | "BOOLEAN";
+  fill: "BY_ADMIN" | "BY_BUSINESS" | "BY_PARENT" | "BY_BUSINESS_OR_PARENT";
+};
+
+export type TReportParams = {
+  name: string;
+  params: TQueryParam[];
+  drillDownParams: TQueryParam[];
+};
+
+export type TQueryFilter = {
+  id: number;
+  title: string;
+  key: string;
+  value: string;
+  hint: string;
+  required: boolean;
+  validValueType: "NONE" | "INTERVAL" | "CONST_LIST" | "QUERY_LIST";
+  validValue: string;
+  type:
+    | "TEXT"
+    | "DECIMAL"
+    | "FLOAT"
+    | "BOOLEAN"
+    | "DATE"
+    | "TIME"
+    | "TIMESTAMP"
+    | "DATE_STRING";
+  operator:
+    | "IN"
+    | "GT"
+    | "LT"
+    | "EQ"
+    | "NEQ"
+    | "START_WITH"
+    | "END_WITH"
+    | "CONTAIN"
+    | "GTE"
+    | "LTE"
+    | "BETWEEN";
+};
 
 export type TReport = {
   id: number;
   name: string;
   type: TReportType;
+  drillDownId: number;
   created: string;
   publicized: boolean;
   description: string;
+  query: {
+    queryParams: TQueryParam[];
+    queryFilters: TQueryFilter[];
+  };
 };
 
-export type TThemes =
+export type TChartTheme =
   | "default"
   | "light"
   | "dark"
@@ -27,17 +80,45 @@ export type TThemes =
   | "roma"
   | "infographic";
 
+type TBreakPointOptions = { [key in TBreakPoint]: object };
+
+export type TReportIcons =
+  | "info"
+  | "notifications"
+  | "error"
+  | "warning"
+  | "checkbox"
+  | "favorite"
+  | "message"
+  | "email"
+  | "accountbox"
+  | "schedule"
+  | "attachmoney"
+  | "euro"
+  | "trendingup"
+  | "trendingdown";
+
+export type TReportConfig = {
+  theme: TChartTheme;
+  icon: TReportIcons;
+  options: {
+    dark: TBreakPointOptions;
+    light: TBreakPointOptions;
+  };
+};
+
 export type TReportInstance = {
   id: number;
   dashboardId: number;
   name?: string;
   report: TReport;
-  config: string;
+  config: TReportConfig;
 };
 
 export type TReportData = {
   cols: { key: string; type: string }[];
   rows: { cols: any[] }[];
+  totalCount: number;
 };
 
 export type TReportExecParams = {
@@ -47,4 +128,5 @@ export type TReportExecParams = {
   loadFromCache?: boolean;
   page?: number;
   size?: number;
+  totalCount?: number;
 };

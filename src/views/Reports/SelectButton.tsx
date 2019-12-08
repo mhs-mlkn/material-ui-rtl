@@ -1,12 +1,25 @@
 import React from "react";
-import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
+import { DashboardMenu, TDashboard } from "components/Dashboard";
+import { TReport } from "components/Report";
+import { useReports, TReports, TActions } from ".";
 
-const SelectButton = () => {
+type propsType = { report: TReport };
+
+const SelectButton = (props: propsType) => {
+  const { report } = props;
+  const actions = useReports<TReports, TActions>()[1];
+
+  const handleSelectDashboard = (d: TDashboard) => {
+    actions.openParamsModal(report, d);
+  };
+
   return (
-    <IconButton title="اشتراک گذاری">
-      <AddIcon fontSize="small" color="primary" />
-    </IconButton>
+    <DashboardMenu
+      onChange={handleSelectDashboard}
+      selectedId={0}
+      icon={AddIcon}
+    />
   );
 };
 
