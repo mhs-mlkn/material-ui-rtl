@@ -39,7 +39,7 @@ export function loadSettings(): TTheme {
 
   return {
     direction: get2("direction", "rtl"),
-    type: get2("type", "dark"),
+    type: get2("type", "light"),
     isDrawerOpen: get2("isDrawerOpen", false),
     isSettingsOpen: false,
     drawerType: get2("drawerType", "temporary"),

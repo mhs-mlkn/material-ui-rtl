@@ -58,10 +58,10 @@ export class ReportService {
     await this.fetchInstance(instanceId);
     if (drillDownId > -1) {
       const drillDownUrl = `${_baseurl}/userreport/${instanceId}/param`;
-      await Api.post(drillDownUrl, drillDownParams).then(
+      const _drillDownId = await Api.post(drillDownUrl, drillDownParams).then(
         res => res.data.result
       );
-      // await this.fetchInstance(_drillDownId);
+      await this.fetchInstance(_drillDownId);
     }
     return Promise.resolve(instanceId);
   }

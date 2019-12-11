@@ -34,10 +34,10 @@ const Timer = () => {
   }, [state.dashboards, window.location.pathname]);
 
   useEffect(() => {
-    if (dashboard && get(dashboard, "config.slide.isVisible", false)) {
+    if (!!dashboard && get(dashboard, "config.slide.isVisible", false)) {
       let visibles = 0;
       for (const d of state.dashboards) {
-        visibles += d.config.slide.isVisible ? 1 : 0;
+        visibles += get(d, "config.slide.isVisible", false) ? 1 : 0;
       }
       setValue(0);
       setVisibility(

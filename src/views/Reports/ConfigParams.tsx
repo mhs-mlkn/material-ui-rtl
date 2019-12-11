@@ -30,7 +30,7 @@ import { displayErrMsg } from "utility";
 
 const ConfigParams = () => {
   const { enqueueSnackbar } = useSnackbar();
-  const [state] = useReports<TReports, TActions>();
+  const [state, actions] = useReports<TReports, TActions>();
   const [drillDown, setDrillDown] = useState<TReport | undefined>();
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [drillDownParams, setDrillDownParams] = useState<TQueryParam[]>([]);
@@ -75,6 +75,7 @@ const ConfigParams = () => {
         .then((instanceId: number) => {
           dashboard.userReportIds.push(instanceId);
           DashboardsService.addItems(dashboard, [instanceId]);
+          actions.closeParamsModal();
         })
         .catch(displayErrMsg(enqueueSnackbar))
         .finally(() => setLoading(false));

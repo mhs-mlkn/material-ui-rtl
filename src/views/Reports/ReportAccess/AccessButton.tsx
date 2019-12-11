@@ -1,33 +1,23 @@
-import React, { useState } from "react";
-import IconButton, { IconButtonProps } from "@material-ui/core/IconButton";
+import React from "react";
 import ShareIcon from "@material-ui/icons/Share";
-import { Modal } from "components/Modal";
+import { ModalButton } from "components/Modal";
 import { TReport } from "components/Report";
 import { ReportAccess } from ".";
 
-const AccessButton = (props: { report: TReport } & IconButtonProps) => {
-  const [open, setOpen] = useState(false);
+const AccessButton = (props: { report: TReport }) => {
   const { report } = props;
 
-  const handleToggleModal = () => setOpen(!open);
-
   return (
-    <>
-      <IconButton
-        title="اشتراک گذاری"
-        {...props}
-        disabled={report.publicized}
-        onClick={handleToggleModal}
-      >
-        <ShareIcon
-          fontSize="small"
-          color={report.publicized ? "disabled" : "secondary"}
-        />
-      </IconButton>
-      <Modal open={open} onClose={handleToggleModal}>
-        <ReportAccess reportId={report.id} />
-      </Modal>
-    </>
+    <ModalButton
+      icon={ShareIcon}
+      IconButtonProps={{ title: "اشتراک گذاری", disabled: report.publicized }}
+      IconProps={{
+        fontSize: "small",
+        color: report.publicized ? "disabled" : "secondary"
+      }}
+    >
+      <ReportAccess reportId={report.id} />
+    </ModalButton>
   );
 };
 

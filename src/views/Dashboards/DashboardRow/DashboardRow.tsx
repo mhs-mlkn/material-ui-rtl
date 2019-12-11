@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import get from "lodash/get";
 import { useSnackbar } from "notistack";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
@@ -16,6 +17,7 @@ import {
 } from "components/Dashboard";
 import ChangeOrder from "./ChangeOrder";
 import EditButton from "./EditButton";
+import { AccessButton } from "..";
 
 const DashboardRow = (props: { dashboard: TDashboard }) => {
   const actions = useDashboards<TDashboards, TActions>()[1];
@@ -76,7 +78,7 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
       </TableCell>
       <TableCell>
         <Switch
-          checked={dashboard.config.slide.isVisible}
+          checked={get(dashboard, "config.slide.isVisible", false)}
           onChange={handleVisibilityChange}
           color="primary"
         />
@@ -89,20 +91,23 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
             max: 600,
             step: 10
           }}
-          value={dashboard.config.slide.duration}
+          value={get(dashboard, "config.slide.duration", 60)}
           onChange={handleDurationChange}
           margin="normal"
         />
       </TableCell>
       <TableCell style={{ textAlign: "end", minWidth: 170 }}>
         {!dashboard.shared && (
-          <EditButton
-            name={dashboard.name}
-            loading={renameLoading}
-            onEdit={handleEdit}
-          />
+          <>
+            <AccessButton dashboard={dashboard} />
+            <EditButton
+              name={dashboard.name}
+              loading={renameLoading}
+              onEdit={handleEdit}
+            />
+            <DeleteButton onDelete={handleDelete} loading={deleteLoading} />
+          </>
         )}
-        <DeleteButton onDelete={handleDelete} loading={deleteLoading} />
         <ChangeOrder onMoveUp={handleMoveUp} onMoveDown={handleMoveDown} />
       </TableCell>
     </TableRow>

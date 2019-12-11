@@ -4,6 +4,7 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
+import Tooltip from "@material-ui/core/Tooltip";
 import DragIcon from "@material-ui/icons/DragIndicator";
 import SettingsIcon from "@material-ui/icons/Settings";
 
@@ -30,11 +31,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     settingsIcon: {
       position: "absolute",
-      top: 88,
-      border: "1px solid",
-      [theme.direction === "rtl" ? "left" : "right"]: 2,
+      top: 48,
+      // border: "1px solid",
+      [theme.direction === "rtl" ? "right" : "left"]: 0,
       cursor: "pointer",
-      zIndex: 10000
+      opacity: 0.2,
+      zIndex: 10000,
+      transition: "all 0.15s",
+      "&:hover": {
+        opacity: 1
+      }
     }
   })
 );
@@ -58,11 +64,13 @@ const ReportCard = (props: propsType) => {
         style={{ height: showActions ? "calc(100% - 68px)" : "100%" }}
       >
         {!!action && (
-          <SettingsIcon
-            className={classes.settingsIcon}
-            fontSize="small"
-            onClick={toggleActions}
-          />
+          <Tooltip title="نمایش تنظیمات">
+            <SettingsIcon
+              className={classes.settingsIcon}
+              fontSize="small"
+              onClick={toggleActions}
+            />
+          </Tooltip>
         )}
         <DragIcon className="draggableHandle" />
         {children}

@@ -32,8 +32,8 @@ class Api {
 
 export function errorHandler<T, S>(
   store: Store<T, S>,
-  errorField?: string,
-  message?: string
+  message?: string,
+  errorField?: string
 ) {
   return (error: any) =>
     store.setState({

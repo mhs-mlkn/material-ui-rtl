@@ -2,6 +2,7 @@ import get from "lodash/get";
 import { loadSettings } from "components/Theme";
 import { TReportInstance, TReportType, TChartTheme } from "components/Report";
 import getBarOpitons from "./bar.options";
+import getPieOpitons from "./pie.options";
 // import getGaugeOpitons from "./gauge.options";
 // import getTreemapOpitons from "./treemap.options";
 // import getHeatmapOptions from "./heatmap.options";
@@ -36,6 +37,7 @@ export function getOptions(instance: TReportInstance) {
   const reportType: TReportType = get(instance, "report.type", "Bar");
 
   const barOptions = getBarOpitons(instance);
+  const pieOptions = getPieOpitons(instance);
   // const gaugeOptions = getGaugeOpitons(instance);
   // const treemapOptions = getTreemapOpitons(instance);
   // const heatmapOptions = getHeatmapOptions(instance);
@@ -44,7 +46,7 @@ export function getOptions(instance: TReportInstance) {
     BAR: barOptions,
     AREA: barOptions,
     LINE: barOptions,
-    PIE: {},
+    PIE: pieOptions,
     // PIE: gaugeOptions,
     // PIE: treemapOptions,
     // PIE: heatmapOptions,
