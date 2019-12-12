@@ -1,20 +1,28 @@
 import React, { Component } from "react";
 import get from "lodash/get";
+import merge from "lodash/merge";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import { withTheme, Theme } from "@material-ui/core/styles";
 import { displayErrMsg, parseToJSON } from "utility";
 import { withBreakPoint, TBreakPoint } from "components/Layout";
+import { DeleteButton } from "components/Button";
 import { TReportInstance } from "components/Report";
-import Chart from "components/Chart";
-import Scalar from "components/Scalar";
+import Chart, { getOptions, getData } from "components/Chart";
+import Scalar, { IconMenu } from "components/Scalar";
 import Table from "components/Table";
 import ReportCard from "components/ReportCard";
 import {
   ReportService,
   ExecError,
+  Settings,
+  ThemeMenu,
+  SaveButton,
   TReportData,
   TReportExecParams,
-  TReportAdminConfig
+  TReportAdminConfig,
+  TReportType,
+  TChartTheme,
+  TReportIcons
 } from "components/Report";
 
 type propsType = {
@@ -26,13 +34,19 @@ type stateType = {
   loading: boolean;
   error: boolean;
   data: TReportData | undefined;
+  theme: TChartTheme;
+  options: object;
+  icon: TReportIcons;
 };
 
 class Report extends Component<propsType, stateType> {
   state = {
     loading: false,
     error: false,
-    data: undefined
+    data: undefined,
+    theme: get(this.props.instance, "config.theme", "default"),
+    options: this.getOptions(),
+    icon: get(this.props.instance, "config.icon", "info")
   };
 
   tempOptions: object = {};
@@ -52,6 +66,22 @@ class Report extends Component<propsType, stateType> {
 
     if (report.type !== "TABLE") {
       this.execReport();
+    }
+  }
+
+  componentDidUpdate(prevProps: propsType, prevState: stateType) {
+    const { instance } = this.props;
+    const { data } = this.state;
+    const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
+
+    if (!!data && !prevState.data && isChart) {
+      this.setState({
+        options: merge(
+          getOptions(instance),
+          this.state.options,
+          getData(instance, data || { cols: [], rows: [], totalCount: 0 })
+        )
+      });
     }
   }
 
@@ -77,11 +107,22 @@ class Report extends Component<propsType, stateType> {
     this.execReport({ loadFromCache: false });
   };
 
-  handleChangeOption = (options: object) => {
+  handleThemeChange = (theme: TChartTheme) => {
+    this.props.instance.config.theme = theme;
+    this.setState({ ...this.state, theme });
+  };
+
+  handleOptionChange = (options: object) => {
     const { instance, bp, theme } = this.props;
     const type = theme.palette.type;
     this.tempOptions = get(instance, `config.options.${type}.${bp}`, {});
     instance.config.options[type][bp] = options;
+    this.setState({ ...this.state, options });
+  };
+
+  handleIconChange = (icon: TReportIcons) => {
+    this.props.instance.config.icon = icon;
+    this.setState({ ...this.state, icon });
   };
 
   handleDelete = () => {
@@ -91,12 +132,50 @@ class Report extends Component<propsType, stateType> {
       .catch(displayErrMsg(this.props.enqueueSnackbar));
   };
 
-  render() {
-    const { data, loading, error } = this.state;
+  getOptions() {
     const { instance, bp, theme } = this.props;
-
     const type = theme.palette.type;
-    const options = get(instance, `config.options.${type}.${bp}`, {});
+    return get(instance, `config.options.${type}.${bp}`, {});
+  }
+
+  renderActions = (type: TReportType) => {
+    const { instance } = this.props;
+    const { theme, options, icon } = this.state;
+    switch (type) {
+      case "SCALAR":
+        return (
+          <>
+            <ThemeMenu theme={theme} onChange={this.handleThemeChange} />
+            <Settings json={options} onChange={this.handleOptionChange} />
+            <IconMenu icon={icon} onChange={this.handleIconChange} />
+            <DeleteButton onDelete={this.handleDelete} />
+            <SaveButton instanceId={instance.id} />
+          </>
+        );
+
+      case "TABLE":
+        return (
+          <>
+            <DeleteButton onDelete={this.handleDelete} />
+          </>
+        );
+
+      default:
+        return (
+          <>
+            <ThemeMenu theme={theme} onChange={this.handleThemeChange} />
+            <Settings json={options} onChange={this.handleOptionChange} />
+            <DeleteButton onDelete={this.handleDelete} />
+            <SaveButton instanceId={instance.id} />
+          </>
+        );
+    }
+  };
+
+  render() {
+    const { data, options, theme, icon, loading, error } = this.state;
+    const { instance } = this.props;
+    // const options = this.getOptions();
 
     if (error) {
       return (
@@ -106,34 +185,28 @@ class Report extends Component<propsType, stateType> {
       );
     }
 
-    return instance.report.type === "SCALAR" ? (
-      <Scalar
-        instance={instance}
-        options={options}
-        data={data}
-        loading={loading}
-        onChangeOption={this.handleChangeOption}
-        onDelete={this.handleDelete}
-      />
-    ) : instance.report.type === "TABLE" ? (
-      <Table
-        instance={instance}
-        options={options}
-        data={data}
-        loading={loading}
-        onChangeOption={this.handleChangeOption}
-        onDelete={this.handleDelete}
-        execReport={this.execReport}
-      />
-    ) : (
-      <Chart
-        instance={instance}
-        options={options}
-        data={data}
-        loading={loading}
-        onChangeOption={this.handleChangeOption}
-        onDelete={this.handleDelete}
-      />
+    return (
+      <ReportCard action={this.renderActions(instance.report.type)}>
+        {instance.report.type === "SCALAR" ? (
+          <Scalar
+            instance={instance}
+            options={options}
+            theme={theme}
+            icon={icon}
+            data={data}
+            loading={loading}
+          />
+        ) : instance.report.type === "TABLE" ? (
+          <Table
+            instance={instance}
+            data={data}
+            loading={loading}
+            execReport={this.execReport}
+          />
+        ) : (
+          <Chart options={options} theme={theme} loading={loading} />
+        )}
+      </ReportCard>
     );
   }
 }

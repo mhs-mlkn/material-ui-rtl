@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { SortDirection } from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
-import ReportCard from "components/ReportCard";
 import Loading from "components/Loading";
-import { DeleteButton } from "components/Button";
 import {
   TReportInstance,
   TReportData,
@@ -24,11 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type propsType = {
   instance: TReportInstance;
-  options: object;
   data: TReportData | undefined;
   loading: boolean;
-  onChangeOption: (opt: object) => void;
-  onDelete: () => void;
   execReport: (params?: TReportExecParams) => void;
 };
 
@@ -38,15 +33,7 @@ export default function TableWrapper(props: propsType) {
   const [size, setSize] = useState(10);
   const [orderBy, setOrderBy] = useState("");
   const [order, setOrder] = useState<SortDirection>(false);
-  const {
-    instance,
-    options,
-    data,
-    loading,
-    onChangeOption,
-    onDelete,
-    execReport
-  } = props;
+  const { instance, data, loading, execReport } = props;
   const name = instance.name || instance.report.name;
 
   useEffect(() => {
@@ -81,14 +68,8 @@ export default function TableWrapper(props: propsType) {
     return setOrder(false);
   };
 
-  const actions = (
-    <>
-      <DeleteButton onDelete={onDelete} />
-    </>
-  );
-
   return (
-    <ReportCard action={actions}>
+    <>
       <Typography
         variant="body1"
         component="p"
@@ -111,6 +92,6 @@ export default function TableWrapper(props: propsType) {
           onChangeOrder={handleChangeOrder}
         />
       )}
-    </ReportCard>
+    </>
   );
 }
