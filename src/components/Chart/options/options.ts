@@ -1,4 +1,5 @@
 import get from "lodash/get";
+import merge from "lodash/merge";
 import { loadSettings } from "components/Theme";
 import { TReportInstance, TReportType, TChartTheme } from "components/Report";
 import getBarOpitons from "./bar.options";
@@ -7,30 +8,46 @@ import getGaugeOpitons from "./gauge.options";
 import getTreemapOpitons from "./treemap.options";
 import getHeatmapOptions from "./heatmap.options";
 
-export function getThemeOptions(chartTheme: TChartTheme) {
+export function getThemeOptions() {
   const { type } = loadSettings();
-  if (
-    type === "dark" &&
-    ["default", "light", "shine", "roma"].indexOf(chartTheme) > -1
-  ) {
-    const style = { color: "#eee" };
-    return {
-      legend: {
-        textStyle: style
-      },
-      xAxis: {
-        axisLine: {
-          lineStyle: style
-        }
-      },
-      yAxis: {
-        axisLine: {
-          lineStyle: style
-        }
+  // if (
+  //   type === "dark" &&
+  //   ["default", "light", "shine", "roma"].indexOf(chartTheme) > -1
+  // ) {
+  //   const style = { color: type === "dark" ? "#eee" : "#555" };
+  //   return {
+  //     legend: {
+  //       textStyle: style
+  //     },
+  //     xAxis: {
+  //       axisLine: {
+  //         lineStyle: style
+  //       }
+  //     },
+  //     yAxis: {
+  //       axisLine: {
+  //         lineStyle: style
+  //       }
+  //     }
+  //   };
+  // }
+  // return {};
+  const style = { color: type === "dark" ? "#eee" : "#555" };
+  return {
+    legend: {
+      textStyle: style
+    },
+    xAxis: {
+      axisLine: {
+        lineStyle: style
       }
-    };
-  }
-  return {};
+    },
+    yAxis: {
+      axisLine: {
+        lineStyle: style
+      }
+    }
+  };
 }
 
 export function getOptions(instance: TReportInstance) {
@@ -56,5 +73,5 @@ export function getOptions(instance: TReportInstance) {
     TABLE: barOptions
   };
 
-  return options[reportType];
+  return merge(getThemeOptions(), options[reportType]);
 }

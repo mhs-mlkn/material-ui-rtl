@@ -5,8 +5,11 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Tooltip from "@material-ui/core/Tooltip";
+import SpeedDial from "@material-ui/lab/SpeedDial";
+import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import DragIcon from "@material-ui/icons/DragIndicator";
 import SettingsIcon from "@material-ui/icons/Settings";
+import BuildIcon from "@material-ui/icons/Build";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,13 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
       ),
       [theme.direction === "ltr" ? "marginLeft" : "marginRight"]: "unset"
     },
-    settingsIcon: {
+    reportSpeedDial: {
       position: "absolute",
-      top: 8,
-      // border: "1px solid",
-      [theme.direction === "rtl" ? "left" : "right"]: 2,
-      cursor: "pointer",
-      opacity: 0.2,
+      top: theme.spacing(),
+      [theme.direction === "rtl" ? "left" : "right"]: -8,
+      opacity: 0.4,
       zIndex: 10000,
       transition: "all 0.15s",
       "&:hover": {
@@ -52,10 +53,24 @@ type propsType = {
 
 const ReportCard = (props: propsType) => {
   const classes = useStyles();
+  const [openSpeedDial, setOpenSpeedDial] = React.useState(false);
   const [showActions, setShowActions] = useState(false);
   const { action, children } = props;
 
-  const toggleActions = () => setShowActions(!showActions);
+  const toggleSpeedDial = () => setOpenSpeedDial(!openSpeedDial);
+
+  const toggleActions = () => {
+    setShowActions(!showActions);
+    toggleSpeedDial();
+  };
+
+  const actions = [
+    {
+      icon: <BuildIcon fontSize="small" />,
+      name: "نمایش تنظیمات",
+      onClick: toggleActions
+    }
+  ];
 
   return (
     <Card className={clx(classes.card)} elevation={0}>
@@ -64,13 +79,30 @@ const ReportCard = (props: propsType) => {
         style={{ height: showActions ? "calc(100% - 68px)" : "100%" }}
       >
         {!!action && (
-          <Tooltip title="نمایش تنظیمات">
-            <SettingsIcon
-              className={classes.settingsIcon}
-              fontSize="small"
-              onClick={toggleActions}
-            />
-          </Tooltip>
+          <SpeedDial
+            ariaLabel="report menu"
+            className={classes.reportSpeedDial}
+            icon={<SettingsIcon fontSize="small" />}
+            onClose={toggleSpeedDial}
+            onOpen={toggleSpeedDial}
+            open={openSpeedDial}
+            direction="down"
+            FabProps={{
+              size: "small",
+              color: "default",
+              style: { display: "contents" }
+            }}
+          >
+            {actions.map(action => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+                onClick={action.onClick}
+                FabProps={{ size: "small" }}
+              />
+            ))}
+          </SpeedDial>
         )}
         <DragIcon className="draggableHandle" />
         {children}

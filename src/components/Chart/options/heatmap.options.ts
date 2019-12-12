@@ -1,15 +1,12 @@
 import get from "lodash/get";
-import merge from "lodash/merge";
 import { loadSettings, primary, fontFamily } from "components/Theme";
 import { TReportInstance, TChartTheme } from "components/Report";
-import { getThemeOptions } from ".";
 
 export default function getHeatmapOptions(instance: TReportInstance) {
   const { direction } = loadSettings();
-  const chartTheme: TChartTheme = get(instance, "config.theme", "default");
   const name = get(instance, "name", instance.report.name);
 
-  return merge(getThemeOptions(chartTheme), {
+  return {
     title: {
       show: true,
       text: name,
@@ -56,5 +53,5 @@ export default function getHeatmapOptions(instance: TReportInstance) {
     textStyle: {
       fontFamily
     }
-  });
+  };
 }

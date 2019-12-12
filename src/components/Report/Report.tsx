@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import get from "lodash/get";
-import merge from "lodash/merge";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import { withTheme, Theme } from "@material-ui/core/styles";
 import { displayErrMsg, parseToJSON } from "utility";
@@ -69,21 +68,33 @@ class Report extends Component<propsType, stateType> {
     }
   }
 
-  componentDidUpdate(prevProps: propsType, prevState: stateType) {
-    const { instance } = this.props;
-    const { data } = this.state;
-    const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
+  // componentDidUpdate(prevProps: propsType, prevState: stateType) {
+  //   const { instance } = this.props;
+  //   const { data, options } = this.state;
+  //   const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
 
-    if (!!data && !prevState.data && isChart) {
-      this.setState({
-        options: merge(
-          getOptions(instance),
-          this.state.options,
-          getData(instance, data || { cols: [], rows: [], totalCount: 0 })
-        )
-      });
-    }
-  }
+  //   if (isChart && !!data && !prevState.data) {
+  //     this.setState({
+  //       options: merge(
+  //         getOptions(instance, this.props.theme.palette.type),
+  //         options,
+  //         getData(instance, data || { cols: [], rows: [], totalCount: 0 })
+  //       )
+  //     });
+  //   }
+  //   if (
+  //     isChart &&
+  //     prevProps.theme.palette.type !== this.props.theme.palette.type
+  //   ) {
+  //     this.setState({
+  //       options: merge(
+  //         { ...options },
+  //         getOptions(instance, this.props.theme.palette.type),
+  //         getData(instance, data || { cols: [], rows: [], totalCount: 0 })
+  //       )
+  //     });
+  //   }
+  // }
 
   componentDidCatch(error: any, errorInfo: any) {
     this.setState({ error: true });
@@ -108,8 +119,9 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleThemeChange = (theme: TChartTheme) => {
-    this.props.instance.config.theme = theme;
-    this.setState({ ...this.state, theme });
+    const { instance } = this.props;
+    instance.config.theme = theme;
+    this.setState({ theme });
   };
 
   handleOptionChange = (options: object) => {
@@ -117,12 +129,12 @@ class Report extends Component<propsType, stateType> {
     const type = theme.palette.type;
     this.tempOptions = get(instance, `config.options.${type}.${bp}`, {});
     instance.config.options[type][bp] = options;
-    this.setState({ ...this.state, options });
+    this.setState({ options });
   };
 
   handleIconChange = (icon: TReportIcons) => {
     this.props.instance.config.icon = icon;
-    this.setState({ ...this.state, icon });
+    this.setState({ icon });
   };
 
   handleDelete = () => {
@@ -175,7 +187,6 @@ class Report extends Component<propsType, stateType> {
   render() {
     const { data, options, theme, icon, loading, error } = this.state;
     const { instance } = this.props;
-    // const options = this.getOptions();
 
     if (error) {
       return (
@@ -204,7 +215,13 @@ class Report extends Component<propsType, stateType> {
             execReport={this.execReport}
           />
         ) : (
-          <Chart options={options} theme={theme} loading={loading} />
+          <Chart
+            instance={instance}
+            data={data}
+            options={options}
+            theme={theme}
+            loading={loading}
+          />
         )}
       </ReportCard>
     );

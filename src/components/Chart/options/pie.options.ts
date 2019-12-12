@@ -1,15 +1,12 @@
 import get from "lodash/get";
-import merge from "lodash/merge";
 import { TReportInstance, TChartTheme } from "components/Report";
 import { loadSettings, primary, fontFamily } from "components/Theme";
-import { getThemeOptions } from ".";
 
 export default function getBarOptions(instance: TReportInstance) {
   const { direction } = loadSettings();
-  const chartTheme: TChartTheme = get(instance, "config.theme", "default");
   const name = get(instance, "name", instance.report.name);
 
-  return merge(getThemeOptions(chartTheme), {
+  return {
     title: {
       show: true,
       text: name,
@@ -34,5 +31,5 @@ export default function getBarOptions(instance: TReportInstance) {
     textStyle: {
       fontFamily
     }
-  });
+  };
 }
