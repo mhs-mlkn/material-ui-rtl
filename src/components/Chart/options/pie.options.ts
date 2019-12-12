@@ -22,10 +22,8 @@ export default function getBarOptions(instance: TReportInstance) {
       }
     },
     tooltip: {
-      trigger: "item",
-      axisPointer: {
-        type: "shadow" // 'line' | 'shadow'
-      }
+      show: true,
+      trigger: "item"
     },
     legend: {
       show: true,

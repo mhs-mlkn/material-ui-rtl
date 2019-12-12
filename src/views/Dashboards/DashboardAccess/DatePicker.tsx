@@ -1,37 +1,41 @@
 import React, { useState } from "react";
 import JalaliUtils from "@date-io/jalaali";
-import { DatePicker, MuiPickersUtilsProvider } from "material-ui-pickers";
+import { Moment } from "moment-jalaali";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { TextField } from "components/Inputs";
 
-const DatePickerField = () => {
-  const [selectedDate, handleDateChange] = useState(new Date());
+type propsType = {
+  date: Moment;
+  onDateChange: (date: Moment) => void;
+};
 
-  const labelFunc = (date: any) => {
+const DatePickerField = (props: propsType) => {
+  const { date, onDateChange } = props;
+
+  const handleDateChange = (d: Moment | null) => {
+    onDateChange(d || date);
+  };
+
+  const dateFormatter = (date: Moment | null) => {
     return date ? date.format("jYYYY/jMM/jDD") : "";
   };
 
   return (
     <MuiPickersUtilsProvider utils={JalaliUtils} locale="fa">
       <DatePicker
-        clearable
         autoOk
-        okLabel="تایید"
         cancelLabel="لغو"
-        clearLabel="پاک کردن"
-        value={selectedDate}
+        disablePast
         format="jYYYY/jMM/jDD"
-        labelFunc={labelFunc}
-        helperText={"helperText"}
-        error={true}
-        // onError={handleError}
-        onChange={handleDateChange}
-        mask={(value: any) =>
-          value
-            ? [/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]
-            : []
-        }
-        inputVariant="outlined"
-        margin="normal"
         fullWidth
+        inputVariant="outlined"
+        label="تاریخ انقضا اشتراک"
+        labelFunc={dateFormatter}
+        margin="none"
+        okLabel="تایید"
+        value={date}
+        onChange={handleDateChange}
+        TextFieldComponent={props => <TextField {...props} />}
       />
     </MuiPickersUtilsProvider>
   );

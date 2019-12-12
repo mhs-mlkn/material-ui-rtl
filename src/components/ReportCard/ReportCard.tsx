@@ -31,9 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     settingsIcon: {
       position: "absolute",
-      top: 48,
+      top: 8,
       // border: "1px solid",
-      [theme.direction === "rtl" ? "right" : "left"]: 0,
+      [theme.direction === "rtl" ? "left" : "right"]: 2,
       cursor: "pointer",
       opacity: 0.2,
       zIndex: 10000,

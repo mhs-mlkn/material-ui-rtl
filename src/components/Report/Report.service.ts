@@ -10,7 +10,7 @@ import {
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
-const defaultConfig: TReportConfig = {
+export const DefaultConfig: TReportConfig = {
   theme: "default",
   icon: "info",
   options: {
@@ -27,6 +27,10 @@ export class ReportService {
     return this.hasInit
       ? Promise.resolve(this._instances)
       : this.fetchInstances();
+  }
+
+  public get DefaultConfig() {
+    return DefaultConfig;
   }
 
   public get(instanceId: number) {
@@ -97,14 +101,6 @@ export class ReportService {
     }));
   }
 
-  public parseConfig(config: string) {
-    try {
-      return JSON.parse(config || JSON.stringify(defaultConfig));
-    } catch (error) {
-      return { ...defaultConfig };
-    }
-  }
-
   private async fetchInstances() {
     const url = `${baseUrl}/userreport`;
     const response = await Api.get(url);
@@ -119,8 +115,23 @@ export class ReportService {
 
   private async fetchInstance(id: number) {
     const url = `${baseUrl}/userreport/${id}`;
-    const instance = await Api.get(url).then(res => res.data.result);
+    const instance = await Api.get(url)
+      .then(res => res.data.result)
+      .then(ins => {
+        return {
+          ...ins,
+          config: this.parseConfig(ins.config || "")
+        };
+      });
     this._instances = { ...this._instances, [id]: instance };
+  }
+
+  private parseConfig(config: string) {
+    try {
+      return JSON.parse(config);
+    } catch (error) {
+      return { ...DefaultConfig };
+    }
   }
 }
 

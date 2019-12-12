@@ -29,7 +29,7 @@ const DashboardMenu = (props: propsType) => {
       onChange(d);
     }
     // eslint-disable-next-line
-  }, [state.dashboards]);
+  }, [state.dashboards, selectedId]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

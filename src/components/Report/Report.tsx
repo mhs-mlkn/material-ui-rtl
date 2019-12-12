@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import get from "lodash/get";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import { withTheme, Theme } from "@material-ui/core/styles";
-import { displayErrMsg } from "utility";
+import { displayErrMsg, parseToJSON } from "utility";
 import { withBreakPoint, TBreakPoint } from "components/Layout";
 import { TReportInstance } from "components/Report";
 import Chart from "components/Chart";
@@ -13,7 +13,8 @@ import {
   ReportService,
   ExecError,
   TReportData,
-  TReportExecParams
+  TReportExecParams,
+  TReportAdminConfig
 } from "components/Report";
 
 type propsType = {
@@ -34,8 +35,22 @@ class Report extends Component<propsType, stateType> {
     data: undefined
   };
 
+  tempOptions: object = {};
+  adminConfig: TReportAdminConfig = { refreshInterval: 0 };
+  refreshInterval: number = -1;
+
   componentDidMount() {
-    if (this.props.instance.report.type !== "TABLE") {
+    const { report } = this.props.instance;
+
+    this.adminConfig = parseToJSON(report.config, this.adminConfig);
+
+    if (this.adminConfig.refreshInterval > 0) {
+      this.refreshInterval = window.setInterval(() => {
+        // this.execReport({ loadFromCache: false }, false);
+      }, this.adminConfig.refreshInterval * 1000);
+    }
+
+    if (report.type !== "TABLE") {
       this.execReport();
     }
   }
@@ -45,8 +60,9 @@ class Report extends Component<propsType, stateType> {
     console.error(`Report ErrorBoundary> (${this.props.instance.id}) `, error);
   }
 
-  execReport = (params?: TReportExecParams) => {
-    this.setState({ loading: true, error: false });
+  execReport = (params?: TReportExecParams, showLoading?: boolean) => {
+    const loading = showLoading === undefined ? true : showLoading;
+    this.setState({ loading, error: false });
     const { id: instanceId } = this.props.instance;
     ReportService.execute(instanceId, params)
       .then(data => this.setState({ data }))
@@ -55,12 +71,16 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleRetry = () => {
+    const { instance, bp, theme } = this.props;
+    const type = theme.palette.type;
+    instance.config.options[type][bp] = this.tempOptions;
     this.execReport({ loadFromCache: false });
   };
 
   handleChangeOption = (options: object) => {
     const { instance, bp, theme } = this.props;
     const type = theme.palette.type;
+    this.tempOptions = get(instance, `config.options.${type}.${bp}`, {});
     instance.config.options[type][bp] = options;
   };
 

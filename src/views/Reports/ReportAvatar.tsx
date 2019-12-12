@@ -7,6 +7,9 @@ import Line from "assets/img/line.svg";
 import Pie from "assets/img/pie.svg";
 import Scatter from "assets/img/scatter.svg";
 import Radar from "assets/img/radar.svg";
+import Gauge from "assets/img/gauge.svg";
+import Treemap from "assets/img/treemap.svg";
+import Heatmap from "assets/img/heatmap.svg";
 import Table from "assets/img/table.svg";
 import Scalar from "assets/img/scalar.svg";
 
@@ -44,6 +47,15 @@ const ReportAvatar = (props: { type: TReportType; size?: number }) => {
 
       case "RADAR":
         return Radar;
+
+      case "HEATMAP":
+        return Heatmap;
+
+      case "TREEMAP":
+        return Treemap;
+
+      case "GAUGE":
+        return Gauge;
 
       case "SCALAR":
         return Scalar;

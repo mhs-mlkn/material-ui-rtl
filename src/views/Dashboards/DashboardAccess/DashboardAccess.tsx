@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import moment, { Moment } from "moment-jalaali";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
 import { Search } from "components/Inputs";
@@ -8,6 +9,7 @@ import Users from "./Users";
 import { DatePicker, useAccess, TAccess, TActions } from ".";
 
 const DashboardAccess = (props: { reportId: number }) => {
+  const [date, setDate] = useState(moment().add(1, "month"));
   const [state, actions] = useAccess<TAccess, TActions>();
   const { loading, error, users, q } = state;
   const { reportId } = props;
@@ -16,15 +18,15 @@ const DashboardAccess = (props: { reportId: number }) => {
     actions.getUsers(reportId);
   }, [actions, q, reportId]);
 
-  // const handleSearch = (q: string) => {
-  //   actions.changeSearch(q);
-  // };
+  const handleDateChange = (d: Moment) => {
+    setDate(d);
+  };
 
   const handleSubmit = (q: string) => {
     if (q && users.every(u => u.user.username !== q)) {
       actions.subscribe({
         identity: q.trim().replace(/(\s|;)+/g, ","),
-        expire: "2019-12-31",
+        expire: date.format("YYYY/MM/DD"),
         editable: true
       });
     }
@@ -44,10 +46,10 @@ const DashboardAccess = (props: { reportId: number }) => {
       <Grid
         item
         xs={12}
-        sm={12}
-        md={12}
-        lg={12}
-        xl={12}
+        sm={9}
+        md={10}
+        lg={10}
+        xl={10}
         style={{ direction: "ltr" }}
       >
         <Search
@@ -58,7 +60,17 @@ const DashboardAccess = (props: { reportId: number }) => {
           icon={AddIcon}
           updateOnTyping={false}
         />
-        <DatePicker />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        sm={3}
+        md={2}
+        lg={2}
+        xl={2}
+        style={{ direction: "ltr" }}
+      >
+        <DatePicker date={date} onDateChange={handleDateChange} />
       </Grid>
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         {error && (

@@ -26,3 +26,11 @@ export function formatValue(type: string, value: string) {
   }
   return value;
 }
+
+export function parseToJSON(jsonString: string, defaultValue: object) {
+  try {
+    return JSON.parse(jsonString || JSON.stringify(defaultValue));
+  } catch (error) {
+    return defaultValue;
+  }
+}

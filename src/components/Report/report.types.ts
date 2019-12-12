@@ -5,6 +5,9 @@ export type TReportType =
   | "AREA"
   | "LINE"
   | "PIE"
+  | "GAUGE"
+  | "HEATMAP"
+  | "TREEMAP"
   | "SCATTER"
   | "RADAR"
   | "SCALAR"
@@ -64,6 +67,7 @@ export type TReport = {
   created: string;
   publicized: boolean;
   description: string;
+  config: string;
   query: {
     queryParams: TQueryParam[];
     queryFilters: TQueryFilter[];
@@ -97,6 +101,10 @@ export type TReportIcons =
   | "euro"
   | "trendingup"
   | "trendingdown";
+
+export type TReportAdminConfig = {
+  refreshInterval: number;
+};
 
 export type TReportConfig = {
   theme: TChartTheme;

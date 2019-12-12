@@ -22,6 +22,7 @@ export default function getBarOptions(instance: TReportInstance) {
       }
     },
     tooltip: {
+      show: true,
       trigger: "axis",
       axisPointer: {
         type: "shadow" // 'line' | 'shadow'
