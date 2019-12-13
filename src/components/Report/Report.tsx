@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import merge from "lodash/merge";
 import get from "lodash/get";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import { withTheme, Theme } from "@material-ui/core/styles";
@@ -68,33 +69,21 @@ class Report extends Component<propsType, stateType> {
     }
   }
 
-  // componentDidUpdate(prevProps: propsType, prevState: stateType) {
-  //   const { instance } = this.props;
-  //   const { data, options } = this.state;
-  //   const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
+  componentDidUpdate(prevProps: propsType, prevState: stateType) {
+    const { instance } = this.props;
+    const { data, options } = this.state;
+    const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
 
-  //   if (isChart && !!data && !prevState.data) {
-  //     this.setState({
-  //       options: merge(
-  //         getOptions(instance, this.props.theme.palette.type),
-  //         options,
-  //         getData(instance, data || { cols: [], rows: [], totalCount: 0 })
-  //       )
-  //     });
-  //   }
-  //   if (
-  //     isChart &&
-  //     prevProps.theme.palette.type !== this.props.theme.palette.type
-  //   ) {
-  //     this.setState({
-  //       options: merge(
-  //         { ...options },
-  //         getOptions(instance, this.props.theme.palette.type),
-  //         getData(instance, data || { cols: [], rows: [], totalCount: 0 })
-  //       )
-  //     });
-  //   }
-  // }
+    if (isChart && !!data && !prevState.data) {
+      this.setState({
+        options: merge(
+          getOptions(instance),
+          options,
+          getData(instance, data || { cols: [], rows: [], totalCount: 0 })
+        )
+      });
+    }
+  }
 
   componentDidCatch(error: any, errorInfo: any) {
     this.setState({ error: true });
@@ -197,7 +186,7 @@ class Report extends Component<propsType, stateType> {
     }
 
     return (
-      <ReportCard action={this.renderActions(instance.report.type)}>
+      <ReportCard actions={this.renderActions(instance.report.type)}>
         {instance.report.type === "SCALAR" ? (
           <Scalar
             instance={instance}
@@ -216,8 +205,8 @@ class Report extends Component<propsType, stateType> {
           />
         ) : (
           <Chart
-            instance={instance}
-            data={data}
+            // instance={instance}
+            // data={data}
             options={options}
             theme={theme}
             loading={loading}

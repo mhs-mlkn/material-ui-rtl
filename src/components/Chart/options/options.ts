@@ -8,50 +8,35 @@ import getGaugeOpitons from "./gauge.options";
 import getTreemapOpitons from "./treemap.options";
 import getHeatmapOptions from "./heatmap.options";
 
-export function getThemeOptions() {
+export function getThemeOptions(chartTheme: TChartTheme) {
   const { type } = loadSettings();
-  // if (
-  //   type === "dark" &&
-  //   ["default", "light", "shine", "roma"].indexOf(chartTheme) > -1
-  // ) {
-  //   const style = { color: type === "dark" ? "#eee" : "#555" };
-  //   return {
-  //     legend: {
-  //       textStyle: style
-  //     },
-  //     xAxis: {
-  //       axisLine: {
-  //         lineStyle: style
-  //       }
-  //     },
-  //     yAxis: {
-  //       axisLine: {
-  //         lineStyle: style
-  //       }
-  //     }
-  //   };
-  // }
-  // return {};
-  const style = { color: type === "dark" ? "#eee" : "#555" };
-  return {
-    legend: {
-      textStyle: style
-    },
-    xAxis: {
-      axisLine: {
-        lineStyle: style
+  if (
+    type === "dark" &&
+    ["default", "light", "shine", "roma"].indexOf(chartTheme) > -1
+  ) {
+    const style = { color: type === "dark" ? "#eee" : "#555" };
+    return {
+      legend: {
+        textStyle: style
+      },
+      xAxis: {
+        axisLine: {
+          lineStyle: style
+        }
+      },
+      yAxis: {
+        axisLine: {
+          lineStyle: style
+        }
       }
-    },
-    yAxis: {
-      axisLine: {
-        lineStyle: style
-      }
-    }
-  };
+    };
+  }
+  return {};
 }
 
 export function getOptions(instance: TReportInstance) {
   const reportType: TReportType = get(instance, "report.type", "Bar");
+  const chartTheme = get(instance, "config.theme", "default");
 
   const barOptions = getBarOpitons(instance);
   const pieOptions = getPieOpitons(instance);
@@ -73,5 +58,5 @@ export function getOptions(instance: TReportInstance) {
     TABLE: barOptions
   };
 
-  return merge(getThemeOptions(), options[reportType]);
+  return merge(getThemeOptions(chartTheme), options[reportType]);
 }

@@ -5,11 +5,12 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Tooltip from "@material-ui/core/Tooltip";
-import SpeedDial from "@material-ui/lab/SpeedDial";
-import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import DragIcon from "@material-ui/icons/DragIndicator";
 import SettingsIcon from "@material-ui/icons/Settings";
-import BuildIcon from "@material-ui/icons/Build";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,42 +33,42 @@ const useStyles = makeStyles((theme: Theme) =>
       ),
       [theme.direction === "ltr" ? "marginLeft" : "marginRight"]: "unset"
     },
-    reportSpeedDial: {
+    reportMenu: {
       position: "absolute",
       top: theme.spacing(),
-      [theme.direction === "rtl" ? "left" : "right"]: -8,
-      opacity: 0.4,
-      zIndex: 10000,
-      transition: "all 0.15s",
-      "&:hover": {
-        opacity: 1
-      }
+      [theme.direction === "rtl" ? "left" : "right"]: 0,
+      zIndex: 10000
     }
   })
 );
 
 type propsType = {
-  action?: ReactNode;
+  actions?: ReactNode;
   children: ReactNode;
 };
 
 const ReportCard = (props: propsType) => {
   const classes = useStyles();
-  const [openSpeedDial, setOpenSpeedDial] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [showActions, setShowActions] = useState(false);
-  const { action, children } = props;
+  const { actions, children } = props;
 
-  const toggleSpeedDial = () => setOpenSpeedDial(!openSpeedDial);
+  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const toggleActions = () => {
     setShowActions(!showActions);
-    toggleSpeedDial();
   };
 
-  const actions = [
+  const MenuItems = [
     {
-      icon: <BuildIcon fontSize="small" />,
-      name: "نمایش تنظیمات",
+      icon: <SettingsIcon fontSize="small" />,
+      title: showActions ? "عدم نمایش ابزار" : "نمایش ابزار",
       onClick: toggleActions
     }
   ];
@@ -78,37 +79,35 @@ const ReportCard = (props: propsType) => {
         classes={{ root: classes.cardContent }}
         style={{ height: showActions ? "calc(100% - 68px)" : "100%" }}
       >
-        {!!action && (
-          <SpeedDial
-            ariaLabel="report menu"
-            className={classes.reportSpeedDial}
-            icon={<SettingsIcon fontSize="small" />}
-            onClose={toggleSpeedDial}
-            onOpen={toggleSpeedDial}
-            open={openSpeedDial}
-            direction="down"
-            FabProps={{
-              size: "small",
-              color: "default",
-              style: { display: "contents" }
-            }}
-          >
-            {actions.map(action => (
-              <SpeedDialAction
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-                onClick={action.onClick}
-                FabProps={{ size: "small" }}
-              />
-            ))}
-          </SpeedDial>
-        )}
+        {
+          <>
+            <IconButton
+              color="default"
+              size="small"
+              onClick={handleMenuClick}
+              className={classes.reportMenu}
+            >
+              <MoreVertIcon fontSize="small" color="action" />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              {MenuItems.map(mi => (
+                <MenuItem key={mi.title} onClick={mi.onClick}>
+                  <Tooltip title={mi.title}>{mi.icon}</Tooltip>
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
+        }
         <DragIcon className="draggableHandle" />
         {children}
       </CardContent>
       {showActions && (
-        <CardActions disableSpacing>{!!action && action}</CardActions>
+        <CardActions disableSpacing>{!!actions && actions}</CardActions>
       )}
     </Card>
   );

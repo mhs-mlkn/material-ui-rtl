@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -47,13 +48,17 @@ const IconMenu = (props: propsType) => {
 
   const getMenuItemIcon = (icon: TReportIcons) => {
     const MenuIcon = getIcon(icon);
-    return <MenuIcon fontSize="small" />;
+    return (
+      <Tooltip title={icon}>
+        <MenuIcon fontSize="small" />
+      </Tooltip>
+    );
   };
 
   return (
     <>
       <IconButton
-        color="default"
+        color="primary"
         title={`انتخاب آیکون (${icon})`}
         onClick={handleClick}
       >
