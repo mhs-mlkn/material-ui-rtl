@@ -25,7 +25,7 @@ const Toolbar = () => {
   const [saveLoading, setSaveLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const [state, actions] = useDashboards<TDashboards, TActions>();
+  const [state, actions] = useDashboards();
 
   const handleAddDashboard = (name: string) => {
     if (name) {

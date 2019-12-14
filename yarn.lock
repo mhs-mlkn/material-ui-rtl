@@ -1636,12 +1636,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/use-global-hook@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@types/use-global-hook/-/use-global-hook-0.1.1.tgz#d3acad316658ad8f5a7fdce1c8a00025d930915a"
-  integrity sha512-Umb0JqkH2VkyLTYk+6T2tnW4klTyOyU9CUCLseJu3seYKrGdPrzzJ5LOqOZIX7Le64HcgFGYXWY5Wh0fwoBKLw==
-  dependencies:
-    "@types/react" "*"
+"@types/use-global-hook@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@types/use-global-hook/-/use-global-hook-0.1.2.tgz#1608345dfec6863ad6b546d5501f42dd5dc843a0"
+  integrity sha512-9sw7j/OeU0GEyvdpzmzPW4WIhPEpeFuqCJ+C1YRbz6uHYyJ6ssydb3GO/d5Bqf8fn56AvmsBL42P1KhJbNTJ6w==
 
 "@types/yargs-parser@*":
   version "13.1.0"
@@ -11129,10 +11127,10 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-use-global-hook@^0.1.11:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/use-global-hook/-/use-global-hook-0.1.11.tgz#7faa162107a94500d83e4b17fc717705590b746d"
-  integrity sha512-sJoVGLULeKcmE9ypPniC6/KF1tszo4deZ3XfMALGQYXHEAGDl0eNJnBZP3mq7CCGCA6mYJnqqy7gDF6QzshIIg==
+use-global-hook@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/use-global-hook/-/use-global-hook-0.1.12.tgz#3db747ca78e5bd1a007af176ad338f72293e730f"
+  integrity sha512-KhsWfDaa4jXgGHKDSxmBP0GjnIs5ad12y1vhl5mGBDcIiFfj3oB9vdfZZZCCPlZ14gI+tjCKZtb82+bPEwj3Iw==
 
 use@^3.1.0:
   version "3.1.1"

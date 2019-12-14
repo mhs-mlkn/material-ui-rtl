@@ -4,7 +4,7 @@ import { TReport } from "components/Report";
 import { useReports, ReportThumb, TReports, TActions } from ".";
 
 const GridView = () => {
-  const [state] = useReports<TReports, TActions>();
+  const [state] = useReports();
 
   return (
     <>

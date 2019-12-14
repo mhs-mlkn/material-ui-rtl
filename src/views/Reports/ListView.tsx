@@ -9,7 +9,7 @@ import { TReport } from "components/Report";
 import { useReports, ReportRow, TReports, TActions } from ".";
 
 const ListView = () => {
-  const [state] = useReports<TReports, TActions>();
+  const [state] = useReports();
   return (
     <Grid
       item

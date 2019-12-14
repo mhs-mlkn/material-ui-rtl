@@ -3,7 +3,7 @@ import User from "./User";
 import { useAccess, TUser, TAccess, TActions } from ".";
 
 const Users = () => {
-  const [state, actions] = useAccess<TAccess, TActions>();
+  const [state, actions] = useAccess();
   const { users } = state;
 
   const handleDelete = (user: TUser) => {

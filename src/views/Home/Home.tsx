@@ -17,7 +17,7 @@ const DashboardId = "DU_DASHBOARD_ID";
 const Home = (props: RouteChildrenProps) => {
   const [insLoading, setInsLoading] = useState(false);
   const [insError, setInsError] = useState("");
-  const [state, actions] = useDashboards<TDashboards, TActions>();
+  const [state, actions] = useDashboards();
   const { dashboards, loading, error } = state;
   let { dashboardId = "0" } = useParams();
 

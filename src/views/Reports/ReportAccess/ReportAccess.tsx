@@ -8,7 +8,7 @@ import Users from "./Users";
 import { useAccess, TAccess, TActions } from ".";
 
 const ReportAccess = (props: { reportId: number }) => {
-  const [state, actions] = useAccess<TAccess, TActions>();
+  const [state, actions] = useAccess();
   const { loading, error, users, q } = state;
   const { reportId } = props;
 

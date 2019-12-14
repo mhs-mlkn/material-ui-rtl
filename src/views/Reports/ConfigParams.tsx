@@ -30,7 +30,7 @@ import { displayErrMsg } from "utility";
 
 const ConfigParams = () => {
   const { enqueueSnackbar } = useSnackbar();
-  const [state, actions] = useReports<TReports, TActions>();
+  const [state, actions] = useReports();
   const [drillDown, setDrillDown] = useState<TReport | undefined>();
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [drillDownParams, setDrillDownParams] = useState<TQueryParam[]>([]);

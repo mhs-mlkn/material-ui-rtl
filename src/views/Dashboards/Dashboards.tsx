@@ -6,7 +6,7 @@ import Toolbar from "./Toolbar";
 import List from "./List";
 
 const DashboardManager = () => {
-  const [state, actions] = useDashboards<TDashboards, TActions>();
+  const [state, actions] = useDashboards();
   const { dashboards, loading, error } = state;
 
   useEffect(() => {

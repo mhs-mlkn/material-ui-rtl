@@ -20,7 +20,7 @@ import EditButton from "./EditButton";
 import { AccessButton } from "..";
 
 const DashboardRow = (props: { dashboard: TDashboard }) => {
-  const actions = useDashboards<TDashboards, TActions>()[1];
+  const actions = useDashboards()[1];
   const { enqueueSnackbar } = useSnackbar();
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [renameLoading, setRenameLoading] = useState(false);

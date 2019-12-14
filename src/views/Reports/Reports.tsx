@@ -16,8 +16,8 @@ import {
 import { useReports, TReports, TActions } from ".";
 
 const Reports = () => {
-  const [state, actions] = useReports<TReports, TActions>();
-  const dashboardActions = useDashboards<TDashboards, TDashboardActions>()[1];
+  const [state, actions] = useReports();
+  const dashboardActions = useDashboards()[1];
   const { q, view, orderBy, orderDir, page, pageSize, error } = state;
 
   useEffect(() => {

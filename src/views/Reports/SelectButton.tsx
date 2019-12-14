@@ -8,7 +8,7 @@ type propsType = { report: TReport };
 
 const SelectButton = (props: propsType) => {
   const { report } = props;
-  const actions = useReports<TReports, TActions>()[1];
+  const actions = useReports()[1];
 
   const handleSelectDashboard = (d: TDashboard) => {
     actions.openParamsModal(report, d);
