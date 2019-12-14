@@ -10,7 +10,7 @@ import { DatePicker, useAccess, TAccess, TActions } from ".";
 
 const DashboardAccess = (props: { reportId: number }) => {
   const [date, setDate] = useState(moment().add(1, "month"));
-  const [state, actions] = useAccess<TAccess, TActions>();
+  const [state, actions] = useAccess();
   const { loading, error, users, q } = state;
   const { reportId } = props;
 

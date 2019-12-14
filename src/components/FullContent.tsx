@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useThemeStore, TTheme, TActions } from "components/Theme";
 
 const FullScreen = (props: { children: any }) => {
-  const actions = useThemeStore<TTheme, TActions>()[1];
+  const actions = useThemeStore()[1];
 
   useEffect(() => {
     actions.toggleFullContent(true);

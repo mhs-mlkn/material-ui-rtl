@@ -41,7 +41,7 @@ type TLayoutProps = {
 
 const Layout = (props: TLayoutProps) => {
   const theme: Theme = useTheme();
-  const [state, actions] = useLayout<TLayout, TActions>();
+  const [state, actions] = useLayout();
   const [rowHeight, setRowHeight] = useState(
     RowHights[getBP(props.size.width)]
   );

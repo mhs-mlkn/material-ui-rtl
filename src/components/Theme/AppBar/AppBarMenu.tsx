@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const AppBarMenu = () => {
   const classes = useStyles();
   let history = useHistory();
-  const actions = useThemeStore<TTheme, TActions>()[1];
+  const actions = useThemeStore()[1];
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

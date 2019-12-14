@@ -20,7 +20,7 @@ type propsType = {
 
 const DashboardMenu = (props: propsType) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [state] = useDashboards<TDashboards, TActions>();
+  const [state] = useDashboards();
   const { selectedId, onChange, icon: Icon } = props;
 
   useEffect(() => {

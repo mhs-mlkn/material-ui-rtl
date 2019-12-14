@@ -42,7 +42,7 @@ const Settings = () => {
   const classes = useStyles();
   const [open, toggleOpen] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [state, actions] = useThemeStore<TTheme, TActions>();
+  const [state, actions] = useThemeStore();
 
   useEffect(() => {
     const toggleFullScreen = () => setIsFullScreen(document.fullscreen);

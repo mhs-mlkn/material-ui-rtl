@@ -17,7 +17,7 @@ const Timer = () => {
   const theme = useTheme();
   const [paused, setPaused] = useState(true);
   const [value, setValue] = useState(0);
-  const [state] = useDashboards<TDashboards, TActions>();
+  const [state] = useDashboards();
   const history = useHistory();
   const [isVisible, setVisibility] = useState(false);
   const [dashboard, setDashboard] = useState<TDashboard | undefined>(undefined);

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const SaveButton = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const [state, actions] = useDashboards<TDashboards, TActions>();
+  const [state, actions] = useDashboards();
   const isVisible = window.location.pathname.startsWith("/user/dashboard");
 
   const handleSaveClick = () => {

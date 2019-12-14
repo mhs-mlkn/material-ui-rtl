@@ -12,7 +12,7 @@ import {
 } from "components/Dashboard";
 
 const Dashboard = (props: { id: number }) => {
-  const [state, actions] = useDashboards<TDashboards, TActions>();
+  const [state, actions] = useDashboards();
   const [dashboard, setDashboard] = useState<TDashboard>();
   let { id } = props;
 

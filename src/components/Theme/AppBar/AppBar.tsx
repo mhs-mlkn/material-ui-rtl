@@ -61,7 +61,7 @@ const styles = (theme: Theme) =>
 const AppBar = (props: any) => {
   const { classes } = props;
   let location = useLocation();
-  const [state, actions] = useThemeStore<TTheme, TActions>();
+  const [state, actions] = useThemeStore();
   const isVisible = window.location.pathname.startsWith("/user/dashboard");
 
   const handleToggleDrawer = () => {
