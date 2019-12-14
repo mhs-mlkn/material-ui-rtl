@@ -19,6 +19,8 @@ export const DefaultConfig: TReportConfig = {
   }
 };
 
+const DefaultConfigString = JSON.stringify(DefaultConfig);
+
 export class ReportService {
   private _instances: { [id: number]: TReportInstance } = {};
   private hasInit = false;
@@ -128,7 +130,7 @@ export class ReportService {
 
   private parseConfig(config: string) {
     try {
-      return JSON.parse(config);
+      return JSON.parse(config || DefaultConfigString);
     } catch (error) {
       return { ...DefaultConfig };
     }

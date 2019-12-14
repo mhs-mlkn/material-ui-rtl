@@ -36,10 +36,11 @@ const ThemeMenu = (props: propsType) => {
     <>
       <IconButton
         color="primary"
+        size="small"
         title={`انتخاب تِم (${theme})`}
         onClick={handleClick}
       >
-        <PaletteIcon />
+        <PaletteIcon fontSize="small" />
       </IconButton>
       <Menu
         anchorEl={anchorEl}

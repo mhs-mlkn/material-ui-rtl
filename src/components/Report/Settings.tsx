@@ -54,8 +54,13 @@ const Settings = (props: propsType) => {
 
   return (
     <>
-      <IconButton color="primary" title="تنظیمات نمودار" onClick={toggleOpen}>
-        <TuneIcon />
+      <IconButton
+        size="small"
+        color="primary"
+        title="تنظیمات نمودار"
+        onClick={toggleOpen}
+      >
+        <TuneIcon fontSize="small" />
       </IconButton>
       <Modal open={open} onClose={toggleOpen} actions={actions}>
         <div

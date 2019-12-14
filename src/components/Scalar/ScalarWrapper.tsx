@@ -20,7 +20,7 @@ type propsType = {
 const ScalarWrapper = (props: propsType) => {
   const { instance, loading, data, options, theme, icon } = props;
 
-  const { name = instance.report.name } = instance;
+  const { id, name = instance.report.name } = instance;
   const scalarData = getData(data);
 
   if (loading) {
@@ -29,6 +29,7 @@ const ScalarWrapper = (props: propsType) => {
 
   return (
     <Scalar
+      id={id}
       name={name}
       icon={icon}
       theme={theme}

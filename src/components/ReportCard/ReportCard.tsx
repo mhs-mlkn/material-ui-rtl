@@ -4,13 +4,18 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tooltip from "@material-ui/core/Tooltip";
 import DragIcon from "@material-ui/icons/DragIndicator";
-import SettingsIcon from "@material-ui/icons/Settings";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import SettingsIcon from "@material-ui/icons/Settings";
+import CloseIcon from "@material-ui/icons/Close";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import PauseIcon from "@material-ui/icons/Pause";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import { TReportMenuAction } from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,27 +38,40 @@ const useStyles = makeStyles((theme: Theme) =>
       ),
       [theme.direction === "ltr" ? "marginLeft" : "marginRight"]: "unset"
     },
-    reportMenu: {
+    menu: {
       position: "absolute",
       top: theme.spacing(),
-      [theme.direction === "rtl" ? "left" : "right"]: 0,
+      [theme.direction === "rtl" ? "left" : "right"]: theme.spacing(0.5),
       zIndex: 10000
+    },
+    closeButton: {
+      position: "absolute",
+      [theme.direction === "rtl" ? "left" : "right"]: 0
     }
   })
 );
 
 type propsType = {
+  autoRefresh?: boolean;
+  isRunning?: boolean;
+  onMenuItemClick?: (action: TReportMenuAction) => any;
   actions?: ReactNode;
   children: ReactNode;
 };
 
 const ReportCard = (props: propsType) => {
+  const {
+    autoRefresh = false,
+    isRunning = false,
+    onMenuItemClick = () => null,
+    actions,
+    children
+  } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [showActions, setShowActions] = useState(false);
-  const { actions, children } = props;
 
-  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -63,52 +81,79 @@ const ReportCard = (props: propsType) => {
 
   const toggleActions = () => {
     setShowActions(!showActions);
+    handleClose();
   };
 
-  const MenuItems = [
-    {
-      icon: <SettingsIcon fontSize="small" />,
-      title: showActions ? "عدم نمایش ابزار" : "نمایش ابزار",
-      onClick: toggleActions
-    }
-  ];
+  const handleMenuItemClick = (action: TReportMenuAction) => () => {
+    onMenuItemClick(action);
+    handleClose();
+  };
 
   return (
     <Card className={clx(classes.card)} elevation={0}>
       <CardContent
         classes={{ root: classes.cardContent }}
-        style={{ height: showActions ? "calc(100% - 68px)" : "100%" }}
+        style={{ height: showActions ? "calc(100% - 45px)" : "100%" }}
       >
-        {
-          <>
-            <IconButton
-              color="default"
-              size="small"
-              onClick={handleMenuClick}
-              className={classes.reportMenu}
-            >
-              <MoreVertIcon fontSize="small" color="action" />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              {MenuItems.map(mi => (
-                <MenuItem key={mi.title} onClick={mi.onClick}>
-                  <Tooltip title={mi.title}>{mi.icon}</Tooltip>
-                </MenuItem>
-              ))}
-            </Menu>
-          </>
-        }
         <DragIcon className="draggableHandle" />
+        <IconButton
+          color="default"
+          size="small"
+          onClick={handleOpen}
+          className={classes.menu}
+        >
+          <MoreVertIcon color="action" fontSize="small" />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <Tooltip
+            title={showActions ? "عدم نمایش ابزار" : "نمایش ابزار"}
+            placement="top"
+          >
+            <MenuItem onClick={toggleActions}>
+              <SettingsIcon fontSize="small" />
+            </MenuItem>
+          </Tooltip>
+          {autoRefresh && (
+            <Tooltip
+              placement="top"
+              title={isRunning ? "توقف اجرای خودکار" : "شروع اجرای خودکار"}
+            >
+              <MenuItem onClick={handleMenuItemClick("TOGGLE_AUTO_REFRESH")}>
+                {isRunning ? (
+                  <PauseIcon fontSize="small" />
+                ) : (
+                  <PlayArrowIcon fontSize="small" />
+                )}
+              </MenuItem>
+            </Tooltip>
+          )}
+          <Tooltip placement="top" title="بارگذاری مجدد بدون cache">
+            <MenuItem onClick={handleMenuItemClick("REFRESH_REPORT")}>
+              <RefreshIcon fontSize="small" />
+            </MenuItem>
+          </Tooltip>
+        </Menu>
         {children}
       </CardContent>
-      {showActions && (
-        <CardActions disableSpacing>{!!actions && actions}</CardActions>
-      )}
+      <CardActions
+        disableSpacing
+        style={{ display: showActions ? "block" : "none" }}
+      >
+        <IconButton
+          color="default"
+          size="small"
+          onClick={toggleActions}
+          className={classes.closeButton}
+        >
+          <CloseIcon color="action" fontSize="small" />
+        </IconButton>
+        {!!actions && actions}
+      </CardActions>
     </Card>
   );
 };

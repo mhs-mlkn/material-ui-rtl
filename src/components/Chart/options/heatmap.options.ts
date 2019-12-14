@@ -1,6 +1,6 @@
 import get from "lodash/get";
 import { loadSettings, primary, fontFamily } from "components/Theme";
-import { TReportInstance, TChartTheme } from "components/Report";
+import { TReportInstance } from "components/Report";
 
 export default function getHeatmapOptions(instance: TReportInstance) {
   const { direction } = loadSettings();

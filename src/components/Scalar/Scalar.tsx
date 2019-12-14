@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type propsType = {
+  id: number;
   name: string;
   data: { title: any; value: any };
   icon: TReportIcons;
@@ -48,7 +49,7 @@ type propsType = {
 const Scalar = (props: propsType) => {
   const classes = useStyles();
   const muiTheme = useTheme<Theme>();
-  const { name, data, icon, theme, options } = props;
+  const { id, name, data, icon, theme, options } = props;
 
   useEffect(() => {
     defaultsDeep(options, defaultOptions);
@@ -157,7 +158,7 @@ const Scalar = (props: propsType) => {
   };
 
   return (
-    <div className={classes.root} style={rootStyles}>
+    <div className={classes.root} style={rootStyles} id={`report-${id}`}>
       <Typography
         variant="body1"
         component="span"

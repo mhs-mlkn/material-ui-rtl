@@ -14,6 +14,7 @@ const Echarts = (props: propsType) => {
   const { options, loading, theme: chartTheme } = props;
   const _theme = useTheme<Theme>();
   const [updated, setUpdated] = useState(false);
+  // let echarts = React.useRef<ReactEcharts>();
   const {
     palette: { type, primary }
   } = _theme;
@@ -25,6 +26,12 @@ const Echarts = (props: propsType) => {
       setTimeout(() => setUpdated(false), 10);
     }
   }, [options]);
+
+  // const onChartReady = (e: ReactEcharts) => {
+  //   echarts.current = e;
+  //   //@ts-ignore
+  //   console.log(echarts.current.getDataURL());
+  // };
 
   if (updated) {
     return <div>Appliying ...</div>;
@@ -42,6 +49,7 @@ const Echarts = (props: propsType) => {
         maskColor:
           type === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0)"
       }}
+      // onChartReady={onChartReady}
       style={{ height: "100%", width: "100%" }}
     />
   );

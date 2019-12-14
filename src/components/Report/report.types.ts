@@ -102,6 +102,8 @@ export type TReportIcons =
   | "trendingup"
   | "trendingdown";
 
+export type TReportMenuAction = "TOGGLE_AUTO_REFRESH" | "REFRESH_REPORT";
+
 export type TReportAdminConfig = {
   refreshInterval: number;
 };

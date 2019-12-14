@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
-import merge from "lodash/merge";
-import { TReportInstance, TChartTheme, TReportData } from "components/Report";
-import { Echarts, getOptions, getData } from ".";
+import React from "react";
+import { TChartTheme } from "components/Report";
+import { Echarts } from ".";
 
 type propsType = {
-  // instance: TReportInstance;
-  // data: TReportData | undefined;
   options: object;
   theme: TChartTheme;
   loading: boolean;
@@ -13,16 +10,6 @@ type propsType = {
 
 const Chart = (props: propsType) => {
   const { loading, options, theme } = props;
-  // const { instance, data, loading, options, theme } = props;
-  // const [_options, setOptions] = useState<object>(options);
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setOptions(
-  //       merge(_options, getOptions(instance), getData(instance, data))
-  //     );
-  //   }
-  // });
 
   return <Echarts options={options} loading={loading} theme={theme} />;
 };

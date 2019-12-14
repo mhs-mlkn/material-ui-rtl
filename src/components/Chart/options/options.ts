@@ -14,7 +14,8 @@ export function getThemeOptions(chartTheme: TChartTheme) {
     type === "dark" &&
     ["default", "light", "shine", "roma"].indexOf(chartTheme) > -1
   ) {
-    const style = { color: type === "dark" ? "#eee" : "#555" };
+    // const style = { color: type === "dark" ? "#eee" : "#555" };
+    const style = { color: "#eee" };
     return {
       legend: {
         textStyle: style
@@ -33,6 +34,21 @@ export function getThemeOptions(chartTheme: TChartTheme) {
   }
   return {};
 }
+
+const toolbox = {
+  toolbox: {
+    show: true,
+    orient: "vertical",
+    itemSize: 15,
+    itemGap: 10,
+    showTitle: true,
+    left: -4,
+    top: 25,
+    feature: {
+      saveAsImage: { show: true, title: "ذخیره", pixelRatio: 1 }
+    }
+  }
+};
 
 export function getOptions(instance: TReportInstance) {
   const reportType: TReportType = get(instance, "report.type", "Bar");
@@ -58,5 +74,5 @@ export function getOptions(instance: TReportInstance) {
     TABLE: barOptions
   };
 
-  return merge(getThemeOptions(chartTheme), options[reportType]);
+  return merge(getThemeOptions(chartTheme), options[reportType], toolbox);
 }

@@ -69,7 +69,7 @@ export default function TableWrapper(props: propsType) {
   };
 
   return (
-    <>
+    <div id={`report-${instance.id}`}>
       <Typography
         variant="body1"
         component="p"
@@ -92,6 +92,6 @@ export default function TableWrapper(props: propsType) {
           onChangeOrder={handleChangeOrder}
         />
       )}
-    </>
+    </div>
   );
 }

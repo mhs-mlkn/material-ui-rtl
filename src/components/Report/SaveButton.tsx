@@ -19,7 +19,7 @@ const SaveButton = (props: propsType) => {
 
   const style: React.CSSProperties = {
     position: "absolute",
-    [theme.direction === "rtl" ? "left" : "right"]: 8
+    [theme.direction === "rtl" ? "left" : "right"]: 24
   };
 
   const handleSaveClick = () => {
@@ -31,12 +31,13 @@ const SaveButton = (props: propsType) => {
 
   return (
     <IconButton
-      onClick={handleSaveClick}
-      style={style}
+      size="small"
       title="ذخیره تنظیمات"
       disabled={loading}
+      style={style}
+      onClick={handleSaveClick}
     >
-      <SaveIcon color="primary" />
+      <SaveIcon color="primary" fontSize="small" />
       {loading && (
         <CircularProgress
           color="secondary"

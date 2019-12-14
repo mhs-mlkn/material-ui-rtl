@@ -6,7 +6,6 @@ import { withTheme, Theme } from "@material-ui/core/styles";
 import { displayErrMsg, parseToJSON } from "utility";
 import { withBreakPoint, TBreakPoint } from "components/Layout";
 import { DeleteButton } from "components/Button";
-import { TReportInstance } from "components/Report";
 import Chart, { getOptions, getData } from "components/Chart";
 import Scalar, { IconMenu } from "components/Scalar";
 import Table from "components/Table";
@@ -16,13 +15,15 @@ import {
   ExecError,
   Settings,
   ThemeMenu,
+  AutoRefresh,
   SaveButton,
+  TReportInstance,
   TReportData,
   TReportExecParams,
-  TReportAdminConfig,
   TReportType,
   TChartTheme,
-  TReportIcons
+  TReportIcons,
+  TReportMenuAction
 } from "components/Report";
 
 type propsType = {
@@ -34,6 +35,8 @@ type stateType = {
   loading: boolean;
   error: boolean;
   data: TReportData | undefined;
+  isRunning: boolean;
+  interval: number;
   theme: TChartTheme;
   options: object;
   icon: TReportIcons;
@@ -44,26 +47,20 @@ class Report extends Component<propsType, stateType> {
     loading: false,
     error: false,
     data: undefined,
+    interval: 0,
+    isRunning: true,
     theme: get(this.props.instance, "config.theme", "default"),
     options: this.getOptions(),
     icon: get(this.props.instance, "config.icon", "info")
   };
 
   tempOptions: object = {};
-  adminConfig: TReportAdminConfig = { refreshInterval: 0 };
-  refreshInterval: number = -1;
 
   componentDidMount() {
     const { report } = this.props.instance;
-
-    this.adminConfig = parseToJSON(report.config, this.adminConfig);
-
-    if (this.adminConfig.refreshInterval > 0) {
-      this.refreshInterval = window.setInterval(() => {
-        // this.execReport({ loadFromCache: false }, false);
-      }, this.adminConfig.refreshInterval * 1000);
-    }
-
+    const config = parseToJSON(report.config, {});
+    const interval = get(config, "refreshInterval", 0);
+    this.setState({ interval });
     if (report.type !== "TABLE") {
       this.execReport();
     }
@@ -139,6 +136,19 @@ class Report extends Component<propsType, stateType> {
     return get(instance, `config.options.${type}.${bp}`, {});
   }
 
+  handleMenuItemClick = (key: TReportMenuAction) => {
+    switch (key) {
+      case "TOGGLE_AUTO_REFRESH":
+        return this.setState(state => ({ isRunning: !state.isRunning }));
+
+      case "REFRESH_REPORT":
+        return this.execReport({ loadFromCache: false });
+
+      default:
+        break;
+    }
+  };
+
   renderActions = (type: TReportType) => {
     const { instance } = this.props;
     const { theme, options, icon } = this.state;
@@ -149,7 +159,7 @@ class Report extends Component<propsType, stateType> {
             <ThemeMenu theme={theme} onChange={this.handleThemeChange} />
             <Settings json={options} onChange={this.handleOptionChange} />
             <IconMenu icon={icon} onChange={this.handleIconChange} />
-            <DeleteButton onDelete={this.handleDelete} />
+            <DeleteButton onDelete={this.handleDelete} size="small" />
             <SaveButton instanceId={instance.id} />
           </>
         );
@@ -157,7 +167,7 @@ class Report extends Component<propsType, stateType> {
       case "TABLE":
         return (
           <>
-            <DeleteButton onDelete={this.handleDelete} />
+            <DeleteButton onDelete={this.handleDelete} size="small" />
           </>
         );
 
@@ -166,7 +176,7 @@ class Report extends Component<propsType, stateType> {
           <>
             <ThemeMenu theme={theme} onChange={this.handleThemeChange} />
             <Settings json={options} onChange={this.handleOptionChange} />
-            <DeleteButton onDelete={this.handleDelete} />
+            <DeleteButton onDelete={this.handleDelete} size="small" />
             <SaveButton instanceId={instance.id} />
           </>
         );
@@ -174,7 +184,16 @@ class Report extends Component<propsType, stateType> {
   };
 
   render() {
-    const { data, options, theme, icon, loading, error } = this.state;
+    const {
+      data,
+      isRunning,
+      interval,
+      options,
+      theme,
+      icon,
+      loading,
+      error
+    } = this.state;
     const { instance } = this.props;
 
     if (error) {
@@ -186,7 +205,17 @@ class Report extends Component<propsType, stateType> {
     }
 
     return (
-      <ReportCard actions={this.renderActions(instance.report.type)}>
+      <ReportCard
+        autoRefresh={interval > 0}
+        isRunning={isRunning}
+        onMenuItemClick={this.handleMenuItemClick}
+        actions={this.renderActions(instance.report.type)}
+      >
+        <AutoRefresh
+          isRunning={isRunning}
+          interval={interval}
+          execReport={this.execReport}
+        />
         {instance.report.type === "SCALAR" ? (
           <Scalar
             instance={instance}

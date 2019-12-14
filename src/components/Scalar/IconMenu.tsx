@@ -58,11 +58,12 @@ const IconMenu = (props: propsType) => {
   return (
     <>
       <IconButton
+        size="small"
         color="primary"
         title={`انتخاب آیکون (${icon})`}
         onClick={handleClick}
       >
-        <Icon />
+        <Icon fontSize="small" />
       </IconButton>
       <Menu
         anchorEl={anchorEl}

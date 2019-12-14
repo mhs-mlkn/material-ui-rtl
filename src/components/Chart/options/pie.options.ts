@@ -1,5 +1,5 @@
 import get from "lodash/get";
-import { TReportInstance, TChartTheme } from "components/Report";
+import { TReportInstance } from "components/Report";
 import { loadSettings, primary, fontFamily } from "components/Theme";
 
 export default function getBarOptions(instance: TReportInstance) {
