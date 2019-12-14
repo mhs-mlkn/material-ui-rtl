@@ -8,7 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { TSideBarLink, basePath } from "configs";
-import { useThemeStore, TTheme, TActions } from "components/Theme";
+import { useThemeStore } from "components/Theme";
 
 const useStyles = makeStyles(theme => ({
   listItem: {

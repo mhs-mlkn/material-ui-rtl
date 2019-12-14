@@ -8,12 +8,8 @@ import { Modal } from "components/Modal";
 import ConfigParams from "./ConfigParams";
 import GridView from "./GridView";
 import ListView from "./ListView";
-import {
-  useDashboards,
-  TDashboards,
-  TActions as TDashboardActions
-} from "components/Dashboard";
-import { useReports, TReports, TActions } from ".";
+import { useDashboards } from "components/Dashboard";
+import { useReports } from ".";
 
 const Reports = () => {
   const [state, actions] = useReports();

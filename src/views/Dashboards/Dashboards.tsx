@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import { Error } from "components/Exceptions";
-import { useDashboards, TDashboards, TActions } from "components/Dashboard";
+import { useDashboards } from "components/Dashboard";
 import Toolbar from "./Toolbar";
 import List from "./List";
 

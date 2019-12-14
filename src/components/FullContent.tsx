@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useThemeStore, TTheme, TActions } from "components/Theme";
+import { useThemeStore } from "components/Theme";
 
 const FullScreen = (props: { children: any }) => {
   const actions = useThemeStore()[1];

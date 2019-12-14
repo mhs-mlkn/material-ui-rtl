@@ -9,12 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { displayErrMsg } from "utility";
 import { DeleteButton } from "components/Button";
-import {
-  useDashboards,
-  TDashboards,
-  TActions,
-  TDashboard
-} from "components/Dashboard";
+import { useDashboards, TDashboard } from "components/Dashboard";
 import ChangeOrder from "./ChangeOrder";
 import EditButton from "./EditButton";
 import { AccessButton } from "..";

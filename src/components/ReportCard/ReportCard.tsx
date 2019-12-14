@@ -96,48 +96,54 @@ const ReportCard = (props: propsType) => {
         style={{ height: showActions ? "calc(100% - 45px)" : "100%" }}
       >
         <DragIcon className="draggableHandle" />
-        <IconButton
-          color="default"
-          size="small"
-          onClick={handleOpen}
-          className={classes.menu}
-        >
-          <MoreVertIcon color="action" fontSize="small" />
-        </IconButton>
-        <Menu
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <Tooltip
-            title={showActions ? "عدم نمایش ابزار" : "نمایش ابزار"}
-            placement="top"
-          >
-            <MenuItem onClick={toggleActions}>
-              <SettingsIcon fontSize="small" />
-            </MenuItem>
-          </Tooltip>
-          {autoRefresh && (
-            <Tooltip
-              placement="top"
-              title={isRunning ? "توقف اجرای خودکار" : "شروع اجرای خودکار"}
+        {!!actions && (
+          <>
+            <IconButton
+              color="default"
+              size="small"
+              onClick={handleOpen}
+              className={classes.menu}
             >
-              <MenuItem onClick={handleMenuItemClick("TOGGLE_AUTO_REFRESH")}>
-                {isRunning ? (
-                  <PauseIcon fontSize="small" />
-                ) : (
-                  <PlayArrowIcon fontSize="small" />
-                )}
-              </MenuItem>
-            </Tooltip>
-          )}
-          <Tooltip placement="top" title="بارگذاری مجدد بدون cache">
-            <MenuItem onClick={handleMenuItemClick("REFRESH_REPORT")}>
-              <RefreshIcon fontSize="small" />
-            </MenuItem>
-          </Tooltip>
-        </Menu>
+              <MoreVertIcon color="action" fontSize="small" />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <Tooltip
+                title={showActions ? "عدم نمایش ابزار" : "نمایش ابزار"}
+                placement="top"
+              >
+                <MenuItem onClick={toggleActions}>
+                  <SettingsIcon fontSize="small" />
+                </MenuItem>
+              </Tooltip>
+              {autoRefresh && (
+                <Tooltip
+                  placement="top"
+                  title={isRunning ? "توقف اجرای خودکار" : "شروع اجرای خودکار"}
+                >
+                  <MenuItem
+                    onClick={handleMenuItemClick("TOGGLE_AUTO_REFRESH")}
+                  >
+                    {isRunning ? (
+                      <PauseIcon fontSize="small" />
+                    ) : (
+                      <PlayArrowIcon fontSize="small" />
+                    )}
+                  </MenuItem>
+                </Tooltip>
+              )}
+              <Tooltip placement="top" title="بارگذاری مجدد بدون cache">
+                <MenuItem onClick={handleMenuItemClick("REFRESH_REPORT")}>
+                  <RefreshIcon fontSize="small" />
+                </MenuItem>
+              </Tooltip>
+            </Menu>
+          </>
+        )}
         {children}
       </CardContent>
       <CardActions

@@ -1,6 +1,6 @@
 import React from "react";
 import User from "./User";
-import { useAccess, TUser, TAccess, TActions } from ".";
+import { useAccess, TUser } from ".";
 
 const Users = () => {
   const [state, actions] = useAccess();

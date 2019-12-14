@@ -8,7 +8,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { displayErrMsg } from "utility";
 import { Button } from "components/Button";
 import { Search } from "components/Inputs";
-import { useDashboards, TDashboards, TActions } from "components/Dashboard";
+import { useDashboards } from "components/Dashboard";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

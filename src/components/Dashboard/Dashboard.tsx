@@ -3,13 +3,7 @@ import get from "lodash/get";
 import Layout from "components/Layout";
 import { Report, ReportService } from "components/Report";
 import { Error } from "components/Exceptions";
-import {
-  useDashboards,
-  Toolbar,
-  TDashboards,
-  TActions,
-  TDashboard
-} from "components/Dashboard";
+import { useDashboards, Toolbar, TDashboard } from "components/Dashboard";
 
 const Dashboard = (props: { id: number }) => {
   const [state, actions] = useDashboards();

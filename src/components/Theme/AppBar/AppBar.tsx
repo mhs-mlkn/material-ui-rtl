@@ -14,7 +14,7 @@ import {
   DashboardTimer,
   SaveDashboard
 } from "components/Dashboard";
-import { useThemeStore, TTheme, TActions } from "components/Theme";
+import { useThemeStore } from "components/Theme";
 import { drawerWidth } from "../theme.constants";
 import AppBarMenu from "./AppBarMenu";
 

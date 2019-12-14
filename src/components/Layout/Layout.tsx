@@ -11,8 +11,6 @@ import {
 import {
   useLayout,
   TBreakPoint,
-  TLayout,
-  TActions,
   RowHights,
   BreakPoints,
   Cols,

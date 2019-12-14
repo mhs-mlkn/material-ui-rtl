@@ -2,7 +2,7 @@ import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import AspectRatioIcon from "@material-ui/icons/AspectRatio";
 import CancelIcon from "@material-ui/icons/CancelPresentation";
-import { useLayout, TLayout, TActions, LAYOUT } from ".";
+import { useLayout, LAYOUT } from ".";
 
 const ToggleButton = () => {
   const [state, actions] = useLayout();

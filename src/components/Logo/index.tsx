@@ -1,5 +1,5 @@
 import React from "react";
-import { useThemeStore, TTheme, TActions } from "components/Theme";
+import { useThemeStore, TTheme } from "components/Theme";
 
 const Logo = () => {
   const state: TTheme = useThemeStore()[0];

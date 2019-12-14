@@ -4,12 +4,7 @@ import { RouteChildrenProps } from "react-router";
 import { getLS } from "utility";
 import { Error } from "components/Exceptions";
 import Loading from "components/Loading";
-import {
-  useDashboards,
-  Dashboard,
-  TDashboards,
-  TActions
-} from "components/Dashboard";
+import { useDashboards, Dashboard } from "components/Dashboard";
 import { ReportService as Report } from "components/Report";
 
 const DashboardId = "DU_DASHBOARD_ID";

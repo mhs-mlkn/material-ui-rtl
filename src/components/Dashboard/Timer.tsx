@@ -10,7 +10,7 @@ import PauseIcon from "@material-ui/icons/Pause";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import { Fab } from "components/Button";
-import { useDashboards, TDashboard, TDashboards, TActions } from ".";
+import { useDashboards, TDashboard } from ".";
 
 let intervalId = 0;
 const Timer = () => {

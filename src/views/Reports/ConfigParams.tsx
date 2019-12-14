@@ -19,12 +19,7 @@ import {
   TQueryParam,
   TReportParams
 } from "components/Report";
-import {
-  ReportsService as Service,
-  useReports,
-  TReports,
-  TActions
-} from "views/Reports";
+import { ReportsService as Service, useReports } from "views/Reports";
 import { DashboardsService } from "components/Dashboard";
 import { displayErrMsg } from "utility";
 

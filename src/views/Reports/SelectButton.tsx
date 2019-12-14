@@ -2,7 +2,7 @@ import React from "react";
 import AddIcon from "@material-ui/icons/Add";
 import { DashboardMenu, TDashboard } from "components/Dashboard";
 import { TReport } from "components/Report";
-import { useReports, TReports, TActions } from ".";
+import { useReports } from ".";
 
 type propsType = { report: TReport };
 

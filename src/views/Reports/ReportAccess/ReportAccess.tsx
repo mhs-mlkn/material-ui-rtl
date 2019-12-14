@@ -5,7 +5,7 @@ import { Search } from "components/Inputs";
 import Loading from "components/Loading";
 import Alert from "components/Alert";
 import Users from "./Users";
-import { useAccess, TAccess, TActions } from ".";
+import { useAccess } from ".";
 
 const ReportAccess = (props: { reportId: number }) => {
   const [state, actions] = useAccess();

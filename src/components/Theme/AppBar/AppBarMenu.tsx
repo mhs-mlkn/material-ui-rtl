@@ -10,7 +10,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PowerSettingsIcon from "@material-ui/icons/PowerSettingsNew";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { AuthService } from "components/Auth";
-import { useThemeStore, TTheme, TActions } from "components/Theme";
+import { useThemeStore } from "components/Theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

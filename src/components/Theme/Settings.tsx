@@ -16,7 +16,7 @@ import DarkThemeIcon from "@material-ui/icons/Brightness3";
 import LightThemeIcon from "@material-ui/icons/WbSunny";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import FullscreenExitIcon from "@material-ui/icons/FullscreenExit";
-import { useThemeStore, TTheme, TActions } from "components/Theme";
+import { useThemeStore } from "components/Theme";
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {

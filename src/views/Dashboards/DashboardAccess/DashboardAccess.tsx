@@ -6,7 +6,7 @@ import { Search } from "components/Inputs";
 import Loading from "components/Loading";
 import Alert from "components/Alert";
 import Users from "./Users";
-import { DatePicker, useAccess, TUser, TActions } from ".";
+import { DatePicker, useAccess } from ".";
 
 const DashboardAccess = (props: { reportId: number }) => {
   const [date, setDate] = useState(moment().add(1, "month"));

@@ -4,7 +4,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import SaveIcon from "@material-ui/icons/Save";
 import { Button } from "components/Button";
 import { LAYOUT } from "components/Layout";
-import { useDashboards, TDashboards, TActions } from "components/Dashboard";
+import { useDashboards } from "components/Dashboard";
 import { displayErrMsg } from "utility";
 
 const useStyles = makeStyles((theme: Theme) => ({

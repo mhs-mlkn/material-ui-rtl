@@ -6,9 +6,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   DashboardsService as Service,
   useDashboards,
-  TDashboard,
-  TDashboards,
-  TActions
+  TDashboard
 } from "components/Dashboard";
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
