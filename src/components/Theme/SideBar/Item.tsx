@@ -28,7 +28,7 @@ const Item = (props: { item: TSideBarLink; nested?: boolean }) => {
   const location = useLocation();
   const [open, setOpen] = useState(true);
   const classes = useStyles();
-  const [state, actions] = useThemeStore<TTheme, TActions>();
+  const [state, actions] = useThemeStore();
 
   const handleClick = () => {
     if (item.subItems) {

@@ -8,7 +8,7 @@ import Users from "./Users";
 import { DatePicker, useAccess, TAccess, TActions } from ".";
 
 const DashboardAccess = (props: { reportId: number }) => {
-  const [state, actions] = useAccess<TAccess, TActions>();
+  const [state, actions] = useAccess();
   const { loading, error, users, q } = state;
   const { reportId } = props;
 
