@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import find from "lodash/find";
-import keyBy from "lodash/keyBy";
 import {
   Formik,
   Form,
@@ -24,44 +23,36 @@ import {
 type propsType = {
   instance: TReportInstance;
   initials: TReportFilter[];
+  reportFilters: { [key: string]: TQueryFilter };
   onFiltersChange: (filters: TReportFilter[]) => any;
   onClose: () => any;
 };
 
 const Filters = (props: propsType) => {
-  const { instance, initials, onFiltersChange, onClose } = props;
+  const { instance, initials, reportFilters, onFiltersChange, onClose } = props;
   const { report } = instance;
-  const filters = useRef<{ [key: string]: TQueryFilter }>({});
-  const [update, setUpdate] = useState(0);
-
-  useEffect(() => {
-    const { queryFilters } = report.query;
-    filters.current = keyBy(queryFilters, "id");
-    setUpdate(update + 1);
-    // eslint-disable-next-line
-  }, [report.query]);
 
   const getInitials = (reset?: boolean) => {
     const { queryFilters: filters } = report.query;
-    const _initials = {
+    return {
       filters: filters.reduce((res, filter) => {
         const init = find(initials, { id: filter.id + "" });
-        const value = !!init && !!reset ? init.value : "";
+        const value = !!init && !reset ? init.value : "";
         return [...res, { id: filter.id + "", value }];
       }, [] as TReportFilter[])
     } as TReportFilters;
-    return _initials;
   };
 
   const handleSubmit = (values: TReportFilters) => {
-    onFiltersChange(values.filters);
+    const filters = values.filters.filter(filter => !!filter.value);
+    onFiltersChange(filters);
   };
 
   const renderInput = (
     filter: TReportFilter,
     props: FieldProps<TReportFilters>
   ) => {
-    const reportFilter = filters.current[filter.id];
+    const reportFilter = reportFilters[filter.id];
 
     if (reportFilter.validValueType === "QUERY_LIST") {
       return <div>QUERY_LIST</div>;
@@ -135,8 +126,8 @@ const Filters = (props: propsType) => {
             <Button
               color="secondary"
               text="پاک کردن"
-              type="reset"
               style={{ margin: "0 8px" }}
+              onClick={() => formikProps.setValues(getInitials(true))}
             />
             <Button color="default" text="بستن" onClick={onClose} />
           </Grid>
@@ -145,13 +136,9 @@ const Filters = (props: propsType) => {
     );
   };
 
-  if (!update) {
-    return null;
-  }
-
   return (
     <Formik
-      initialValues={getInitials(true)}
+      initialValues={getInitials()}
       enableReinitialize
       onSubmit={handleSubmit}
     >

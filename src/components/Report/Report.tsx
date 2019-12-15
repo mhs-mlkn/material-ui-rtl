@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import merge from "lodash/merge";
 import get from "lodash/get";
+import keyBy from "lodash/keyBy";
+import { Moment } from "moment-jalaali";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import { withTheme, Theme } from "@material-ui/core/styles";
 import { displayErrMsg, parseToJSON } from "utility";
@@ -26,7 +28,8 @@ import {
   TReportType,
   TChartTheme,
   TReportIcons,
-  TReportMenuAction
+  TReportMenuAction,
+  TQueryFilter
 } from "components/Report";
 
 type propsType = {
@@ -44,7 +47,7 @@ type stateType = {
   options: object;
   icon: TReportIcons;
   openFilters: boolean;
-  filters: TReportFilter[];
+  filterVOS: TReportFilter[];
 };
 
 class Report extends Component<propsType, stateType> {
@@ -58,16 +61,22 @@ class Report extends Component<propsType, stateType> {
     options: this.getOptions(),
     icon: get(this.props.instance, "config.icon", "info"),
     openFilters: false,
-    filters: [{ id: "21", value: "21" }]
+    filterVOS: [] as TReportFilter[]
   };
 
   tempOptions: object = {};
+  reportFilters: { [key: string]: TQueryFilter } = {};
 
   componentDidMount() {
     const { report } = this.props.instance;
+
     const config = parseToJSON(report.config, {});
     const interval = get(config, "refreshInterval", 0);
     this.setState({ interval });
+
+    const { queryFilters } = report.query;
+    this.reportFilters = keyBy(queryFilters, "id");
+
     if (report.type !== "TABLE") {
       this.execReport();
     }
@@ -96,13 +105,30 @@ class Report extends Component<propsType, stateType> {
 
   execReport = (params?: TReportExecParams, showLoading?: boolean) => {
     const loading = showLoading === undefined ? true : showLoading;
+    const isTable = this.props.instance.report.type === "TABLE";
     this.setState({ loading, error: false });
     const { id: instanceId } = this.props.instance;
-    ReportService.execute(instanceId, params)
+    const filterVOS = this.processFilters();
+    const _params = { size: isTable ? 10 : 0, filterVOS, ...params };
+    ReportService.execute(instanceId, _params)
       .then(data => this.setState({ data }))
       .catch(() => this.setState({ error: true }))
       .finally(() => this.setState({ loading: false }));
   };
+
+  processFilters() {
+    return this.state.filterVOS.map(filter => {
+      const reportFilter = this.reportFilters[filter.id];
+      const filterType = reportFilter.type;
+      let value = filter.value;
+      if (filterType === "DATE") {
+        value = (value as Moment).format("YYYY-MM-DD");
+      } else if (filterType === "DATE_STRING") {
+        value = (value as Moment).format("jYYYY-jMM-jDD");
+      }
+      return { ...filter, value };
+    });
+  }
 
   toggleOpenFilters = () => {
     this.setState(state => ({ openFilters: !state.openFilters }));
@@ -110,10 +136,9 @@ class Report extends Component<propsType, stateType> {
 
   handleRetry = () => {
     const { instance, bp, theme } = this.props;
-    const isTable = instance.report.type === "TABLE";
     const type = theme.palette.type;
     instance.config.options[type][bp] = this.tempOptions;
-    this.execReport({ loadFromCache: false, size: isTable ? 10 : 0 });
+    this.execReport({ loadFromCache: false });
   };
 
   handleThemeChange = (theme: TChartTheme) => {
@@ -136,7 +161,8 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleFiltersChange = (filters: TReportFilter[]) => {
-    this.setState({ filters }, () => console.log(filters));
+    this.setState({ filterVOS: filters });
+    this.execReport();
     this.toggleOpenFilters();
   };
 
@@ -212,7 +238,7 @@ class Report extends Component<propsType, stateType> {
       theme,
       icon,
       openFilters,
-      filters,
+      filterVOS,
       loading,
       error
     } = this.state;
@@ -242,7 +268,8 @@ class Report extends Component<propsType, stateType> {
         >
           <Filters
             instance={instance}
-            initials={filters}
+            initials={filterVOS}
+            reportFilters={this.reportFilters}
             onClose={this.toggleOpenFilters}
             onFiltersChange={this.handleFiltersChange}
           />

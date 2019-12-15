@@ -75,7 +75,6 @@ const CustomTable = (props: propTypes) => {
     onChangeOrder && onChangeOrder(orderBy);
   };
 
-  console.log(totalCount);
   return (
     <Table className={classes.table} ref={tableRef}>
       <CustomTableHead

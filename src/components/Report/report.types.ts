@@ -1,3 +1,4 @@
+import { Moment } from "moment-jalaali";
 import { TBreakPoint } from "components/Layout";
 
 export type TReportType =
@@ -29,7 +30,7 @@ export type TReportParams = {
 
 export type TReportFilter = {
   id: string;
-  value: string;
+  value: string | Moment | boolean;
 };
 
 export type TReportFilters = {
