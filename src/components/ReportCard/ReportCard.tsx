@@ -15,6 +15,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import FilterListIcon from "@material-ui/icons/FilterList";
 import { TReportMenuAction } from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -139,6 +140,11 @@ const ReportCard = (props: propsType) => {
               <Tooltip placement="top" title="بارگذاری مجدد بدون cache">
                 <MenuItem onClick={handleMenuItemClick("REFRESH_REPORT")}>
                   <RefreshIcon fontSize="small" />
+                </MenuItem>
+              </Tooltip>
+              <Tooltip placement="top" title="فیلتر گزارش">
+                <MenuItem onClick={handleMenuItemClick("OPEN_FILTERS")}>
+                  <FilterListIcon fontSize="small" />
                 </MenuItem>
               </Tooltip>
             </Menu>

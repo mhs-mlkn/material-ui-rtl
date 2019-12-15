@@ -10,16 +10,19 @@ import Chart, { getOptions, getData } from "components/Chart";
 import Scalar, { IconMenu } from "components/Scalar";
 import Table from "components/Table";
 import ReportCard from "components/ReportCard";
+import { Modal } from "components/Modal";
 import {
   ReportService,
   ExecError,
   Settings,
   ThemeMenu,
   AutoRefresh,
+  Filters,
   SaveButton,
   TReportInstance,
   TReportData,
   TReportExecParams,
+  TReportFilter,
   TReportType,
   TChartTheme,
   TReportIcons,
@@ -40,6 +43,8 @@ type stateType = {
   theme: TChartTheme;
   options: object;
   icon: TReportIcons;
+  openFilters: boolean;
+  filters: TReportFilter[];
 };
 
 class Report extends Component<propsType, stateType> {
@@ -51,7 +56,9 @@ class Report extends Component<propsType, stateType> {
     isRunning: true,
     theme: get(this.props.instance, "config.theme", "default"),
     options: this.getOptions(),
-    icon: get(this.props.instance, "config.icon", "info")
+    icon: get(this.props.instance, "config.icon", "info"),
+    openFilters: false,
+    filters: [{ id: "21", value: "21" }]
   };
 
   tempOptions: object = {};
@@ -97,11 +104,16 @@ class Report extends Component<propsType, stateType> {
       .finally(() => this.setState({ loading: false }));
   };
 
+  toggleOpenFilters = () => {
+    this.setState(state => ({ openFilters: !state.openFilters }));
+  };
+
   handleRetry = () => {
     const { instance, bp, theme } = this.props;
+    const isTable = instance.report.type === "TABLE";
     const type = theme.palette.type;
     instance.config.options[type][bp] = this.tempOptions;
-    this.execReport({ loadFromCache: false });
+    this.execReport({ loadFromCache: false, size: isTable ? 10 : 0 });
   };
 
   handleThemeChange = (theme: TChartTheme) => {
@@ -121,6 +133,11 @@ class Report extends Component<propsType, stateType> {
   handleIconChange = (icon: TReportIcons) => {
     this.props.instance.config.icon = icon;
     this.setState({ icon });
+  };
+
+  handleFiltersChange = (filters: TReportFilter[]) => {
+    this.setState({ filters }, () => console.log(filters));
+    this.toggleOpenFilters();
   };
 
   handleDelete = () => {
@@ -143,6 +160,9 @@ class Report extends Component<propsType, stateType> {
 
       case "REFRESH_REPORT":
         return this.execReport({ loadFromCache: false });
+
+      case "OPEN_FILTERS":
+        return this.setState({ openFilters: true });
 
       default:
         break;
@@ -191,6 +211,8 @@ class Report extends Component<propsType, stateType> {
       options,
       theme,
       icon,
+      openFilters,
+      filters,
       loading,
       error
     } = this.state;
@@ -211,6 +233,20 @@ class Report extends Component<propsType, stateType> {
         onMenuItemClick={this.handleMenuItemClick}
         actions={this.renderActions(instance.report.type)}
       >
+        <Modal
+          open={openFilters}
+          onClose={this.toggleOpenFilters}
+          maxWidth="md"
+          keepMounted={false}
+          actions={<></>}
+        >
+          <Filters
+            instance={instance}
+            initials={filters}
+            onClose={this.toggleOpenFilters}
+            onFiltersChange={this.handleFiltersChange}
+          />
+        </Modal>
         <AutoRefresh
           isRunning={isRunning}
           interval={interval}

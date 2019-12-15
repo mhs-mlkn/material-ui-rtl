@@ -1,21 +1,14 @@
 import React from "react";
 import JalaliUtils from "@date-io/jalaali";
 import { Moment } from "moment-jalaali";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import {
+  DatePicker,
+  MuiPickersUtilsProvider,
+  DatePickerProps
+} from "@material-ui/pickers";
 import { TextField } from "components/Inputs";
 
-type propsType = {
-  date: Moment;
-  onDateChange: (date: Moment) => void;
-};
-
-const DatePickerField = (props: propsType) => {
-  const { date, onDateChange } = props;
-
-  const handleDateChange = (d: Moment | null) => {
-    onDateChange(d || date);
-  };
-
+const DatePickerField = (props: DatePickerProps) => {
   const dateFormatter = (date: Moment | null) => {
     return date ? date.format("jYYYY/jMM/jDD") : "";
   };
@@ -25,17 +18,14 @@ const DatePickerField = (props: propsType) => {
       <DatePicker
         autoOk
         cancelLabel="لغو"
-        disablePast
         format="jYYYY/jMM/jDD"
         fullWidth
         inputVariant="outlined"
-        label="تاریخ انقضا اشتراک"
-        labelFunc={dateFormatter}
         margin="none"
         okLabel="تایید"
-        value={date}
-        onChange={handleDateChange}
+        labelFunc={dateFormatter}
         TextFieldComponent={props => <TextField {...props} />}
+        {...props}
       />
     </MuiPickersUtilsProvider>
   );

@@ -108,9 +108,8 @@ const ConfigParams = () => {
   const renderParamInput = (p: TQueryParam, i: number) => {
     return (
       <Grid key={p.key} item xs={12} sm={4} md={3} lg={2} xl={2}>
-        <Field
-          name={`params.${i}.value`}
-          render={(innerProps: FieldProps<TReportParams>) => {
+        <Field name={`params.${i}.value`}>
+          {(innerProps: FieldProps<TReportParams>) => {
             const { meta } = innerProps;
             return (
               <Tooltip title={p.hint}>
@@ -127,24 +126,23 @@ const ConfigParams = () => {
               </Tooltip>
             );
           }}
-        />
+        </Field>
       </Grid>
     );
   };
 
-  const renderForm = (folrmikProps: FormikProps<TReportParams>) => {
+  const renderForm = (formikProps: FormikProps<TReportParams>) => {
     return (
       <Form>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Field
-              name="name"
-              render={(innerProps: FieldProps<TReportParams>) => {
-                return <FormikInput {...innerProps} label="نام گزارش" />;
-              }}
-            />
+            <Field name="name">
+              {(innerProps: FieldProps<TReportParams>) => (
+                <FormikInput {...innerProps} label="نام گزارش" />
+              )}
+            </Field>
           </Grid>
-          {folrmikProps.values.params.length > 0 && (
+          {formikProps.values.params.length > 0 && (
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Typography variant="h6" component="h6" gutterBottom>
                 پارامتر های گزارش
@@ -154,20 +152,10 @@ const ConfigParams = () => {
           <FieldArray
             name="params"
             render={() =>
-              folrmikProps.values.params.map((p, i: number) =>
-                // <Grid key={p.key} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                //   <Field
-                //     name={`params.${i}.value`}
-                //     render={(innerProps: FieldProps<TReportParams>) => (
-                //       <FormikInput {...innerProps} label={p.key} />
-                //     )}
-                //   />
-                // </Grid>
-                renderParamInput(p, i)
-              )
+              formikProps.values.params.map((p, i) => renderParamInput(p, i))
             }
           />
-          {folrmikProps.values.drillDownParams.length > 0 && (
+          {formikProps.values.drillDownParams.length > 0 && (
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Typography variant="h6" component="h6" gutterBottom>
                 پارامتر های زیرگزارش
@@ -177,7 +165,7 @@ const ConfigParams = () => {
           <FieldArray
             name="drillDownParams"
             render={() =>
-              folrmikProps.values.drillDownParams.map((p, i: number) =>
+              formikProps.values.drillDownParams.map((p, i) =>
                 renderParamInput(p, i)
               )
             }
@@ -200,8 +188,9 @@ const ConfigParams = () => {
       enableReinitialize={true}
       validate={validate}
       onSubmit={submit}
-      render={renderForm}
-    />
+    >
+      {(formikProps: FormikProps<TReportParams>) => renderForm(formikProps)}
+    </Formik>
   );
 };
 

@@ -1,7 +1,6 @@
 import AccessButton from "./AccessButton";
 
 export { default as DashboardAccess } from "./DashboardAccess";
-export { default as DatePicker } from "./DatePicker";
 export { default as AccessService } from "./Access.service";
 export * from "./access.types";
 export { default as useAccess } from "./access.store";

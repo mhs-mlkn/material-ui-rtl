@@ -27,6 +27,15 @@ export type TReportParams = {
   drillDownParams: TQueryParam[];
 };
 
+export type TReportFilter = {
+  id: string;
+  value: string;
+};
+
+export type TReportFilters = {
+  filters: TReportFilter[];
+};
+
 export type TQueryFilter = {
   id: number;
   title: string;
@@ -102,7 +111,10 @@ export type TReportIcons =
   | "trendingup"
   | "trendingdown";
 
-export type TReportMenuAction = "TOGGLE_AUTO_REFRESH" | "REFRESH_REPORT";
+export type TReportMenuAction =
+  | "TOGGLE_AUTO_REFRESH"
+  | "REFRESH_REPORT"
+  | "OPEN_FILTERS";
 
 export type TReportAdminConfig = {
   refreshInterval: number;
@@ -132,7 +144,7 @@ export type TReportData = {
 };
 
 export type TReportExecParams = {
-  filterVOS?: any[];
+  filterVOS?: TReportFilter[];
   parentParams?: any[];
   orderByElementVOS?: { name: string; isDesc: boolean }[];
   loadFromCache?: boolean;

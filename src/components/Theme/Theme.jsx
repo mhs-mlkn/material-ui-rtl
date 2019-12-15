@@ -67,7 +67,10 @@ const Theme = ({ children }) => {
         root: {
           textAlign: "start"
         }
-      }
+      },
+      // MuiOutlinedInput: {
+      //   textAlign: "right"
+      // }
     }
   });
 

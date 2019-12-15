@@ -18,13 +18,14 @@ export function formatNumber(num: number | string) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
-export function formatValue(type: string, value: string) {
+export function formatValue(type: string, value: string | null) {
+  const _val = value || "";
   if (type === "DATE") {
-    return moment(value.slice(0, -5)).format("jYYYY/jMM/jDD");
+    return moment(_val.slice(0, -5)).format("jYYYY/jMM/jDD");
   } else if (type === "NUMBER") {
-    return formatNumber(value);
+    return formatNumber(_val);
   }
-  return value;
+  return _val;
 }
 
 export function parseToJSON(jsonString: string, defaultValue: object) {

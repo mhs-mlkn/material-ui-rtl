@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     minWidth: 400,
     width: "100%",
     overflow: "auto"
+  },
+  tablePaginationSpacer: {
+    flex: "none"
   }
 }));
 
@@ -72,6 +75,7 @@ const CustomTable = (props: propTypes) => {
     onChangeOrder && onChangeOrder(orderBy);
   };
 
+  console.log(totalCount);
   return (
     <Table className={classes.table} ref={tableRef}>
       <CustomTableHead
@@ -123,6 +127,7 @@ const CustomTable = (props: propTypes) => {
                 `${from}-${to} از ${count}`
               }
               ActionsComponent={TableActions}
+              classes={{ spacer: classes.tablePaginationSpacer }}
             />
           </TableRow>
         </TableFooter>
