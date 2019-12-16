@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import merge from "lodash/merge";
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
 import { Moment } from "moment-jalaali";
@@ -93,11 +92,6 @@ class Report extends Component<propsType, stateType> {
         (!!data && !prevState.data) ||
         theme !== prevState.theme
       ) {
-        // this.handleOptionChange({
-        //   ...options,
-        //   ...getOptions(instance),
-        //   ...getData(instance, data || { cols: [], rows: [], totalCount: 0 })
-        // });
         this.setState({
           options: {
             ...options,

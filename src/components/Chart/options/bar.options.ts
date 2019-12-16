@@ -40,11 +40,43 @@ export default function getBarOptions(instance: TReportInstance) {
     xAxis: {
       show: true,
       type: "category",
+      name: "",
+      nameLocation: "end",
+      nameGap: 0,
+      nameRotate: 0,
+      nameTextStyle: {
+        fontWeight: "normal",
+        fontSize: 12,
+        align: "center",
+        verticalAlign: "top",
+        lineHeight: 50
+      },
+      axisLabel: {
+        rotate: 0,
+        inside: false,
+        formatter: "{value}"
+      },
       splitLine: { show: false }
     },
     yAxis: {
       show: true,
-      type: "value"
+      type: "value",
+      name: "",
+      nameLocation: "center",
+      nameGap: 45,
+      nameRotate: 90,
+      nameTextStyle: {
+        fontWeight: "normal",
+        fontSize: 12,
+        align: null,
+        verticalAlign: null,
+        lineHeight: null
+      },
+      axisLabel: {
+        rotate: 0,
+        inside: false,
+        formatter: "{value}"
+      }
     },
     textStyle: {
       fontFamily
