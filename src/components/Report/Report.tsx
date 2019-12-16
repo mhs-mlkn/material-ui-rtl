@@ -138,7 +138,9 @@ class Report extends Component<propsType, stateType> {
     const { instance, bp, theme } = this.props;
     const type = theme.palette.type;
     instance.config.options[type][bp] = this.tempOptions;
-    this.execReport({ loadFromCache: false });
+    this.setState({ filterVOS: [] as TReportFilter[] }, () =>
+      this.execReport({ loadFromCache: false })
+    );
   };
 
   handleThemeChange = (theme: TChartTheme) => {
@@ -246,7 +248,7 @@ class Report extends Component<propsType, stateType> {
 
     if (error) {
       return (
-        <ReportCard>
+        <ReportCard instance={instance}>
           <ExecError onRetry={this.handleRetry} onDelete={this.handleDelete} />
         </ReportCard>
       );
@@ -254,6 +256,7 @@ class Report extends Component<propsType, stateType> {
 
     return (
       <ReportCard
+        instance={instance}
         autoRefresh={interval > 0}
         isRunning={isRunning}
         onMenuItemClick={this.handleMenuItemClick}

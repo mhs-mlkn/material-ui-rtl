@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { FormikInput, FormikDatePicker, FormikSwith } from "components/Inputs";
 import { Button } from "components/Button";
 import {
+  QueryListFilter,
   TReportInstance,
   TReportFilters,
   TReportFilter,
@@ -55,7 +56,24 @@ const Filters = (props: propsType) => {
     const reportFilter = reportFilters[filter.id];
 
     if (reportFilter.validValueType === "QUERY_LIST") {
-      return <div>QUERY_LIST</div>;
+      return (
+        <QueryListFilter instanceId={instance.id} filterId={+filter.id}>
+          {options => (
+            <FormikInput
+              {...props}
+              margin="dense"
+              select
+              label={reportFilter.title}
+            >
+              {options.map((opt, i) => (
+                <MenuItem value={opt} key={i}>
+                  {opt}
+                </MenuItem>
+              ))}
+            </FormikInput>
+          )}
+        </QueryListFilter>
+      );
     }
     if (reportFilter.validValueType === "CONST_LIST") {
       const options = reportFilter.validValue

@@ -103,6 +103,11 @@ export class ReportService {
     }));
   }
 
+  public async getFilterOptions(instanceId: number, filterId: number) {
+    const url = `${baseUrl}/userreport/${instanceId}/getFilterOptions?filterId=${filterId}`;
+    return Api.post(url, null).then(res => res.data.result);
+  }
+
   private async fetchInstances() {
     const url = `${baseUrl}/userreport`;
     const response = await Api.get(url);

@@ -16,7 +16,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { TReportMenuAction } from "components/Report";
+import { TReportMenuAction, TReportInstance } from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type propsType = {
+  instance: TReportInstance;
   autoRefresh?: boolean;
   isRunning?: boolean;
   onMenuItemClick?: (action: TReportMenuAction) => any;
@@ -62,6 +63,7 @@ type propsType = {
 
 const ReportCard = (props: propsType) => {
   const {
+    instance,
     autoRefresh = false,
     isRunning = false,
     onMenuItemClick = () => null,
@@ -71,6 +73,10 @@ const ReportCard = (props: propsType) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [showActions, setShowActions] = useState(false);
+
+  const hasFilters = () => {
+    return instance.report.query.queryFilters.length > 0;
+  };
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -142,11 +148,13 @@ const ReportCard = (props: propsType) => {
                   <RefreshIcon fontSize="small" />
                 </MenuItem>
               </Tooltip>
-              <Tooltip placement="top" title="فیلتر گزارش">
-                <MenuItem onClick={handleMenuItemClick("OPEN_FILTERS")}>
-                  <FilterListIcon fontSize="small" />
-                </MenuItem>
-              </Tooltip>
+              {hasFilters() && (
+                <Tooltip placement="top" title="فیلتر گزارش">
+                  <MenuItem onClick={handleMenuItemClick("OPEN_FILTERS")}>
+                    <FilterListIcon fontSize="small" />
+                  </MenuItem>
+                </Tooltip>
+              )}
             </Menu>
           </>
         )}
