@@ -8,7 +8,7 @@ import getGaugeOpitons from "./gauge.options";
 import getTreemapOpitons from "./treemap.options";
 import getHeatmapOptions from "./heatmap.options";
 
-export function getThemeOptions(chartTheme: TChartTheme) {
+function defaultThemeOptions(chartTheme: TChartTheme) {
   const { type } = loadSettings();
   if (
     type === "dark" &&
@@ -35,6 +35,18 @@ export function getThemeOptions(chartTheme: TChartTheme) {
   return {};
 }
 
+function pieThemeOptions(chartTheme: TChartTheme) {
+  const { type } = loadSettings();
+  const style = {
+    color: chartTheme === "vintage" ? "#555" : type === "dark" ? "#eee" : "#555"
+  };
+  return {
+    legend: {
+      textStyle: style
+    }
+  };
+}
+
 const toolbox = {
   toolbox: {
     show: true,
@@ -45,7 +57,11 @@ const toolbox = {
     left: -4,
     top: 25,
     feature: {
-      saveAsImage: { show: true, title: "ذخیره", pixelRatio: 1 }
+      saveAsImage: {
+        show: true,
+        title: "ذخیره",
+        pixelRatio: 1
+      }
     }
   }
 };
@@ -53,6 +69,11 @@ const toolbox = {
 export function getOptions(instance: TReportInstance) {
   const reportType: TReportType = get(instance, "report.type", "Bar");
   const chartTheme = get(instance, "config.theme", "default");
+
+  const themeOpt =
+    reportType === "PIE"
+      ? pieThemeOptions(chartTheme)
+      : defaultThemeOptions(chartTheme);
 
   const barOptions = getBarOpitons(instance);
   const pieOptions = getPieOpitons(instance);
@@ -74,5 +95,5 @@ export function getOptions(instance: TReportInstance) {
     TABLE: barOptions
   };
 
-  return merge(getThemeOptions(chartTheme), options[reportType], toolbox);
+  return merge(options[reportType], toolbox, themeOpt);
 }

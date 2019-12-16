@@ -111,7 +111,7 @@ const ReportCard = (props: propsType) => {
               onClick={handleOpen}
               className={classes.menu}
             >
-              <MoreVertIcon color="action" fontSize="small" />
+              <MoreVertIcon color="primary" fontSize="small" />
             </IconButton>
             <Menu
               anchorEl={anchorEl}

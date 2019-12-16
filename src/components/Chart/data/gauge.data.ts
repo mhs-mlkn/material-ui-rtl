@@ -1,13 +1,7 @@
 import get from "lodash/get";
-import maxBy from "lodash/maxBy";
-import minBy from "lodash/minBy";
-import { TReportInstance, TReportData, TReportType } from "components/Report";
-import { getSeries } from "..";
+import { TReportInstance, TReportData } from "components/Report";
 
-export default function gaugeData(
-  instance: TReportInstance,
-  data: TReportData
-) {
+function gaugeData(instance: TReportInstance, data: TReportData) {
   const name = get(data, "cols.0.key", "");
 
   return {
@@ -37,3 +31,5 @@ export default function gaugeData(
     ]
   };
 }
+
+export default gaugeData;

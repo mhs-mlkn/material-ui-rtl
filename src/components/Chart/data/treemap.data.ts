@@ -1,8 +1,4 @@
-import get from "lodash/get";
-import maxBy from "lodash/maxBy";
-import minBy from "lodash/minBy";
-import { TReportInstance, TReportData, TReportType } from "components/Report";
-import { getSeries } from "..";
+import { TReportInstance, TReportData } from "components/Report";
 import treemapData2 from "./treemap.json";
 
 console.log(treemapData);

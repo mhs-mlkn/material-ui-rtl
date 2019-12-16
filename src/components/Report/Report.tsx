@@ -84,17 +84,28 @@ class Report extends Component<propsType, stateType> {
 
   componentDidUpdate(prevProps: propsType, prevState: stateType) {
     const { instance } = this.props;
-    const { data, options } = this.state;
+    const { data, options, theme } = this.state;
     const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
 
-    if (isChart && !!data && !prevState.data) {
-      this.setState({
-        options: merge(
-          getOptions(instance),
-          options,
-          getData(instance, data || { cols: [], rows: [], totalCount: 0 })
-        )
-      });
+    if (isChart) {
+      if (
+        prevProps.theme.palette.type !== this.props.theme.palette.type ||
+        (!!data && !prevState.data) ||
+        theme !== prevState.theme
+      ) {
+        // this.handleOptionChange({
+        //   ...options,
+        //   ...getOptions(instance),
+        //   ...getData(instance, data || { cols: [], rows: [], totalCount: 0 })
+        // });
+        this.setState({
+          options: {
+            ...options,
+            ...getOptions(instance),
+            ...getData(instance, data || { cols: [], rows: [], totalCount: 0 })
+          }
+        });
+      }
     }
   }
 

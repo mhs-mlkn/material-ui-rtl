@@ -1,6 +1,4 @@
-import get from "lodash/get";
-import { TReportInstance, TReportData, TReportType } from "components/Report";
-import { getSeries } from "..";
+import { TReportInstance, TReportData } from "components/Report";
 
 export default function heatmapData(
   instance: TReportInstance,

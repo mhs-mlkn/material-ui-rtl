@@ -16,11 +16,11 @@ export const toggleThemeType = (
   nextType?: "dark" | "light"
 ) => {
   const { type } = store.state;
-  store.setState({
+  const newState: TTheme = {
     ...store.state,
     type: nextType ? nextType : utils.toggleThemeType(type)
-  });
-  utils.saveSettings(store.state);
+  };
+  utils.saveSettings(newState).then(() => store.setState(newState));
 };
 
 export const toggleDrawerType = (

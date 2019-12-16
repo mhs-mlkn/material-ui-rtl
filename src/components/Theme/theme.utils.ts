@@ -23,8 +23,13 @@ export function toggleFullScreen() {
   }
 }
 
-export function saveSettings(state: TTheme) {
-  setTimeout(() => localStorage.setItem(SETTINGS, JSON.stringify(state)), 1000);
+export function saveSettings(state: TTheme): Promise<any> {
+  return new Promise(resolve => {
+    window.setTimeout(() => {
+      localStorage.setItem(SETTINGS, JSON.stringify(state));
+      return resolve();
+    }, 100);
+  });
 }
 
 export function loadSettings(): TTheme {
