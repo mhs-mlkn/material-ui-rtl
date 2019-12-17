@@ -8,7 +8,7 @@ import getTreemapOpitons from "./treemap.options";
 import getHeatmapOptions from "./heatmap.options";
 
 export function chartOptions(instance: TReportInstance) {
-  const type: TReportType = get(instance, "report.type", "Bar");
+  const type: TReportType = get(instance, "report.type", "BAR");
   const barOptions = getBarOpitons(instance);
   const pieOptions = getPieOpitons(instance);
   const gaugeOptions = getGaugeOpitons(instance);

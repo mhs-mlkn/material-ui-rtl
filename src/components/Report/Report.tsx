@@ -97,8 +97,8 @@ class Report extends Component<propsType, stateType> {
           options: merge(
             {},
             chartOptions(instance),
-            options,
-            getData(instance, data || { cols: [], rows: [], totalCount: 0 })
+            getData(instance, data || { cols: [], rows: [], totalCount: 0 }),
+            options
           )
         });
       }

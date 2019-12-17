@@ -69,7 +69,7 @@
     "publicized": true,
     "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
     "source": "SQL",
-    "type": "Pie",
+    "type": "PIE",
     "updated": "2019-10-06T08:28:47.046Z[UTC]"
   },
   {
@@ -82,7 +82,7 @@
     "publicized": true,
     "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
     "source": "SQL",
-    "type": "Bar",
+    "type": "BAR",
     "updated": "2019-10-07T06:06:55.991Z[UTC]"
   },
   {
@@ -95,7 +95,7 @@
     "publicized": true,
     "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
     "source": "SQL",
-    "type": "Bar",
+    "type": "BAR",
     "updated": "2019-10-07T06:04:53.269Z[UTC]"
   },
   {
@@ -149,7 +149,7 @@
       "queryParams": []
     },
     "source": "SQL",
-    "type": "Bar",
+    "type": "BAR",
     "updated": "2019-10-12T11:55:20.847Z[UTC]"
   },
   {
@@ -367,7 +367,7 @@
     "publicized": true,
     "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
     "source": "SQL",
-    "type": "Line",
+    "type": "LINE",
     "updated": "2019-10-01T05:55:30.566Z[UTC]"
   },
   {
@@ -385,7 +385,7 @@
       "template": "{\n  xAxis: {\n    source: \"aggregations.2.buckets[*]\",\n    path: \"key\",\n    type: \"DATE\"\n  },\n series: {\n      source: \"3.buckets[*]\",\n      path: \"key\",\n      value: \"4.buckets.fasokhan.doc_count\"\n    }\n}"
     },
     "source": "ELASTICSEARCH",
-    "type": "Line",
+    "type": "LINE",
     "updated": "2019-09-23T13:28:46.341Z[UTC]"
   },
   {
@@ -404,7 +404,7 @@
     },
     "source": "ELASTICSEARCH",
     "tags": "الستیک",
-    "type": "Bar",
+    "type": "BAR",
     "updated": "2019-09-18T11:56:30.401Z[UTC]"
   },
   {
@@ -489,7 +489,7 @@
       "queryParams": []
     },
     "source": "SQL",
-    "type": "Bar",
+    "type": "BAR",
     "updated": "2019-08-31T12:44:08.386Z[UTC]"
   },
   {
@@ -534,7 +534,7 @@
       "queryParams": []
     },
     "source": "SQL",
-    "type": "Line",
+    "type": "LINE",
     "updated": "2019-09-01T08:16:06.481Z[UTC]"
   },
   {
@@ -547,7 +547,7 @@
     "publicized": false,
     "query": { "queryColumns": [], "queryFilters": [], "queryParams": [] },
     "source": "SQL",
-    "type": "Pie",
+    "type": "PIE",
     "updated": "2019-07-23T05:11:51.623Z[UTC]"
   },
   {

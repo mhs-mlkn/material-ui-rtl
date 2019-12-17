@@ -9,7 +9,7 @@ import treemapData from "./treemap.data";
 import heatmapData from "./heatmap.data";
 
 export function getData(instance: TReportInstance, data: TReportData) {
-  const reportType: TReportType = get(instance, "report.type", "Bar");
+  const reportType: TReportType = get(instance, "report.type", "BAR");
 
   switch (reportType) {
     case "AREA":
