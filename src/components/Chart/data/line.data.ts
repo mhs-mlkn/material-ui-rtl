@@ -1,6 +1,6 @@
 import { TReportInstance, TReportData } from "components/Report";
 
-export default function areaData(instance: TReportInstance, data: TReportData) {
+export default function lineData(instance: TReportInstance, data: TReportData) {
   const length = data.cols.length === 0 ? 0 : data.cols.length - 1;
 
   return {
@@ -10,7 +10,6 @@ export default function areaData(instance: TReportInstance, data: TReportData) {
     },
     series: Array(length).fill({
       type: "line",
-      areaStyle: { opacity: 0.3 },
       label: {
         show: false,
         position: "top"

@@ -3,8 +3,11 @@ import { TReportInstance } from "components/Report";
 import { loadSettings, primary, fontFamily } from "components/Theme";
 
 export default function getBarOptions(instance: TReportInstance) {
-  const { direction } = loadSettings();
+  const { direction, type } = loadSettings();
   const name = get(instance, "name", instance.report.name);
+  const theme = get(instance, "config.theme", "default");
+  const color =
+    theme === "vintage" ? "#555" : type === "dark" ? "#eee" : "#555";
 
   return {
     title: {
@@ -29,10 +32,11 @@ export default function getBarOptions(instance: TReportInstance) {
       show: true,
       type: "scroll",
       top: "bottom",
-      left: direction === "rtl" ? "left" : "right"
+      left: direction === "rtl" ? "left" : "right",
+      textStyle: { color }
     },
     grid: {
-      left: "3%",
+      left: 30,
       right: "4%",
       bottom: 35,
       containLabel: true
@@ -40,6 +44,7 @@ export default function getBarOptions(instance: TReportInstance) {
     xAxis: {
       show: true,
       type: "category",
+      splitLine: { show: false },
       name: "",
       nameLocation: "end",
       nameGap: 0,
@@ -56,18 +61,20 @@ export default function getBarOptions(instance: TReportInstance) {
         inside: false,
         formatter: "{value}"
       },
-      splitLine: { show: false }
+      axisLine: {
+        lineStyle: { color }
+      }
     },
     yAxis: {
       show: true,
       type: "value",
       name: "",
       nameLocation: "center",
-      nameGap: 45,
+      nameGap: 55,
       nameRotate: 90,
       nameTextStyle: {
-        fontWeight: "normal",
-        fontSize: 12,
+        fontWeight: "bold",
+        fontSize: 16,
         align: null,
         verticalAlign: null,
         lineHeight: null
@@ -76,6 +83,9 @@ export default function getBarOptions(instance: TReportInstance) {
         rotate: 0,
         inside: false,
         formatter: "{value}"
+      },
+      axisLine: {
+        lineStyle: { color }
       }
     },
     textStyle: {

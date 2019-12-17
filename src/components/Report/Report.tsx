@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
+import merge from "lodash/merge";
 import { Moment } from "moment-jalaali";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import { withTheme, Theme } from "@material-ui/core/styles";
 import { displayErrMsg, parseToJSON } from "utility";
 import { withBreakPoint, TBreakPoint } from "components/Layout";
 import { DeleteButton } from "components/Button";
-import Chart, { getOptions, getData } from "components/Chart";
+import Chart, { chartOptions, getData } from "components/Chart";
 import Scalar, { IconMenu } from "components/Scalar";
 import Table from "components/Table";
 import ReportCard from "components/ReportCard";
@@ -93,11 +94,12 @@ class Report extends Component<propsType, stateType> {
         theme !== prevState.theme
       ) {
         this.setState({
-          options: {
-            ...options,
-            ...getOptions(instance),
-            ...getData(instance, data || { cols: [], rows: [], totalCount: 0 })
-          }
+          options: merge(
+            {},
+            chartOptions(instance),
+            options,
+            getData(instance, data || { cols: [], rows: [], totalCount: 0 })
+          )
         });
       }
     }
@@ -143,8 +145,12 @@ class Report extends Component<propsType, stateType> {
     const { instance, bp, theme } = this.props;
     const type = theme.palette.type;
     instance.config.options[type][bp] = this.tempOptions;
-    this.setState({ filterVOS: [] as TReportFilter[] }, () =>
-      this.execReport({ loadFromCache: false })
+    this.setState(
+      {
+        filterVOS: [] as TReportFilter[],
+        options: this.getOptions()
+      },
+      () => this.execReport({ loadFromCache: false })
     );
   };
 

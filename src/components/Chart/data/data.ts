@@ -1,6 +1,7 @@
 import get from "lodash/get";
 import { TReportInstance, TReportData, TReportType } from "components/Report";
 import barData from "./bar.data";
+import lineData from "./line.data";
 import areaData from "./area.data";
 import pieData from "./pie.data";
 import gaugeData from "./gauge.data";
@@ -16,7 +17,7 @@ export function getData(instance: TReportInstance, data: TReportData) {
     case "BAR":
       return barData(instance, data);
     case "LINE":
-      return barData(instance, data);
+      return lineData(instance, data);
     case "PIE":
       return pieData(instance, data);
     case "GAUGE":
