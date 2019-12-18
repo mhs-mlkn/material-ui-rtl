@@ -2,7 +2,7 @@ import get from "lodash/get";
 import { loadSettings, primary, fontFamily } from "components/Theme";
 import { TReportInstance } from "components/Report";
 
-export default function getGaugeOptions(instance: TReportInstance) {
+export default function gaugeOptions(instance: TReportInstance) {
   const { direction } = loadSettings();
   const name = get(instance, "name", instance.report.name);
 

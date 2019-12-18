@@ -2,7 +2,7 @@ import get from "lodash/get";
 import { loadSettings, primary, fontFamily } from "components/Theme";
 import { TReportInstance } from "components/Report";
 
-export default function getTreemapOptions(instance: TReportInstance) {
+export default function treemapOptions(instance: TReportInstance) {
   const { direction } = loadSettings();
   const name = get(instance, "name", instance.report.name);
 

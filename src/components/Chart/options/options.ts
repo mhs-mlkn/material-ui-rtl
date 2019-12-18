@@ -4,6 +4,7 @@ import { TReportInstance, TReportType } from "components/Report";
 import getBarOpitons from "./bar.options";
 import getPieOpitons from "./pie.options";
 import getGaugeOpitons from "./gauge.options";
+import getRadarOpitons from "./radar.options";
 import getTreemapOpitons from "./treemap.options";
 import getHeatmapOptions from "./heatmap.options";
 
@@ -12,6 +13,7 @@ export function chartOptions(instance: TReportInstance) {
   const barOptions = getBarOpitons(instance);
   const pieOptions = getPieOpitons(instance);
   const gaugeOptions = getGaugeOpitons(instance);
+  const radarOptions = getRadarOpitons(instance);
   const treemapOptions = getTreemapOpitons(instance);
   const heatmapOptions = getHeatmapOptions(instance);
 
@@ -57,7 +59,7 @@ export function chartOptions(instance: TReportInstance) {
     TREEMAP: treemapOptions,
     HEATMAP: heatmapOptions,
     SCATTER: barOptions,
-    RADAR: barOptions,
+    RADAR: radarOptions,
     SCALAR: barOptions,
     TABLE: barOptions
   };

@@ -1,8 +1,8 @@
 import get from "lodash/get";
-import { TReportInstance } from "components/Report";
 import { loadSettings, primary, fontFamily } from "components/Theme";
+import { TReportInstance } from "components/Report";
 
-export default function barOptions(instance: TReportInstance) {
+export default function radarOptions(instance: TReportInstance) {
   const { direction, type } = loadSettings();
   const name = get(instance, "name", instance.report.name);
   const theme = get(instance, "config.theme", "default");
@@ -23,7 +23,10 @@ export default function barOptions(instance: TReportInstance) {
     },
     tooltip: {
       show: true,
-      trigger: "item"
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow" // 'line' | 'shadow'
+      }
     },
     legend: {
       show: true,
@@ -31,6 +34,10 @@ export default function barOptions(instance: TReportInstance) {
       top: "bottom",
       left: direction === "rtl" ? "left" : "right",
       textStyle: { color }
+    },
+    radar: {
+      radius: "75%",
+      shape: "polygon"
     },
     textStyle: {
       fontFamily

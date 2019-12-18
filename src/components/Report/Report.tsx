@@ -8,7 +8,7 @@ import { withTheme, Theme } from "@material-ui/core/styles";
 import { displayErrMsg, parseToJSON } from "utility";
 import { withBreakPoint, TBreakPoint } from "components/Layout";
 import { DeleteButton } from "components/Button";
-import Chart, { chartOptions, getData } from "components/Chart";
+import Chart, { chartOptions, chartData } from "components/Chart";
 import Scalar, { IconMenu } from "components/Scalar";
 import Table from "components/Table";
 import ReportCard from "components/ReportCard";
@@ -97,7 +97,7 @@ class Report extends Component<propsType, stateType> {
           options: merge(
             {},
             chartOptions(instance),
-            getData(instance, data || { cols: [], rows: [], totalCount: 0 }),
+            chartData(instance, data || { cols: [], rows: [], totalCount: 0 }),
             options
           )
         });
