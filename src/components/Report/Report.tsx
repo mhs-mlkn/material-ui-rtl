@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
+import isEqual from "lodash/isEqual";
 import merge from "lodash/merge";
+import omit from "lodash/omit";
 import { Moment } from "moment-jalaali";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import { withTheme, Theme } from "@material-ui/core/styles";
@@ -84,26 +86,32 @@ class Report extends Component<propsType, stateType> {
 
   componentDidUpdate(prevProps: propsType, prevState: stateType) {
     const { instance } = this.props;
-    const { data, options, theme } = this.state;
+    const { theme, options } = this.state;
     const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
 
     if (isChart) {
       if (
         prevProps.theme.palette.type !== this.props.theme.palette.type ||
-        (!!data && !prevState.data) ||
-        theme !== prevState.theme
+        theme !== prevState.theme ||
+        !isEqual(options, prevState.options)
       ) {
-        this.setState({
-          options: merge(
-            {},
-            chartOptions(instance),
-            chartData(instance, data || { cols: [], rows: [], totalCount: 0 }),
-            options
-          )
-        });
+        this.updateOptions();
       }
     }
   }
+
+  updateOptions = () => {
+    const { instance } = this.props;
+    const { data, options } = this.state;
+    this.setState({
+      options: merge(
+        {},
+        chartOptions(instance, options),
+        chartData(instance, data || { cols: [], rows: [], totalCount: 0 }),
+        omit(options, ["dataset", "series.data", "legend.textStyle"])
+      )
+    });
+  };
 
   componentDidCatch(error: any, errorInfo: any) {
     this.setState({ error: true });
@@ -118,7 +126,7 @@ class Report extends Component<propsType, stateType> {
     const filterVOS = this.processFilters();
     const _params = { size: isTable ? 10 : 0, filterVOS, ...params };
     ReportService.execute(instanceId, _params)
-      .then(data => this.setState({ data }))
+      .then(data => this.setState({ data }, () => this.updateOptions()))
       .catch(() => this.setState({ error: true }))
       .finally(() => this.setState({ loading: false }));
   };

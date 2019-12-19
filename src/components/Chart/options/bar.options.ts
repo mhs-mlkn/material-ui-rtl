@@ -1,15 +1,23 @@
 import get from "lodash/get";
 import { TReportInstance } from "components/Report";
 import { loadSettings, primary, fontFamily } from "components/Theme";
+import { formatNumber } from "utility";
 
-export default function barOptions(instance: TReportInstance) {
+function converter(value: any, opt: any) {
+  return `${formatNumber(value / opt.devideBy || value)} ${opt.label}`;
+}
+
+export default function barOptions(
+  instance: TReportInstance,
+  savedOptions: object
+) {
   const { direction, type } = loadSettings();
   const name = get(instance, "name", instance.report.name);
   const theme = get(instance, "config.theme", "default");
   const color =
     theme === "vintage" ? "#555" : type === "dark" ? "#eee" : "#555";
 
-  return {
+  const options = {
     title: {
       show: true,
       text: name,
@@ -59,7 +67,9 @@ export default function barOptions(instance: TReportInstance) {
       axisLabel: {
         rotate: 0,
         inside: false,
-        formatter: "{value}"
+        label: "",
+        devideBy: 1,
+        formatter: (value: any) => value
       },
       axisLine: {
         lineStyle: { color }
@@ -82,7 +92,9 @@ export default function barOptions(instance: TReportInstance) {
       axisLabel: {
         rotate: 0,
         inside: false,
-        formatter: "{value}"
+        label: "",
+        devideBy: 1,
+        formatter: (value: any) => value
       },
       axisLine: {
         lineStyle: { color }
@@ -92,4 +104,23 @@ export default function barOptions(instance: TReportInstance) {
       fontFamily
     }
   };
+
+  const xAxisLabel = get(
+    savedOptions,
+    "xAxis.axisLabel",
+    options.xAxis.axisLabel
+  );
+  const yAxisLabel = get(
+    savedOptions,
+    "yAxis.axisLabel",
+    options.yAxis.axisLabel
+  );
+
+  options.xAxis.axisLabel.formatter = (value: any) =>
+    converter(value, xAxisLabel);
+
+  options.yAxis.axisLabel.formatter = (value: any) =>
+    converter(value, yAxisLabel);
+
+  return options;
 }

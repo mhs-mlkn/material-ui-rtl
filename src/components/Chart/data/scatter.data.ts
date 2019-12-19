@@ -1,13 +1,26 @@
 import { TReportInstance, TReportData } from "components/Report";
 
 export default function barData(instance: TReportInstance, data: TReportData) {
-  const length = data.cols.length === 0 ? 0 : data.cols.length - 1;
+  const grouped = data.rows.reduce((series: any, row) => {
+    const name = row.cols[0];
+    series[name] = series[name] ? series[name] : [];
+    series[name].push(row.cols.slice(1));
+    return series;
+  }, {});
+
+  const series = [];
+  for (let key in grouped) {
+    series.push({
+      type: "scatter",
+      name: key,
+      data: grouped[key],
+      symbolSize: (data: any[]) => {
+        return data.length > 2 ? data[2] : 10;
+      }
+    });
+  }
 
   return {
-    dataset: {
-      dimensions: data.cols.map(c => c.key),
-      source: data.rows.map(r => r.cols)
-    },
-    series: Array(length).fill({ type: "bar" })
+    series
   };
 }

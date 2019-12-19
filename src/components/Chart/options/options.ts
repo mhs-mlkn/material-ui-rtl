@@ -8,9 +8,9 @@ import getRadarOpitons from "./radar.options";
 import getTreemapOpitons from "./treemap.options";
 import getHeatmapOptions from "./heatmap.options";
 
-export function chartOptions(instance: TReportInstance) {
+export function chartOptions(instance: TReportInstance, savedOptions: object) {
   const type: TReportType = get(instance, "report.type", "BAR");
-  const barOptions = getBarOpitons(instance);
+  const barOptions = getBarOpitons(instance, savedOptions);
   const pieOptions = getPieOpitons(instance);
   const gaugeOptions = getGaugeOpitons(instance);
   const radarOptions = getRadarOpitons(instance);

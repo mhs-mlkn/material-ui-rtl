@@ -7,7 +7,13 @@ export default function barOptions(instance: TReportInstance) {
   const name = get(instance, "name", instance.report.name);
   const theme = get(instance, "config.theme", "default");
   const color =
-    theme === "vintage" ? "#555" : type === "dark" ? "#eee" : "#555";
+    theme === "vintage"
+      ? "#555"
+      : theme === "dark"
+      ? "#eee"
+      : type === "dark"
+      ? "#eee"
+      : "#555";
 
   return {
     title: {

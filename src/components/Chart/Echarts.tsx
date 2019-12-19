@@ -42,6 +42,7 @@ const Echarts = (props: propsType) => {
       option={options}
       showLoading={loading}
       theme={chartTheme}
+      notMerge
       loadingOption={{
         text: "درحال بارگذاری",
         textColor: _theme.palette.text.primary,
