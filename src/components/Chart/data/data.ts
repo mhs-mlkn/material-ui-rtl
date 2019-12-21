@@ -3,6 +3,7 @@ import { TReportInstance, TReportData, TReportType } from "components/Report";
 import barData from "./bar.data";
 import lineData from "./line.data";
 import areaData from "./area.data";
+import scatterData from "./scatter.data";
 import pieData from "./pie.data";
 import radarData from "./radar.data";
 import gaugeData from "./gauge.data";
@@ -20,7 +21,7 @@ export function chartData(instance: TReportInstance, data: TReportData) {
     GAUGE: gaugeData(instance, data),
     TREEMAP: treemapData(instance, data),
     HEATMAP: heatmapData(instance, data),
-    SCATTER: barData(instance, data),
+    SCATTER: scatterData(instance, data),
     RADAR: radarData(instance, data),
     SCALAR: data,
     TABLE: data

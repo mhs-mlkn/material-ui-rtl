@@ -23,7 +23,7 @@ export default function radarOptions(instance: TReportInstance) {
     },
     tooltip: {
       show: true,
-      trigger: "axis",
+      trigger: "item",
       axisPointer: {
         type: "shadow" // 'line' | 'shadow'
       }
