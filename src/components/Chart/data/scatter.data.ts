@@ -15,7 +15,7 @@ export default function barData(instance: TReportInstance, data: TReportData) {
       name: key,
       data: grouped[key],
       symbolSize: (data: any[]) => {
-        return data.length > 2 ? data[2] : 10;
+        return data.length > 2 ? data[data.length - 1] : 10;
       }
     });
   }

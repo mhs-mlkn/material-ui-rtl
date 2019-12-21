@@ -2,6 +2,7 @@ import get from "lodash/get";
 import merge from "lodash/merge";
 import { TReportInstance, TReportType } from "components/Report";
 import getBarOpitons from "./bar.options";
+import getScatterOpitons from "./scatter.options";
 import getPieOpitons from "./pie.options";
 import getGaugeOpitons from "./gauge.options";
 import getRadarOpitons from "./radar.options";
@@ -11,6 +12,7 @@ import getHeatmapOptions from "./heatmap.options";
 export function chartOptions(instance: TReportInstance, savedOptions: object) {
   const type: TReportType = get(instance, "report.type", "BAR");
   const barOptions = getBarOpitons(instance, savedOptions);
+  const scatterOpitons = getScatterOpitons(instance, savedOptions);
   const pieOptions = getPieOpitons(instance);
   const gaugeOptions = getGaugeOpitons(instance);
   const radarOptions = getRadarOpitons(instance);
@@ -58,7 +60,7 @@ export function chartOptions(instance: TReportInstance, savedOptions: object) {
     GAUGE: gaugeOptions,
     TREEMAP: treemapOptions,
     HEATMAP: heatmapOptions,
-    SCATTER: barOptions,
+    SCATTER: scatterOpitons,
     RADAR: radarOptions,
     SCALAR: barOptions,
     TABLE: barOptions
