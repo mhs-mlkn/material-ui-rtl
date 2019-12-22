@@ -20,6 +20,7 @@
     "formik": "^2.0.6",
     "jsoneditor": "^7.2.1",
     "jsoneditor-react": "^2.0.0",
+    "jsonpath-plus": "^2.0.0",
     "jss": "^10.0.0",
     "jss-rtl": "^0.3.0",
     "lodash": "^4.17.15",

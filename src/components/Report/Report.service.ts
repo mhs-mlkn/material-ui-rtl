@@ -7,6 +7,7 @@ import {
   TReportConfig,
   TReportParams
 } from ".";
+import processElastic from "./elastic.2";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
@@ -96,11 +97,20 @@ export class ReportService {
         page,
         size
       }
-    ).then(response => ({
-      ...response.data.result,
-      totalCount:
-        page > 0 ? _totalCount : get(response, "data.result.totalCount", 0)
-    }));
+    )
+      .then(response => response.data.result)
+      .then(data => {
+        const instance = this._instances[instanceId];
+        const dataSource = get(instance, "report.query.dataSource.type", "SQL");
+        if (dataSource === "ELASTICSEARCH") {
+          return processElastic(data.rawData, instance.report.query.metadata);
+        }
+        return data;
+      })
+      .then(data => ({
+        ...data,
+        totalCount: page > 0 ? _totalCount : get(data, "totalCount", 0)
+      }));
   }
 
   public async getFilterOptions(instanceId: number, filterId: number) {

@@ -81,6 +81,8 @@ export type TReport = {
   query: {
     queryParams: TQueryParam[];
     queryFilters: TQueryFilter[];
+    dataSource: { id: number; type: "SQL" | "ELASTICSEARCH" };
+    metadata: string;
   };
 };
 
