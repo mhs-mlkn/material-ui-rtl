@@ -41,7 +41,7 @@ export default function heatmapOptions(instance: TReportInstance) {
     },
     visualMap: {
       min: 0,
-      max: 10,
+      max: 100,
       calculable: true,
       orient: "horizontal",
       left: "center",

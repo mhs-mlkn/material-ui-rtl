@@ -3,6 +3,7 @@ import get from "lodash/get";
 import keyBy from "lodash/keyBy";
 import {
   TReportInstance,
+  TReportData,
   TReportExecParams,
   TReportConfig,
   TReportParams
@@ -25,6 +26,8 @@ const DefaultConfigString = JSON.stringify(DefaultConfig);
 export class ReportService {
   private _instances: { [id: number]: TReportInstance } = {};
   private hasInit = false;
+  private filterOptions: TReportData = { cols: [], rows: [], totalCount: 0 };
+  private filterOptionsId: number = 0;
 
   public get Instances() {
     return this.hasInit
@@ -103,7 +106,10 @@ export class ReportService {
         const instance = this._instances[instanceId];
         const dataSource = get(instance, "report.query.dataSource.type", "SQL");
         if (dataSource === "ELASTICSEARCH") {
-          return processElastic(data.rawData, instance.report.query.metadata);
+          return processElastic(
+            JSON.parse(data.rawData),
+            instance.report.query.metadata
+          );
         }
         return data;
       })
@@ -114,8 +120,19 @@ export class ReportService {
   }
 
   public async getFilterOptions(instanceId: number, filterId: number) {
-    const url = `${baseUrl}/userreport/${instanceId}/getFilterOptions?filterId=${filterId}`;
-    return Api.post(url, null).then(res => res.data.result);
+    const fetch = async () => {
+      const url = `${baseUrl}/userreport/${instanceId}/getFilterOptions?filterId=${filterId}`;
+      return Api.post(url, null).then(res => {
+        this.filterOptionsId = instanceId;
+        this.filterOptions = res.data.result;
+        return this.filterOptions;
+      });
+    };
+
+    if (instanceId === this.filterOptionsId) {
+      return Promise.resolve(this.filterOptions);
+    }
+    return fetch();
   }
 
   private async fetchInstances() {
