@@ -117,7 +117,8 @@ export type TReportIcons =
 export type TReportMenuAction =
   | "TOGGLE_AUTO_REFRESH"
   | "REFRESH_REPORT"
-  | "OPEN_FILTERS";
+  | "OPEN_FILTERS"
+  | "OPEN_EXPORT";
 
 export type TReportAdminConfig = {
   refreshInterval: number;

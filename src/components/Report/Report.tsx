@@ -22,6 +22,7 @@ import {
   ThemeMenu,
   AutoRefresh,
   Filters,
+  Export,
   SaveButton,
   TReportInstance,
   TReportData,
@@ -49,6 +50,7 @@ type stateType = {
   options: object;
   icon: TReportIcons;
   openFilters: boolean;
+  openExport: boolean;
   filterVOS: TReportFilter[];
 };
 
@@ -63,6 +65,7 @@ class Report extends Component<propsType, stateType> {
     options: this.getOptions(),
     icon: get(this.props.instance, "config.icon", "info"),
     openFilters: false,
+    openExport: false,
     filterVOS: [] as TReportFilter[]
   };
 
@@ -145,8 +148,12 @@ class Report extends Component<propsType, stateType> {
     });
   }
 
-  toggleOpenFilters = () => {
+  toggleFiltersModal = () => {
     this.setState(state => ({ openFilters: !state.openFilters }));
+  };
+
+  toggleExportModal = () => {
+    this.setState(state => ({ openExport: !state.openExport }));
   };
 
   handleRetry = () => {
@@ -184,7 +191,7 @@ class Report extends Component<propsType, stateType> {
   handleFiltersChange = (filters: TReportFilter[]) => {
     this.setState({ filterVOS: filters });
     this.execReport();
-    this.toggleOpenFilters();
+    this.toggleFiltersModal();
   };
 
   handleDelete = () => {
@@ -209,7 +216,10 @@ class Report extends Component<propsType, stateType> {
         return this.execReport({ loadFromCache: false });
 
       case "OPEN_FILTERS":
-        return this.setState({ openFilters: true });
+        return this.toggleFiltersModal();
+
+      case "OPEN_EXPORT":
+        return this.toggleExportModal();
 
       default:
         break;
@@ -259,6 +269,7 @@ class Report extends Component<propsType, stateType> {
       theme,
       icon,
       openFilters,
+      openExport,
       filterVOS,
       loading,
       error
@@ -283,7 +294,7 @@ class Report extends Component<propsType, stateType> {
       >
         <Modal
           open={openFilters}
-          onClose={this.toggleOpenFilters}
+          onClose={this.toggleFiltersModal}
           maxWidth="md"
           keepMounted={false}
           actions={<></>}
@@ -292,9 +303,17 @@ class Report extends Component<propsType, stateType> {
             instance={instance}
             initials={filterVOS}
             reportFilters={this.reportFilters}
-            onClose={this.toggleOpenFilters}
+            onClose={this.toggleFiltersModal}
             onFiltersChange={this.handleFiltersChange}
           />
+        </Modal>
+        <Modal
+          open={openExport}
+          onClose={this.toggleExportModal}
+          maxWidth="xs"
+          actions={<></>}
+        >
+          <Export />
         </Modal>
         <AutoRefresh
           isRunning={isRunning}

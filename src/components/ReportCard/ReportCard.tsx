@@ -16,6 +16,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import { TReportMenuAction, TReportInstance } from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -155,6 +156,11 @@ const ReportCard = (props: propsType) => {
                   </MenuItem>
                 </Tooltip>
               )}
+              <Tooltip placement="top" title="ذخیره">
+                <MenuItem onClick={handleMenuItemClick("OPEN_EXPORT")}>
+                  <SaveAltIcon fontSize="small" />
+                </MenuItem>
+              </Tooltip>
             </Menu>
           </>
         )}

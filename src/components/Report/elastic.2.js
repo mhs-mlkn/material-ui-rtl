@@ -24,7 +24,7 @@ export default function processElastic(response, template) {
   // eslint-disable-next-line
   template = eval("(" + template + ")");
   const seriesPath = `${template.xAxis.source}.${template.series.source}.${template.series.path}`;
-  const series = uniq(JSONPath(seriesPath, response)).reduce(
+  const series = !!template.series.title ? {[template.series.title]: 0} : uniq(JSONPath(seriesPath, response)).reduce(
     (values, cur) => ({ ...values, [cur]: 0 }),
     {}
   );
@@ -34,7 +34,7 @@ export default function processElastic(response, template) {
       (values, cur) => {
         return {
           ...values,
-          [get(cur, template.series.path)]: get(cur, template.series.value, 0)
+          [!!template.series.title ? template.series.title : get(cur, template.series.path)]: get(cur, template.series.value, 0)
         };
       },
       series
@@ -54,7 +54,7 @@ export default function processElastic(response, template) {
     cols: keys(data[0]).map((key, i) => {
         return {
           key,
-          type: i === 0 ? template.xAxis.type : template.series.type
+          type: i === 0 ? (template.xAxis.type || "STRING") : (template.series.type || "NUMBER")
         }
     }),
     rows: data.map(row => ({cols: values(row)})),
