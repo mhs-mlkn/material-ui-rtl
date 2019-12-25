@@ -8,7 +8,7 @@ import {
   TReportConfig,
   TReportParams
 } from ".";
-import processElastic from "./elastic.2";
+import processElastic from "./elastic";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
@@ -79,14 +79,15 @@ export class ReportService {
   public async execute(instanceId: number, params?: TReportExecParams) {
     const url = `${baseUrl}/userreport/${instanceId}/exec`;
 
-    const filterVOS = get(params, "filterVOS", []);
-    const parentParams = get(params, "parentParams", []);
-    const orderByElementVOS = get(params, "orderByElementVOS", []);
-
-    const loadFromCache = get(params, "loadFromCache", true);
-    const page = get(params, "page", 0);
-    const size = get(params, "size", 0);
-    const _totalCount = get(params, "totalCount", 0);
+    const {
+      filterVOS,
+      parentParams,
+      orderByElementVOS,
+      loadFromCache,
+      page,
+      size,
+      totalCount
+    } = this.getReportExecParams(params);
 
     return Api.post(
       url,
@@ -115,7 +116,7 @@ export class ReportService {
       })
       .then(data => ({
         ...data,
-        totalCount: page > 0 ? _totalCount : get(data, "totalCount", 0)
+        totalCount: page > 0 ? totalCount : get(data, "totalCount", 0)
       }));
   }
 
@@ -133,6 +134,23 @@ export class ReportService {
       return Promise.resolve(this.filterOptions);
     }
     return fetch();
+  }
+
+  public async export(
+    instanceId: number,
+    format: "XLSX" | "CSV",
+    params?: TReportExecParams
+  ) {
+    const api = format === "CSV" ? "getCSV" : "getXLS";
+    const url = `${baseUrl}/userreport/${instanceId}/${api}`;
+    const {
+      filterVOS,
+      parentParams,
+      orderByElementVOS
+    } = this.getReportExecParams(params);
+    return Api.post(url, { filterVOS, parentParams, orderByElementVOS }).then(
+      res => res.data
+    );
   }
 
   private async fetchInstances() {
@@ -166,6 +184,27 @@ export class ReportService {
     } catch (error) {
       return { ...DefaultConfig };
     }
+  }
+
+  private getReportExecParams(params?: TReportExecParams) {
+    const filterVOS = get(params, "filterVOS", []);
+    const parentParams = get(params, "parentParams", []);
+    const orderByElementVOS = get(params, "orderByElementVOS", []);
+
+    const loadFromCache = get(params, "loadFromCache", true);
+    const page = get(params, "page", 0);
+    const size = get(params, "size", 0);
+    const totalCount = get(params, "totalCount", 0);
+
+    return {
+      filterVOS,
+      parentParams,
+      orderByElementVOS,
+      loadFromCache,
+      page,
+      size,
+      totalCount
+    };
   }
 }
 

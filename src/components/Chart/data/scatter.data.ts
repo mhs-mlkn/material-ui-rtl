@@ -1,6 +1,9 @@
 import { TReportInstance, TReportData } from "components/Report";
 
-export default function barData(instance: TReportInstance, data: TReportData) {
+export default function scatterData(
+  instance: TReportInstance,
+  data: TReportData
+) {
   const grouped = data.rows.reduce((series: any, row) => {
     const name = row.cols[0];
     series[name] = series[name] ? series[name] : [];

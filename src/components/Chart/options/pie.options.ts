@@ -2,7 +2,10 @@ import get from "lodash/get";
 import { TReportInstance } from "components/Report";
 import { loadSettings, primary, fontFamily } from "components/Theme";
 
-export default function barOptions(instance: TReportInstance) {
+export default function barOptions(
+  instance: TReportInstance,
+  savedOptions: object
+) {
   const { direction, type } = loadSettings();
   const name = get(instance, "name", instance.report.name);
   const theme = get(instance, "config.theme", "default");

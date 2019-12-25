@@ -1,21 +1,44 @@
 import { TReportInstance, TReportData } from "components/Report";
-import treemapData2 from "./treemap.json";
 
-console.log(treemapData);
+type TNode = {
+  id: number;
+  name: string;
+  value: number;
+  children: TNode[];
+};
 
-export default function treemapData(
-  instance: TReportInstance,
-  data: TReportData
-) {
-  const name = "نام نمودار";
+function treemapData(instance: TReportInstance, data: TReportData) {
+  const root = creteNode(data.rows[0].cols);
+
+  function creteNode(row: any[]): TNode {
+    return {
+      id: row[2],
+      name: row[0],
+      value: row[1],
+      children: getChildren(row[2], data)
+    };
+  }
+
+  function getChildren(parentId: number, data: TReportData): TNode[] {
+    const children = [];
+    for (const row of data.rows) {
+      const r = row.cols;
+      if (r[3] === parentId) {
+        children.push(creteNode(r));
+      }
+    }
+    return children;
+  }
+
+  console.dir(root);
 
   return {
     series: [
       {
-        name,
+        name: root.name,
         type: "treemap",
         visibleMin: 300,
-        data: treemapData2.children,
+        data: root.children,
         leafDepth: 2,
         levels: [
           {
@@ -54,3 +77,4 @@ export default function treemapData(
     ]
   };
 }
+export default treemapData;

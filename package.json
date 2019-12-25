@@ -34,6 +34,7 @@
     "react-scripts": "^3.3.0",
     "react-sizeme": "^2.6.7",
     "react-top-loading-bar": "^1.1.1",
+    "rxjs": "^6.5.3",
     "use-global-hook": "^0.1.12"
   },
   "scripts": {
@@ -60,6 +61,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.9",
     "@types/crypto-js": "^3.1.43",
+    "@types/file-saver": "^2.0.1",
     "@types/hookrouter": "^2.2.1",
     "@types/jest": "^24.0.18",
     "@types/jss": "^10.0.0",

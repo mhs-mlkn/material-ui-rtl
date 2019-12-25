@@ -8,10 +8,11 @@ type propsType = {
   options: object;
   loading: boolean;
   theme: TChartTheme;
+  onChartClick: (data: any) => any;
 };
 
 const Echarts = (props: propsType) => {
-  const { options, loading, theme: chartTheme } = props;
+  const { options, loading, theme: chartTheme, onChartClick } = props;
   const _theme = useTheme<Theme>();
   const [updated, setUpdated] = useState(false);
   // let echarts = React.useRef<ReactEcharts>();
@@ -51,6 +52,9 @@ const Echarts = (props: propsType) => {
           type === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0)"
       }}
       // onChartReady={onChartReady}
+      onEvents={{
+        click: onChartClick
+      }}
       style={{ height: "100%", width: "100%" }}
     />
   );

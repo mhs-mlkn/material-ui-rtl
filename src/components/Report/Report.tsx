@@ -4,6 +4,7 @@ import keyBy from "lodash/keyBy";
 import isEqual from "lodash/isEqual";
 import merge from "lodash/merge";
 import omit from "lodash/omit";
+import has from "lodash/has";
 import { Moment } from "moment-jalaali";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import { withTheme, Theme } from "@material-ui/core/styles";
@@ -34,6 +35,7 @@ import {
   TReportMenuAction,
   TQueryFilter
 } from "components/Report";
+import { Subscriber, Categories } from "components/PubSub";
 
 type propsType = {
   instance: TReportInstance;
@@ -104,14 +106,15 @@ class Report extends Component<propsType, stateType> {
   }
 
   updateOptions = () => {
+    const noData = { cols: [], rows: [], totalCount: 0 };
     const { instance } = this.props;
     const { data, options } = this.state;
     this.setState({
       options: merge(
         {},
         chartOptions(instance, options),
-        chartData(instance, data || { cols: [], rows: [], totalCount: 0 }),
-        omit(options, ["dataset", "series.data", "legend.textStyle"])
+        chartData(instance, data || noData),
+        options
       )
     });
   };
@@ -204,7 +207,11 @@ class Report extends Component<propsType, stateType> {
   getOptions() {
     const { instance, bp, theme } = this.props;
     const type = theme.palette.type;
-    return get(instance, `config.options.${type}.${bp}`, {});
+    const options = get(instance, `config.options.${type}.${bp}`, {});
+    get(options, "series", []).forEach((s: any) => {
+      has(s, "data") && Reflect.deleteProperty(s, "data");
+    });
+    return omit(options, ["dataset", "radar", "legend.textStyle"]);
   }
 
   handleMenuItemClick = (key: TReportMenuAction) => {
@@ -224,6 +231,10 @@ class Report extends Component<propsType, stateType> {
       default:
         break;
     }
+  };
+
+  listener = (data: any) => {
+    console.log(data);
   };
 
   renderActions = (type: TReportType) => {
@@ -285,67 +296,73 @@ class Report extends Component<propsType, stateType> {
     }
 
     return (
-      <ReportCard
-        instance={instance}
-        autoRefresh={interval > 0}
-        isRunning={isRunning}
-        onMenuItemClick={this.handleMenuItemClick}
-        actions={this.renderActions(instance.report.type)}
+      <Subscriber
+        category={Categories.Drilldown}
+        id={instance.id}
+        listener={this.listener}
       >
-        <Modal
-          open={openFilters}
-          onClose={this.toggleFiltersModal}
-          maxWidth="md"
-          keepMounted={false}
-          actions={<></>}
-        >
-          <Filters
-            instance={instance}
-            initials={filterVOS}
-            reportFilters={this.reportFilters}
-            onClose={this.toggleFiltersModal}
-            onFiltersChange={this.handleFiltersChange}
-          />
-        </Modal>
-        <Modal
-          open={openExport}
-          onClose={this.toggleExportModal}
-          maxWidth="xs"
-          actions={<></>}
-        >
-          <Export />
-        </Modal>
-        <AutoRefresh
+        <ReportCard
+          instance={instance}
+          autoRefresh={interval > 0}
           isRunning={isRunning}
-          interval={interval}
-          execReport={this.execReport}
-        />
-        {instance.report.type === "SCALAR" ? (
-          <Scalar
-            instance={instance}
-            options={options}
-            theme={theme}
-            icon={icon}
-            data={data}
-            loading={loading}
-          />
-        ) : instance.report.type === "TABLE" ? (
-          <Table
-            instance={instance}
-            data={data}
-            loading={loading}
+          onMenuItemClick={this.handleMenuItemClick}
+          actions={this.renderActions(instance.report.type)}
+        >
+          <Modal
+            open={openFilters}
+            onClose={this.toggleFiltersModal}
+            maxWidth="md"
+            keepMounted={false}
+            actions={<></>}
+          >
+            <Filters
+              instance={instance}
+              initials={filterVOS}
+              reportFilters={this.reportFilters}
+              onClose={this.toggleFiltersModal}
+              onFiltersChange={this.handleFiltersChange}
+            />
+          </Modal>
+          <Modal
+            open={openExport}
+            onClose={this.toggleExportModal}
+            maxWidth="xs"
+            actions={<></>}
+          >
+            <Export instanceId={instance.id} filterVOS={filterVOS} />
+          </Modal>
+          <AutoRefresh
+            isRunning={isRunning}
+            interval={interval}
             execReport={this.execReport}
           />
-        ) : (
-          <Chart
-            // instance={instance}
-            // data={data}
-            options={options}
-            theme={theme}
-            loading={loading}
-          />
-        )}
-      </ReportCard>
+          {instance.report.type === "SCALAR" ? (
+            <Scalar
+              instance={instance}
+              options={options}
+              theme={theme}
+              icon={icon}
+              data={data}
+              loading={loading}
+            />
+          ) : instance.report.type === "TABLE" ? (
+            <Table
+              instance={instance}
+              data={data}
+              loading={loading}
+              execReport={this.execReport}
+            />
+          ) : (
+            <Chart
+              instance={instance}
+              // data={data}
+              options={options}
+              theme={theme}
+              loading={loading}
+            />
+          )}
+        </ReportCard>
+      </Subscriber>
     );
   }
 }

@@ -13,19 +13,21 @@ import heatmapData from "./heatmap.data";
 export function chartData(instance: TReportInstance, data: TReportData) {
   const reportType: TReportType = get(instance, "report.type", "BAR");
 
-  const _data: { [key in TReportType]: object } = {
-    BAR: barData(instance, data),
-    AREA: areaData(instance, data),
-    LINE: lineData(instance, data),
-    PIE: pieData(instance, data),
-    GAUGE: gaugeData(instance, data),
-    TREEMAP: treemapData(instance, data),
-    HEATMAP: heatmapData(instance, data),
-    SCATTER: scatterData(instance, data),
-    RADAR: radarData(instance, data),
-    SCALAR: data,
-    TABLE: data
+  const _data: {
+    [key in TReportType]: (instance: TReportInstance, data: TReportData) => any;
+  } = {
+    AREA: areaData,
+    BAR: barData,
+    GAUGE: gaugeData,
+    HEATMAP: heatmapData,
+    LINE: lineData,
+    PIE: pieData,
+    RADAR: radarData,
+    SCATTER: scatterData,
+    TREEMAP: treemapData,
+    SCALAR: () => data,
+    TABLE: () => data
   };
 
-  return _data[reportType];
+  return _data[reportType](instance, data);
 }

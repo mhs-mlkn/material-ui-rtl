@@ -18,6 +18,13 @@ export function formatNumber(num: number | string) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
+export function formatChartValue(
+  value: any,
+  opt: { devideBy: number | string; label: string }
+) {
+  return `${formatNumber(value / +opt.devideBy || value)} ${opt.label}`;
+}
+
 export function formatValue(type: string, value: string | null) {
   const _val = value || "";
   if (type === "DATE") {

@@ -2,7 +2,10 @@ import get from "lodash/get";
 import { loadSettings, primary, fontFamily } from "components/Theme";
 import { TReportInstance } from "components/Report";
 
-export default function radarOptions(instance: TReportInstance) {
+export default function radarOptions(
+  instance: TReportInstance,
+  savedOptions: object
+) {
   const { direction, type } = loadSettings();
   const name = get(instance, "name", instance.report.name);
   const theme = get(instance, "config.theme", "default");

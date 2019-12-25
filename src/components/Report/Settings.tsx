@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import omit from "lodash/omit";
 import clx from "classnames";
 import { JsonEditor as Editor } from "jsoneditor-react";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -68,7 +69,7 @@ const Settings = (props: propsType) => {
           style={{ display: displayBlock ? "block" : "flex" }}
         >
           <Editor
-            value={json}
+            value={omit(json, ["dataset", "radar", "legend.textStyle"])}
             mode="form"
             onChange={handleChange}
             htmlElementProps={style}

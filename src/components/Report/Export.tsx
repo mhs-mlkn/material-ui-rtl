@@ -1,4 +1,6 @@
 import React from "react";
+import { saveAs } from "file-saver";
+import moment from "moment-jalaali";
 import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -6,17 +8,43 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { Button } from "components/Button";
+import { ReportService, TReportFilter } from "components/Report";
 
-const Export = () => {
-  const [value, setValue] = React.useState("");
+type propsType = {
+  instanceId: number;
+  filterVOS: TReportFilter[];
+};
+
+type TExportFormat = "PNG" | "CSV" | "XLSX";
+
+const Export = (props: propsType) => {
+  const { instanceId, filterVOS } = props;
+  const [value, setValue] = React.useState<TExportFormat>("CSV");
   const [loading, setLoading] = React.useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+    const v = (event.target as HTMLInputElement).value;
+    setValue(v as TExportFormat);
   };
 
   const handleExportClick = () => {
-    console.log(value);
+    if (value === "PNG") {
+      console.log(value);
+    } else {
+      setLoading(true);
+      ReportService.export(instanceId, value, { filterVOS })
+        .then(data => {
+          const blob = new Blob([data], { type: "text/csv" });
+          saveAs(
+            blob,
+            `report-${instanceId}-${moment().format(
+              "jYYYY/jMM/jDD"
+            )}.${value.toLowerCase()}`
+          );
+        })
+        .catch(error => console.log(error))
+        .finally(() => setLoading(false));
+    }
   };
 
   return (
