@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import get from "lodash/get";
 import ReactEcharts from "echarts-for-react";
 import { useTheme, Theme } from "@material-ui/core/styles";
-import { TChartTheme } from "components/Report";
+import { TChartTheme, TReportInstance } from "components/Report";
 
 type propsType = {
+  instance: TReportInstance;
   options: object;
   loading: boolean;
   theme: TChartTheme;
@@ -12,7 +13,7 @@ type propsType = {
 };
 
 const Echarts = (props: propsType) => {
-  const { options, loading, theme: chartTheme, onChartClick } = props;
+  const { instance, options, loading, theme: chartTheme, onChartClick } = props;
   const _theme = useTheme<Theme>();
   const [updated, setUpdated] = useState(false);
   // let echarts = React.useRef<ReactEcharts>();
@@ -56,6 +57,7 @@ const Echarts = (props: propsType) => {
         click: onChartClick
       }}
       style={{ height: "100%", width: "100%" }}
+      className={`report-${instance.id}`}
     />
   );
 };

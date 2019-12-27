@@ -33,65 +33,60 @@ import {
   TChartTheme,
   TReportIcons,
   TReportMenuAction,
-  TQueryFilter
+  TQueryFilter,
+  TQueryParam
 } from "components/Report";
 import { Subscriber, Categories } from "components/PubSub";
 
 type propsType = {
-  instance: TReportInstance;
+  instanceId: number;
   onDelete: (instanceId: number) => void;
 } & WithSnackbarProps & { bp: TBreakPoint } & { theme: Theme };
 
 type stateType = {
+  instance: TReportInstance;
   loading: boolean;
   error: boolean;
   data: TReportData | undefined;
-  isRunning: boolean;
   interval: number;
+  isRunning: boolean;
   theme: TChartTheme;
   options: object;
   icon: TReportIcons;
   openFilters: boolean;
   openExport: boolean;
   filterVOS: TReportFilter[];
+  parentParams: TQueryParam[];
+  isDrillDown: boolean;
 };
 
 class Report extends Component<propsType, stateType> {
-  state = {
+  state: stateType = {
+    instance: ReportService.get(this.props.instanceId),
     loading: false,
     error: false,
     data: undefined,
     interval: 0,
     isRunning: true,
-    theme: get(this.props.instance, "config.theme", "default"),
+    theme: "default",
     options: this.getOptions(),
-    icon: get(this.props.instance, "config.icon", "info"),
+    icon: "info",
     openFilters: false,
     openExport: false,
-    filterVOS: [] as TReportFilter[]
+    filterVOS: [] as TReportFilter[],
+    parentParams: [],
+    isDrillDown: false
   };
 
   tempOptions: object = {};
   reportFilters: { [key: string]: TQueryFilter } = {};
 
   componentDidMount() {
-    const { report } = this.props.instance;
-
-    const config = parseToJSON(report.config, {});
-    const interval = get(config, "refreshInterval", 0);
-    this.setState({ interval });
-
-    const { queryFilters } = report.query;
-    this.reportFilters = keyBy(queryFilters, "id");
-
-    if (report.type !== "TABLE") {
-      this.execReport();
-    }
+    this.initialize();
   }
 
   componentDidUpdate(prevProps: propsType, prevState: stateType) {
-    const { instance } = this.props;
-    const { theme, options } = this.state;
+    const { instance, theme, options } = this.state;
     const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
 
     if (isChart) {
@@ -105,10 +100,45 @@ class Report extends Component<propsType, stateType> {
     }
   }
 
+  initialize() {
+    const { instance } = this.state;
+    const { report } = instance;
+
+    const config = parseToJSON(report.config, {});
+    const interval = get(config, "refreshInterval", 0);
+    const theme = get(instance, "config.theme", "default");
+    const icon = get(instance, "config.icon", "info");
+    this.setState({ interval, theme, icon });
+
+    const { queryFilters } = report.query;
+    this.reportFilters = keyBy(queryFilters, "id");
+
+    if (report.type !== "TABLE") {
+      this.execReport();
+    }
+  }
+
+  execReport = (params?: TReportExecParams, showLoading?: boolean) => {
+    const { instance, parentParams } = this.state;
+    const loading = showLoading === undefined ? true : showLoading;
+    const isTable = instance.report.type === "TABLE";
+    this.setState({ loading, error: false });
+    const filterVOS = this.processFilters();
+    const _params = {
+      size: isTable ? 10 : 0,
+      filterVOS,
+      parentParams,
+      ...params
+    };
+    ReportService.execute(instance.id, _params)
+      .then(data => this.setState({ data }, () => this.updateOptions()))
+      .catch(() => this.setState({ error: true }))
+      .finally(() => this.setState({ loading: false }));
+  };
+
   updateOptions = () => {
     const noData = { cols: [], rows: [], totalCount: 0 };
-    const { instance } = this.props;
-    const { data, options } = this.state;
+    const { instance, data, options } = this.state;
     this.setState({
       options: merge(
         {},
@@ -121,21 +151,8 @@ class Report extends Component<propsType, stateType> {
 
   componentDidCatch(error: any, errorInfo: any) {
     this.setState({ error: true });
-    console.error(`Report ErrorBoundary> (${this.props.instance.id}) `, error);
+    console.error(`Report ErrorBoundary> (${this.state.instance.id}) `, error);
   }
-
-  execReport = (params?: TReportExecParams, showLoading?: boolean) => {
-    const loading = showLoading === undefined ? true : showLoading;
-    const isTable = this.props.instance.report.type === "TABLE";
-    this.setState({ loading, error: false });
-    const { id: instanceId } = this.props.instance;
-    const filterVOS = this.processFilters();
-    const _params = { size: isTable ? 10 : 0, filterVOS, ...params };
-    ReportService.execute(instanceId, _params)
-      .then(data => this.setState({ data }, () => this.updateOptions()))
-      .catch(() => this.setState({ error: true }))
-      .finally(() => this.setState({ loading: false }));
-  };
 
   processFilters() {
     return this.state.filterVOS.map(filter => {
@@ -160,7 +177,8 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleRetry = () => {
-    const { instance, bp, theme } = this.props;
+    const { bp, theme } = this.props;
+    const { instance } = this.state;
     const type = theme.palette.type;
     instance.config.options[type][bp] = this.tempOptions;
     this.setState(
@@ -173,13 +191,14 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleThemeChange = (theme: TChartTheme) => {
-    const { instance } = this.props;
+    const { instance } = this.state;
     instance.config.theme = theme;
     this.setState({ theme });
   };
 
   handleOptionChange = (options: object) => {
-    const { instance, bp, theme } = this.props;
+    const { bp, theme } = this.props;
+    const { instance } = this.state;
     const type = theme.palette.type;
     this.tempOptions = get(instance, `config.options.${type}.${bp}`, {});
     instance.config.options[type][bp] = options;
@@ -187,7 +206,8 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleIconChange = (icon: TReportIcons) => {
-    this.props.instance.config.icon = icon;
+    const { instance } = this.state;
+    instance.config.icon = icon;
     this.setState({ icon });
   };
 
@@ -198,20 +218,26 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleDelete = () => {
-    const { id: instanceId } = this.props.instance;
+    const { id: instanceId } = this.state.instance;
     ReportService.delete(instanceId)
       .then(() => this.props.onDelete(instanceId))
       .catch(displayErrMsg(this.props.enqueueSnackbar));
   };
 
   getOptions() {
-    const { instance, bp, theme } = this.props;
+    const { instanceId, bp, theme } = this.props;
+    const instance = ReportService.get(instanceId);
     const type = theme.palette.type;
     const options = get(instance, `config.options.${type}.${bp}`, {});
     get(options, "series", []).forEach((s: any) => {
       has(s, "data") && Reflect.deleteProperty(s, "data");
     });
-    return omit(options, ["dataset", "radar", "legend.textStyle"]);
+    return omit(options, [
+      "dataset",
+      "radar",
+      "toolbox.feature.saveAsImage",
+      "legend.textStyle"
+    ]);
   }
 
   handleMenuItemClick = (key: TReportMenuAction) => {
@@ -228,17 +254,46 @@ class Report extends Component<propsType, stateType> {
       case "OPEN_EXPORT":
         return this.toggleExportModal();
 
+      case "BACK_FROM_DRILLDOWN":
+        return this.setState(
+          {
+            instance: ReportService.get(this.props.instanceId),
+            isDrillDown: false,
+            parentParams: []
+          },
+          this.initialize
+        );
+
       default:
         break;
     }
   };
 
   listener = (data: any) => {
-    console.log(data);
+    const { instance } = this.state;
+    const { drillDownId } = instance;
+
+    if (!!drillDownId) {
+      const drillDownInstance = ReportService.get(drillDownId);
+      const parentParams = drillDownInstance.report.query.queryParams.find(
+        p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
+      );
+      if (!!parentParams) {
+        parentParams.value = data.name;
+      }
+      this.setState(
+        {
+          instance: drillDownInstance,
+          isDrillDown: true,
+          parentParams: !!parentParams ? [parentParams] : []
+        },
+        this.initialize
+      );
+    }
   };
 
   renderActions = (type: TReportType) => {
-    const { instance } = this.props;
+    const { instance } = this.state;
     const { theme, options, icon } = this.state;
     switch (type) {
       case "SCALAR":
@@ -273,6 +328,7 @@ class Report extends Component<propsType, stateType> {
 
   render() {
     const {
+      instance,
       data,
       isRunning,
       interval,
@@ -282,10 +338,10 @@ class Report extends Component<propsType, stateType> {
       openFilters,
       openExport,
       filterVOS,
+      isDrillDown,
       loading,
       error
     } = this.state;
-    const { instance } = this.props;
 
     if (error) {
       return (
@@ -305,6 +361,7 @@ class Report extends Component<propsType, stateType> {
           instance={instance}
           autoRefresh={interval > 0}
           isRunning={isRunning}
+          isDrillDown={isDrillDown}
           onMenuItemClick={this.handleMenuItemClick}
           actions={this.renderActions(instance.report.type)}
         >

@@ -69,7 +69,7 @@ export default function TableWrapper(props: propsType) {
   };
 
   return (
-    <div id={`report-${instance.id}`}>
+    <div className={`report-${instance.id}`}>
       <Typography
         variant="body1"
         component="p"

@@ -17,6 +17,7 @@ import PauseIcon from "@material-ui/icons/Pause";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
+import ReplayIcon from "@material-ui/icons/Replay";
 import { TReportMenuAction, TReportInstance } from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -57,6 +58,7 @@ type propsType = {
   instance: TReportInstance;
   autoRefresh?: boolean;
   isRunning?: boolean;
+  isDrillDown?: boolean;
   onMenuItemClick?: (action: TReportMenuAction) => any;
   actions?: ReactNode;
   children: ReactNode;
@@ -67,6 +69,7 @@ const ReportCard = (props: propsType) => {
     instance,
     autoRefresh = false,
     isRunning = false,
+    isDrillDown = false,
     onMenuItemClick = () => null,
     actions,
     children
@@ -161,6 +164,15 @@ const ReportCard = (props: propsType) => {
                   <SaveAltIcon fontSize="small" />
                 </MenuItem>
               </Tooltip>
+              {isDrillDown && (
+                <Tooltip placement="top" title="بازگشت به گزارش اصلی">
+                  <MenuItem
+                    onClick={handleMenuItemClick("BACK_FROM_DRILLDOWN")}
+                  >
+                    <ReplayIcon fontSize="small" />
+                  </MenuItem>
+                </Tooltip>
+              )}
             </Menu>
           </>
         )}

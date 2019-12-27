@@ -1,4 +1,5 @@
 import React from "react";
+import domtoimage from "dom-to-image";
 import { saveAs } from "file-saver";
 import moment from "moment-jalaali";
 import Grid from "@material-ui/core/Grid";
@@ -29,12 +30,21 @@ const Export = (props: propsType) => {
 
   const handleExportClick = () => {
     if (value === "PNG") {
-      console.log(value);
+      return (
+        domtoimage
+          // @ts-ignore
+          .toBlob(document.getElementsByClassName(`report-${instanceId}`)[0], {
+            bgcolor: "#fff"
+          })
+          .then((blob: any) => saveAs(blob, `report-${instanceId}`))
+      );
     } else {
       setLoading(true);
       ReportService.export(instanceId, value, { filterVOS })
         .then(data => {
-          const blob = new Blob([data], { type: "text/csv" });
+          const blob = new Blob([data], {
+            type: `text/${value.toLocaleLowerCase()}`
+          });
           saveAs(
             blob,
             `report-${instanceId}-${moment().format(

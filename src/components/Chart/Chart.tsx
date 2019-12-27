@@ -19,6 +19,7 @@ const Chart = (props: propsType) => {
 
   return (
     <Echarts
+      instance={instance}
       options={options}
       loading={loading}
       theme={theme}

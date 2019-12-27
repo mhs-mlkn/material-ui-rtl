@@ -158,7 +158,7 @@ const Scalar = (props: propsType) => {
   };
 
   return (
-    <div className={classes.root} style={rootStyles} id={`report-${id}`}>
+    <div className={clx(classes.root, `report-${id}`)} style={rootStyles}>
       <Typography
         variant="body1"
         component="span"
