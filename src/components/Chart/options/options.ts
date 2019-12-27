@@ -25,7 +25,7 @@ export function chartOptions(instance: TReportInstance, savedOptions: object) {
       top: 25,
       feature: {
         saveAsImage: {
-          show: true,
+          show: false,
           title: "ذخیره",
           pixelRatio: 1
         }

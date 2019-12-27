@@ -118,7 +118,8 @@ export type TReportMenuAction =
   | "TOGGLE_AUTO_REFRESH"
   | "REFRESH_REPORT"
   | "OPEN_FILTERS"
-  | "OPEN_EXPORT";
+  | "OPEN_EXPORT"
+  | "BACK_FROM_DRILLDOWN";
 
 export type TReportAdminConfig = {
   refreshInterval: number;
@@ -135,6 +136,7 @@ export type TReportConfig = {
 
 export type TReportInstance = {
   id: number;
+  drillDownId?: number;
   dashboardId: number;
   name?: string;
   report: TReport;
@@ -149,7 +151,7 @@ export type TReportData = {
 
 export type TReportExecParams = {
   filterVOS?: TReportFilter[];
-  parentParams?: any[];
+  parentParams?: TQueryParam[];
   orderByElementVOS?: { name: string; isDesc: boolean }[];
   loadFromCache?: boolean;
   page?: number;
