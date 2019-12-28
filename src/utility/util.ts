@@ -15,7 +15,7 @@ export function displayErrMsg(enqueueSnackbar: (p: any, o: any) => any) {
 }
 
 export function formatNumber(num: number | string) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  return (num || "").toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
 export function formatChartValue(

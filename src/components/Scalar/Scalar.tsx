@@ -176,7 +176,7 @@ const Scalar = (props: propsType) => {
         className={clx(classes.value)}
         style={{ display: getDisplay(options, "value"), ...valueStyles }}
       >
-        {formatNumber(data.value)}
+        {formatNumber(get(data, "value", ""))}
       </Typography>
       <div
         className={clx(classes.icon)}

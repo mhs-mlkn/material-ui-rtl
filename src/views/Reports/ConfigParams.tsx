@@ -58,7 +58,6 @@ const ConfigParams = () => {
       const _params = drillDown.query.queryParams.filter(
         p => ["BY_BUSINESS"].indexOf(p.fill) > -1
       );
-
       setDrillDownParams(_params);
     }
   }, [drillDown]);
@@ -105,14 +104,14 @@ const ConfigParams = () => {
     return {};
   };
 
-  const renderParamInput = (p: TQueryParam, i: number) => {
+  const renderParamInput = (p: TQueryParam, i: number, fieldName: string) => {
     return (
       <Grid key={p.key} item xs={12} sm={4} md={3} lg={2} xl={2}>
-        <Field name={`params.${i}.value`}>
+        <Field name={`${fieldName}.${i}.value`}>
           {(innerProps: FieldProps<TReportParams>) => {
             const { meta } = innerProps;
             return (
-              <Tooltip title={p.hint}>
+              <Tooltip title={p.hint || ""}>
                 <FormikInput
                   {...innerProps}
                   margin="dense"
@@ -152,7 +151,9 @@ const ConfigParams = () => {
           <FieldArray
             name="params"
             render={() =>
-              formikProps.values.params.map((p, i) => renderParamInput(p, i))
+              formikProps.values.params.map((p, i) =>
+                renderParamInput(p, i, "params")
+              )
             }
           />
           {formikProps.values.drillDownParams.length > 0 && (
@@ -166,7 +167,7 @@ const ConfigParams = () => {
             name="drillDownParams"
             render={() =>
               formikProps.values.drillDownParams.map((p, i) =>
-                renderParamInput(p, i)
+                renderParamInput(p, i, "drillDownParams")
               )
             }
           />

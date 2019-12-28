@@ -62,15 +62,16 @@ export class ReportService {
     drillDownId: number
   ) {
     const { name, params = [], drillDownParams = [] } = reportParams;
-    const _baseurl = `${baseUrl}/report/${reportId}`;
-    const url = `${_baseurl}/param?dashboardId=${dashboardId}&name=${name}`;
+    const _baseurl = `${baseUrl}/report`;
+    const url = `${_baseurl}/${reportId}/param?dashboardId=${dashboardId}&name=${name}`;
     const instanceId = await Api.post(url, params).then(res => res.data.result);
     await this.fetchInstance(instanceId);
     if (drillDownId > -1) {
-      const drillDownUrl = `${_baseurl}/userreport/${instanceId}/param`;
+      const drillDownUrl = `${_baseurl}/${drillDownId}/userreport/${instanceId}/param`;
       const _drillDownId = await Api.post(drillDownUrl, drillDownParams).then(
         res => res.data.result
       );
+      this._instances[instanceId].drillDownId = _drillDownId;
       await this.fetchInstance(_drillDownId);
     }
     return Promise.resolve(instanceId);

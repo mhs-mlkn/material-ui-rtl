@@ -69,7 +69,7 @@ class Report extends Component<propsType, stateType> {
     interval: 0,
     isRunning: true,
     theme: "default",
-    options: this.getOptions(),
+    options: {},
     icon: "info",
     openFilters: false,
     openExport: false,
@@ -108,7 +108,8 @@ class Report extends Component<propsType, stateType> {
     const interval = get(config, "refreshInterval", 0);
     const theme = get(instance, "config.theme", "default");
     const icon = get(instance, "config.icon", "info");
-    this.setState({ interval, theme, icon });
+    const options = this.getOptions();
+    this.setState({ interval, theme, icon, options });
 
     const { queryFilters } = report.query;
     this.reportFilters = keyBy(queryFilters, "id");
@@ -225,8 +226,8 @@ class Report extends Component<propsType, stateType> {
   };
 
   getOptions() {
-    const { instanceId, bp, theme } = this.props;
-    const instance = ReportService.get(instanceId);
+    const { bp, theme } = this.props;
+    const { instance } = this.state;
     const type = theme.palette.type;
     const options = get(instance, `config.options.${type}.${bp}`, {});
     get(options, "series", []).forEach((s: any) => {
@@ -258,6 +259,7 @@ class Report extends Component<propsType, stateType> {
         return this.setState(
           {
             instance: ReportService.get(this.props.instanceId),
+            options: {},
             isDrillDown: false,
             parentParams: []
           },
@@ -284,6 +286,7 @@ class Report extends Component<propsType, stateType> {
       this.setState(
         {
           instance: drillDownInstance,
+          options: {},
           isDrillDown: true,
           parentParams: !!parentParams ? [parentParams] : []
         },
