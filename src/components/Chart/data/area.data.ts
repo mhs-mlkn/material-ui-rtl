@@ -7,7 +7,8 @@ export default function areaData(instance: TReportInstance, data: TReportData) {
     areaStyle: { opacity: 0.3 },
     label: {
       show: false,
-      position: "top"
+      position: "top",
+      color: "auto"
     }
   });
 

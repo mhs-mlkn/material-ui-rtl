@@ -6,7 +6,8 @@ export default function barData(instance: TReportInstance, data: TReportData) {
     type: "bar",
     label: {
       show: false,
-      position: "top"
+      position: "top",
+      color: "auto"
     }
   });
 

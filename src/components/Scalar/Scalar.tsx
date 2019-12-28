@@ -11,6 +11,7 @@ import {
 import Typography from "@material-ui/core/Typography";
 import { TReportIcons, TChartTheme } from "components/Report";
 import { ScalarIcon, defaultOptions, getDisplay } from ".";
+import { formatNumber } from "utility";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -175,7 +176,7 @@ const Scalar = (props: propsType) => {
         className={clx(classes.value)}
         style={{ display: getDisplay(options, "value"), ...valueStyles }}
       >
-        {data.value}
+        {formatNumber(data.value)}
       </Typography>
       <div
         className={clx(classes.icon)}

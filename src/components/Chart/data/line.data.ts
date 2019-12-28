@@ -6,7 +6,8 @@ export default function lineData(instance: TReportInstance, data: TReportData) {
     type: "line",
     label: {
       show: false,
-      position: "top"
+      position: "top",
+      color: "auto"
     }
   });
 

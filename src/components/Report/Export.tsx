@@ -2,6 +2,7 @@ import React from "react";
 import domtoimage from "dom-to-image";
 import { saveAs } from "file-saver";
 import moment from "moment-jalaali";
+import { useSnackbar } from "notistack";
 import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -10,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { Button } from "components/Button";
 import { ReportService, TReportFilter } from "components/Report";
+import { displayErrMsg } from "utility";
 
 type propsType = {
   instanceId: number;
@@ -22,6 +24,7 @@ const Export = (props: propsType) => {
   const { instanceId, filterVOS } = props;
   const [value, setValue] = React.useState<TExportFormat>("CSV");
   const [loading, setLoading] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const v = (event.target as HTMLInputElement).value;
@@ -52,7 +55,7 @@ const Export = (props: propsType) => {
             )}.${value.toLowerCase()}`
           );
         })
-        .catch(error => console.log(error))
+        .catch(displayErrMsg(enqueueSnackbar))
         .finally(() => setLoading(false));
     }
   };
