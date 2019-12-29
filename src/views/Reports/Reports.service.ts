@@ -24,10 +24,10 @@ export class ReportsService {
     pageSize: number,
     bypassCache?: boolean
   ) {
-    const reportsPromise =
-      !bypassCache && this.hasInit
-        ? Promise.resolve(this._reports)
-        : this.fetchReports();
+    const reportsPromise = this.fetchReports();
+    // !bypassCache && this.hasInit
+    //   ? Promise.resolve(this._reports)
+    //   : this.fetchReports();
 
     return reportsPromise.then(() => {
       const skip = page * pageSize;

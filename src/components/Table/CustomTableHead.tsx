@@ -10,7 +10,7 @@ const CustomTableCell = withStyles(theme => ({
     backgroundColor:
       theme.palette.type === "dark" ? theme.palette.grey["800"] : "#e5e5e5",
     color: theme.palette.type === "dark" ? "#fff" : "#424242",
-    fontSize: "11px"
+    fontSize: "16px"
   }
 }))(TableCell);
 

@@ -58,7 +58,7 @@ export class DashboardsService {
     shared: boolean
   ) {
     const url = `${baseUrl}/dashboard/${shared ? "shared/" : ""}${id}`;
-    return Api.put(url, updates).then(() => {
+    return Api.patch(url, updates).then(() => {
       if (has(updates, "config")) {
         updates.config = JSON.parse(updates.config);
       }

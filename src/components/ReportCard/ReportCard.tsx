@@ -17,7 +17,7 @@ import PauseIcon from "@material-ui/icons/Pause";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
-import ReplayIcon from "@material-ui/icons/Replay";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { TReportMenuAction, TReportInstance } from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -169,7 +169,7 @@ const ReportCard = (props: propsType) => {
                   <MenuItem
                     onClick={handleMenuItemClick("BACK_FROM_DRILLDOWN")}
                   >
-                    <ReplayIcon fontSize="small" />
+                    <ArrowBackIcon fontSize="small" />
                   </MenuItem>
                 </Tooltip>
               )}

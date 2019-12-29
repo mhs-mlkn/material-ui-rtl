@@ -119,7 +119,8 @@ export type TReportMenuAction =
   | "REFRESH_REPORT"
   | "OPEN_FILTERS"
   | "OPEN_EXPORT"
-  | "BACK_FROM_DRILLDOWN";
+  | "BACK_FROM_DRILLDOWN"
+  | "DELETE_REPORT";
 
 export type TReportAdminConfig = {
   refreshInterval: number;

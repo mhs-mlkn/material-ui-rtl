@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
-import isEqual from "lodash/isEqual";
 import merge from "lodash/merge";
 import omit from "lodash/omit";
 import has from "lodash/has";
@@ -19,6 +18,7 @@ import { Modal } from "components/Modal";
 import {
   ReportService,
   ExecError,
+  NoData,
   Settings,
   ThemeMenu,
   AutoRefresh,
@@ -86,14 +86,14 @@ class Report extends Component<propsType, stateType> {
   }
 
   componentDidUpdate(prevProps: propsType, prevState: stateType) {
-    const { instance, theme, options } = this.state;
+    const { instance, theme } = this.state;
     const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
 
     if (isChart) {
       if (
         prevProps.theme.palette.type !== this.props.theme.palette.type ||
-        theme !== prevState.theme ||
-        !isEqual(options, prevState.options)
+        theme !== prevState.theme
+        // || !isEqual(options, prevState.options)
       ) {
         this.updateOptions();
       }
@@ -145,7 +145,7 @@ class Report extends Component<propsType, stateType> {
         {},
         chartOptions(instance, options),
         chartData(instance, data || noData),
-        options
+        this.getOptions()
       )
     });
   };
@@ -203,7 +203,7 @@ class Report extends Component<propsType, stateType> {
     const type = theme.palette.type;
     this.tempOptions = get(instance, `config.options.${type}.${bp}`, {});
     instance.config.options[type][bp] = options;
-    this.setState({ options });
+    this.setState({ options }, this.updateOptions);
   };
 
   handleIconChange = (icon: TReportIcons) => {
@@ -248,6 +248,9 @@ class Report extends Component<propsType, stateType> {
 
       case "REFRESH_REPORT":
         return this.execReport({ loadFromCache: false });
+
+      case "DELETE_REPORT":
+        return this.handleDelete();
 
       case "OPEN_FILTERS":
         return this.toggleFiltersModal();
@@ -345,11 +348,20 @@ class Report extends Component<propsType, stateType> {
       loading,
       error
     } = this.state;
+    const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
 
     if (error) {
       return (
         <ReportCard instance={instance}>
           <ExecError onRetry={this.handleRetry} onDelete={this.handleDelete} />
+        </ReportCard>
+      );
+    }
+
+    if (!!data && isChart && data.rows.length === 0) {
+      return (
+        <ReportCard instance={instance}>
+          <NoData onRetry={this.handleRetry} />
         </ReportCard>
       );
     }

@@ -21,6 +21,10 @@ class Api {
     return this._axios.put(url, data, { params });
   }
 
+  public async patch(url: string, data: any, params?: { [key: string]: any }) {
+    return this._axios.patch(url, data, { params });
+  }
+
   public async post(url: string, data: any, params?: { [key: string]: any }) {
     return this._axios.post(url, data, { params });
   }
