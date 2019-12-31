@@ -119,6 +119,7 @@ export type TReportMenuAction =
   | "REFRESH_REPORT"
   | "OPEN_FILTERS"
   | "OPEN_EXPORT"
+  | "OPEN_EMBED"
   | "BACK_FROM_DRILLDOWN"
   | "DELETE_REPORT";
 

@@ -32,7 +32,8 @@ export default function barOptions(
     },
     tooltip: {
       show: true,
-      trigger: "item"
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} ({d}%)"
     },
     legend: {
       show: true,

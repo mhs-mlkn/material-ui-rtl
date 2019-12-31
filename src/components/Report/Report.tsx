@@ -55,6 +55,7 @@ type stateType = {
   icon: TReportIcons;
   openFilters: boolean;
   openExport: boolean;
+  openEmbed: boolean;
   filterVOS: TReportFilter[];
   parentParams: TQueryParam[];
   isDrillDown: boolean;
@@ -73,6 +74,7 @@ class Report extends Component<propsType, stateType> {
     icon: "info",
     openFilters: false,
     openExport: false,
+    openEmbed: false,
     filterVOS: [] as TReportFilter[],
     parentParams: [],
     isDrillDown: false
@@ -177,6 +179,10 @@ class Report extends Component<propsType, stateType> {
     this.setState(state => ({ openExport: !state.openExport }));
   };
 
+  toggleEmbedModal = () => {
+    this.setState(state => ({ openEmbed: !state.openEmbed }));
+  };
+
   handleRetry = () => {
     const { bp, theme } = this.props;
     const { instance } = this.state;
@@ -257,6 +263,9 @@ class Report extends Component<propsType, stateType> {
 
       case "OPEN_EXPORT":
         return this.toggleExportModal();
+
+      case "OPEN_EMBED":
+        return this.toggleEmbedModal();
 
       case "BACK_FROM_DRILLDOWN":
         return this.setState(
@@ -343,6 +352,7 @@ class Report extends Component<propsType, stateType> {
       icon,
       openFilters,
       openExport,
+      openEmbed,
       filterVOS,
       isDrillDown,
       loading,
@@ -399,6 +409,13 @@ class Report extends Component<propsType, stateType> {
             open={openExport}
             onClose={this.toggleExportModal}
             maxWidth="xs"
+            actions={<></>}
+          >
+            <Export instanceId={instance.id} filterVOS={filterVOS} />
+          </Modal>
+          <Modal
+            open={openEmbed}
+            onClose={this.toggleEmbedModal}
             actions={<></>}
           >
             <Export instanceId={instance.id} filterVOS={filterVOS} />

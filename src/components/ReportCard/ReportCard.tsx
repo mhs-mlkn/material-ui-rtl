@@ -18,6 +18,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import CodeIcon from '@material-ui/icons/Code';
 import { TReportMenuAction, TReportInstance } from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -162,6 +163,11 @@ const ReportCard = (props: propsType) => {
               <Tooltip placement="top" title="ذخیره">
                 <MenuItem onClick={handleMenuItemClick("OPEN_EXPORT")}>
                   <SaveAltIcon fontSize="small" />
+                </MenuItem>
+              </Tooltip>
+              <Tooltip placement="top" title="ذخیره">
+                <MenuItem onClick={handleMenuItemClick("OPEN_EMBED")}>
+                  <CodeIcon fontSize="small" />
                 </MenuItem>
               </Tooltip>
               {isDrillDown && (
