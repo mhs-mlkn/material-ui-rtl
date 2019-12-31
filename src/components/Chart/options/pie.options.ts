@@ -33,7 +33,12 @@ export default function barOptions(
     tooltip: {
       show: true,
       trigger: "item",
-      formatter: "{a} <br/>{b} : {c} ({d}%)"
+      // formatter: "{a} <br/>{b} : {c} ({d}%)"
+      formatter: (params: any) => {
+        const { name, value, percent, encode } = params;
+        const value2 = value[encode.value[0]];
+        return `${name} : ${value2} (${percent}%)`;
+      }
     },
     legend: {
       show: true,

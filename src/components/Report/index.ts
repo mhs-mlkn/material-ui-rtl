@@ -11,6 +11,7 @@ export { default as AutoRefresh } from "./AutoRefresh";
 export { default as Filters } from "./Filters";
 export { default as QueryListFilter } from "./QueryListFilter";
 export { default as Export } from "./Export";
+export { default as Embed } from "./Embed";
 export { default as Themes } from "./Themes.constants";
 export * from "./report.types";
 

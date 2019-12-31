@@ -24,6 +24,7 @@ import {
   AutoRefresh,
   Filters,
   Export,
+  Embed,
   SaveButton,
   TReportInstance,
   TReportData,
@@ -418,7 +419,7 @@ class Report extends Component<propsType, stateType> {
             onClose={this.toggleEmbedModal}
             actions={<></>}
           >
-            <Export instanceId={instance.id} filterVOS={filterVOS} />
+            <Embed instanceId={instance.id} />
           </Modal>
           <AutoRefresh
             isRunning={isRunning}

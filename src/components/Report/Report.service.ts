@@ -154,6 +154,11 @@ export class ReportService {
     );
   }
 
+  public async fetchEmbedHash(instanceId: number): Promise<string> {
+    const url = `${baseUrl}/userreport/${instanceId}/hash`;
+    return Api.get(url).then(res => res.data.result as string);
+  }
+
   private async fetchInstances() {
     const url = `${baseUrl}/userreport`;
     const response = await Api.get(url);
