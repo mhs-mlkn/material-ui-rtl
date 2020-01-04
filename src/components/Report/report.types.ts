@@ -76,6 +76,7 @@ export type TReport = {
   drillDownId: number;
   created: string;
   publicized: boolean;
+  canGiveAccess: boolean;
   description: string;
   config: string;
   query: {

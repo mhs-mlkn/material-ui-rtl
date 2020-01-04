@@ -7,13 +7,15 @@ import { ReportAccess } from ".";
 const AccessButton = (props: { report: TReport }) => {
   const { report } = props;
 
+  const disabled = report.publicized || !report.canGiveAccess;
+
   return (
     <ModalButton
       icon={ShareIcon}
-      IconButtonProps={{ title: "اشتراک گذاری", disabled: report.publicized }}
+      IconButtonProps={{ title: "اشتراک گذاری", disabled }}
       IconProps={{
         fontSize: "small",
-        color: report.publicized ? "disabled" : "secondary"
+        color: disabled ? "disabled" : "secondary"
       }}
     >
       <ReportAccess reportId={report.id} />
