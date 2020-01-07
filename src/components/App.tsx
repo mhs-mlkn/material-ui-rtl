@@ -10,11 +10,11 @@ const App: React.FC = () => {
   moment.loadPersian({ dialect: "persian-modern", usePersianDigits: false });
 
   return (
-    <BrowserRouter forceRefresh={!supportsHistory}>
-        <Theme>
-          <LoadingBar />
-          <Router />
-        </Theme>
+    <BrowserRouter forceRefresh={!supportsHistory} basename="/new">
+      <Theme>
+        <LoadingBar />
+        <Router />
+      </Theme>
     </BrowserRouter>
   );
 };

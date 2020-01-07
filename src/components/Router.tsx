@@ -10,14 +10,14 @@ const Router = () => {
     return route.auth ? (
       <PrivateRoute
         key={index}
-        path={`${base}${route.path}`}
+        path={`${process.env.PUBLIC_URL}/${base}${route.path}`}
         component={route.component}
         exact
       />
     ) : (
       <Route
         key={index}
-        path={`${base}${route.path}`}
+        path={`${process.env.PUBLIC_URL}/${base}${route.path}`}
         component={route.component}
         exact
       />
