@@ -10,14 +10,14 @@ const Router = () => {
     return route.auth ? (
       <PrivateRoute
         key={index}
-        path={`${process.env.PUBLIC_URL}/${base}${route.path}`}
+        path={`${base}${route.path}`}
         component={route.component}
         exact
       />
     ) : (
       <Route
         key={index}
-        path={`${process.env.PUBLIC_URL}/${base}${route.path}`}
+        path={`${base}${route.path}`}
         component={route.component}
         exact
       />
@@ -27,7 +27,7 @@ const Router = () => {
   return (
     <Switch>
       {Routes.map((route: TRoute, i: number) => getRoute(route, i))}
-      <Redirect exact from={redirect.from} to={redirect.to} />
+      <Redirect exact from={`${redirect.from}`} to={redirect.to} />
       <Redirect exact from={`${base}${redirect.from}`} to={redirect.to} />
       <Route component={NotFound} />
     </Switch>
