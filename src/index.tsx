@@ -11,4 +11,4 @@ import "react-resizable/css/styles.css";
 //   "font-size: 170px; background: #222; color: #bada55"
 // );
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<div>Mohsen</div>, document.getElementById("root"));
