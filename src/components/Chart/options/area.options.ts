@@ -7,11 +7,8 @@ export default function areaOptions(
   instance: TReportInstance,
   savedOptions: object
 ) {
-  const { direction, type } = loadSettings();
+  const { direction } = loadSettings();
   const name = get(instance, "name", instance.report.name);
-  const theme = get(instance, "config.theme", "default");
-  const color =
-    theme === "vintage" ? "#555" : type === "dark" ? "#eee" : "#555";
 
   const options = {
     title: {
@@ -37,7 +34,7 @@ export default function areaOptions(
       type: "scroll",
       top: "bottom",
       left: direction === "rtl" ? "left" : "right",
-      textStyle: { color }
+      textStyle: { color: "default" }
     },
     grid: {
       left: 30,
@@ -68,7 +65,7 @@ export default function areaOptions(
         formatter: (value: any) => value
       },
       axisLine: {
-        lineStyle: { color }
+        lineStyle: { color: "default" }
       }
     },
     yAxis: {
@@ -93,7 +90,7 @@ export default function areaOptions(
         formatter: (value: any) => value
       },
       axisLine: {
-        lineStyle: { color }
+        lineStyle: { color: "default" }
       }
     },
     textStyle: {

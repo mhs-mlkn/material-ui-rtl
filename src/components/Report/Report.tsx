@@ -265,6 +265,11 @@ class Report extends Component<propsType, stateType> {
       case "OPEN_EXPORT":
         return this.toggleExportModal();
 
+      case "FULLSCREEN":
+        const elementId = `report-grid-${this.props.instanceId}`;
+        const reportWrapper = document.getElementById(elementId);
+        return reportWrapper!.requestFullscreen();
+
       case "OPEN_EMBED":
         return this.toggleEmbedModal();
 

@@ -1,21 +1,14 @@
 import get from "lodash/get";
 import { TReportInstance } from "components/Report";
 import { loadSettings, primary, fontFamily } from "components/Theme";
-import { formatNumber } from "utility";
+import { formatChartValue } from "utility";
 
-function converter(value: any, opt: any) {
-  return `${formatNumber(value / opt.devideBy || value)} ${opt.label}`;
-}
-
-export default function barOptions(
+export default function scatterOptions(
   instance: TReportInstance,
   savedOptions: object
 ) {
-  const { direction, type } = loadSettings();
+  const { direction } = loadSettings();
   const name = get(instance, "name", instance.report.name);
-  const theme = get(instance, "config.theme", "default");
-  const color =
-    theme === "vintage" ? "#555" : type === "dark" ? "#eee" : "#555";
 
   const options = {
     title: {
@@ -41,7 +34,7 @@ export default function barOptions(
       type: "scroll",
       top: "bottom",
       left: direction === "rtl" ? "left" : "right",
-      textStyle: { color }
+      textStyle: { color: "default" }
     },
     grid: {
       left: 30,
@@ -72,7 +65,7 @@ export default function barOptions(
         formatter: (value: any) => value
       },
       axisLine: {
-        lineStyle: { color }
+        lineStyle: { color: "default" }
       }
     },
     yAxis: {
@@ -97,7 +90,7 @@ export default function barOptions(
         formatter: (value: any) => value
       },
       axisLine: {
-        lineStyle: { color }
+        lineStyle: { color: "default" }
       }
     },
     textStyle: {
@@ -117,10 +110,10 @@ export default function barOptions(
   );
 
   options.xAxis.axisLabel.formatter = (value: any) =>
-    converter(value, xAxisLabel);
+    formatChartValue(value, xAxisLabel);
 
   options.yAxis.axisLabel.formatter = (value: any) =>
-    converter(value, yAxisLabel);
+    formatChartValue(value, yAxisLabel);
 
   return options;
 }

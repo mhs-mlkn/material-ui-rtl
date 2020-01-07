@@ -122,6 +122,7 @@ export type TReportMenuAction =
   | "OPEN_EXPORT"
   | "OPEN_EMBED"
   | "BACK_FROM_DRILLDOWN"
+  | "FULLSCREEN"
   | "DELETE_REPORT";
 
 export type TReportAdminConfig = {

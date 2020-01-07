@@ -6,11 +6,8 @@ export default function radarOptions(
   instance: TReportInstance,
   savedOptions: object
 ) {
-  const { direction, type } = loadSettings();
+  const { direction } = loadSettings();
   const name = get(instance, "name", instance.report.name);
-  const theme = get(instance, "config.theme", "default");
-  const color =
-    theme === "vintage" ? "#555" : type === "dark" ? "#eee" : "#555";
 
   return {
     title: {
@@ -36,7 +33,7 @@ export default function radarOptions(
       type: "scroll",
       top: "bottom",
       left: direction === "rtl" ? "left" : "right",
-      textStyle: { color }
+      textStyle: { color: "default" }
     },
     radar: {
       radius: "75%",

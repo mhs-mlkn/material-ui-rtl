@@ -18,6 +18,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import CodeIcon from "@material-ui/icons/Code";
 import { TReportMenuAction, TReportInstance } from "components/Report";
 
@@ -163,6 +164,11 @@ const ReportCard = (props: propsType) => {
               <Tooltip placement="top" title="ذخیره">
                 <MenuItem onClick={handleMenuItemClick("OPEN_EXPORT")}>
                   <SaveAltIcon fontSize="small" />
+                </MenuItem>
+              </Tooltip>
+              <Tooltip placement="top" title="مشاهده تمام صفحه">
+                <MenuItem onClick={handleMenuItemClick("FULLSCREEN")}>
+                  <FullscreenIcon fontSize="small" />
                 </MenuItem>
               </Tooltip>
               <Tooltip placement="top" title="مشاهده گزارش در صفحه شما">

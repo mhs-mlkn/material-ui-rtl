@@ -33,8 +33,8 @@ const Dashboard = (props: { id: number }) => {
   return (
     <>
       <Layout layouts={get(dashboard, "config.layouts", {})}>
-        {dashboard.userReportIds.map((id: number) => (
-          <div key={id}>
+        {dashboard.userReportIds.map(id => (
+          <div key={id} id={`report-grid-${id}`}>
             <Report instanceId={id} onDelete={handleDelete} />
           </div>
         ))}

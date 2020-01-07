@@ -69,7 +69,12 @@ const Settings = (props: propsType) => {
           style={{ display: displayBlock ? "block" : "flex" }}
         >
           <Editor
-            value={omit(json, ["dataset", "radar", "legend.textStyle"])}
+            value={omit(json, [
+              "dataset",
+              "radar",
+              "toolbox.feature.saveAsImage",
+              "legend.textStyle"
+            ])}
             mode="form"
             onChange={handleChange}
             htmlElementProps={style}

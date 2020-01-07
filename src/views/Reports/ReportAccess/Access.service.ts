@@ -42,7 +42,7 @@ export class AccessService {
   public async unSubscribe(userId: number, reportId: number) {
     const url = `${baseUrl}/report/${reportId}/removeUser?userId=${userId}`;
     try {
-      await Api.get(url);
+      await Api.delete(url);
       this._users = this._users.filter(u => u.id !== userId);
     } catch (error) {
       this._users = this._users.map(u =>
