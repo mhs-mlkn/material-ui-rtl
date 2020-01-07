@@ -1,4 +1,4 @@
-import { Api } from "utility";
+import { Api, parseToJSON } from "utility";
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
 import {
@@ -164,7 +164,7 @@ export class ReportService {
     const response = await Api.get(url);
     const instances = response.data.result.data.map((ins: any) => ({
       ...ins,
-      config: this.parseConfig(ins.config)
+      config: parseToJSON(ins.config, DefaultConfig)
     }));
     this._instances = keyBy(instances, "id");
     this.hasInit = true;
@@ -178,19 +178,19 @@ export class ReportService {
       .then(ins => {
         return {
           ...ins,
-          config: this.parseConfig(ins.config || "")
+          config: parseToJSON(ins.config, DefaultConfig)
         };
       });
     this._instances = { ...this._instances, [id]: instance };
   }
 
-  private parseConfig(config: string) {
-    try {
-      return JSON.parse(config || DefaultConfigString);
-    } catch (error) {
-      return { ...DefaultConfig };
-    }
-  }
+  // private parseConfig(config: string) {
+  //   try {
+  //     return JSON.parse(config || DefaultConfigString);
+  //   } catch (error) {
+  //     return { ...DefaultConfig };
+  //   }
+  // }
 
   private getReportExecParams(params?: TReportExecParams) {
     const filterVOS = get(params, "filterVOS", []);

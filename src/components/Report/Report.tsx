@@ -83,6 +83,12 @@ class Report extends Component<propsType, stateType> {
 
   tempOptions: object = {};
   reportFilters: { [key: string]: TQueryFilter } = {};
+  adminConfig = {
+    refreshInterval: 0,
+    theme: "default",
+    icon: "info",
+    options: {}
+  };
 
   componentDidMount() {
     this.initialize();
@@ -106,11 +112,23 @@ class Report extends Component<propsType, stateType> {
   initialize() {
     const { instance } = this.state;
     const { report } = instance;
-
-    const config = parseToJSON(report.config, {});
-    const interval = get(config, "refreshInterval", 0);
-    const theme = get(instance, "config.theme", "default");
-    const icon = get(instance, "config.icon", "info");
+    this.adminConfig = parseToJSON(report.config, {
+      refreshInterval: 0,
+      theme: "default",
+      icon: "info",
+      options: {}
+    });
+    const interval = get(this.adminConfig, "refreshInterval", 0);
+    const theme = get(
+      instance,
+      "config.theme",
+      get(this.adminConfig, "theme", "default")
+    );
+    const icon = get(
+      instance,
+      "config.icon",
+      get(this.adminConfig, "icon", "info")
+    );
     const options = this.getOptions();
     this.setState({ interval, theme, icon, options });
 
@@ -236,10 +254,17 @@ class Report extends Component<propsType, stateType> {
     const { bp, theme } = this.props;
     const { instance } = this.state;
     const type = theme.palette.type;
-    const options = get(instance, `config.options.${type}.${bp}`, {});
+
+    const options = get(
+      instance,
+      `config.options.${type}.${bp}`,
+      get(this.adminConfig, "options", {})
+    );
+
     get(options, "series", []).forEach((s: any) => {
       has(s, "data") && Reflect.deleteProperty(s, "data");
     });
+
     return omit(options, [
       "dataset",
       "radar",
