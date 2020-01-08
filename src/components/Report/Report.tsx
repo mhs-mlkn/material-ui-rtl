@@ -112,23 +112,10 @@ class Report extends Component<propsType, stateType> {
   initialize() {
     const { instance } = this.state;
     const { report } = instance;
-    this.adminConfig = parseToJSON(report.config, {
-      refreshInterval: 0,
-      theme: "default",
-      icon: "info",
-      options: {}
-    });
-    const interval = get(this.adminConfig, "refreshInterval", 0);
-    const theme = get(
-      instance,
-      "config.theme",
-      get(this.adminConfig, "theme", "default")
-    );
-    const icon = get(
-      instance,
-      "config.icon",
-      get(this.adminConfig, "icon", "info")
-    );
+    const config = parseToJSON(report.config, { refreshInterval: 0 });
+    const interval = get(config, "refreshInterval", 0);
+    const theme = get(instance, "config.theme");
+    const icon = get(instance, "config.icon");
     const options = this.getOptions();
     this.setState({ interval, theme, icon, options });
 
@@ -255,11 +242,7 @@ class Report extends Component<propsType, stateType> {
     const { instance } = this.state;
     const type = theme.palette.type;
 
-    const options = get(
-      instance,
-      `config.options.${type}.${bp}`,
-      get(this.adminConfig, "options", {})
-    );
+    const options = get(instance, `config.options.${type}.${bp}`);
 
     get(options, "series", []).forEach((s: any) => {
       has(s, "data") && Reflect.deleteProperty(s, "data");

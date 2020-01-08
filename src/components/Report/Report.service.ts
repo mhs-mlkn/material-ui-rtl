@@ -12,16 +12,12 @@ import processElastic from "./elastic";
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
-export const DefaultConfig: TReportConfig = {
+const ADMIN_CONFIG = {
+  refreshInterval: 0,
   theme: "default",
   icon: "info",
-  options: {
-    light: { lg: {}, md: {}, sm: {}, xs: {}, xxs: {} },
-    dark: { lg: {}, md: {}, sm: {}, xs: {}, xxs: {} }
-  }
+  options: {}
 };
-
-const DefaultConfigString = JSON.stringify(DefaultConfig);
 
 export class ReportService {
   private _instances: { [id: number]: TReportInstance } = {};
@@ -33,10 +29,6 @@ export class ReportService {
     return this.hasInit
       ? Promise.resolve(this._instances)
       : this.fetchInstances();
-  }
-
-  public get DefaultConfig() {
-    return DefaultConfig;
   }
 
   public get(instanceId: number) {
@@ -162,10 +154,7 @@ export class ReportService {
   private async fetchInstances() {
     const url = `${baseUrl}/userreport`;
     const response = await Api.get(url);
-    const instances = response.data.result.data.map((ins: any) => ({
-      ...ins,
-      config: parseToJSON(ins.config, DefaultConfig)
-    }));
+    const instances = response.data.result.data.map(this.setInstanceConfig);
     this._instances = keyBy(instances, "id");
     this.hasInit = true;
     return this._instances;
@@ -175,22 +164,36 @@ export class ReportService {
     const url = `${baseUrl}/userreport/${id}`;
     const instance = await Api.get(url)
       .then(res => res.data.result)
-      .then(ins => {
-        return {
-          ...ins,
-          config: parseToJSON(ins.config, DefaultConfig)
-        };
-      });
+      .then(this.setInstanceConfig);
     this._instances = { ...this._instances, [id]: instance };
   }
 
-  // private parseConfig(config: string) {
-  //   try {
-  //     return JSON.parse(config || DefaultConfigString);
-  //   } catch (error) {
-  //     return { ...DefaultConfig };
-  //   }
-  // }
+  private setInstanceConfig(instance: any) {
+    const adminConfig = parseToJSON(instance.report.config, ADMIN_CONFIG);
+    const options = get(adminConfig, "options", {});
+
+    const config: TReportConfig = {
+      theme: get(adminConfig, "theme", "default"),
+      icon: get(adminConfig, "icon", "info"),
+      options: {
+        dark: {
+          lg: options,
+          md: options,
+          sm: options,
+          xs: options,
+          xxs: options
+        },
+        light: {
+          lg: options,
+          md: options,
+          sm: options,
+          xs: options,
+          xxs: options
+        }
+      }
+    };
+    return { ...instance, config: parseToJSON(instance.config, config) };
+  }
 
   private getReportExecParams(params?: TReportExecParams) {
     const filterVOS = get(params, "filterVOS", []);
