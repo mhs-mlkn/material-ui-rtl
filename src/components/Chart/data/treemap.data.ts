@@ -8,6 +8,17 @@ type TNode = {
 };
 
 function treemapData(instance: TReportInstance, data: TReportData) {
+  if (data.rows.length === 0) {
+    return {
+      series: [
+        {
+          name: "no data",
+          type: "treemap",
+          data: []
+        }
+      ]
+    };
+  }
   const root = creteNode(data.rows[0].cols);
 
   function creteNode(row: any[]): TNode {
