@@ -41,8 +41,10 @@ const Timer = () => {
       }
       setValue(0);
       setVisibility(
-        window.location.pathname.startsWith("/user/dashboard") && visibles > 1
+        RegExp(/user\/dashboard\/\d+$/).test(window.location.pathname) &&
+          visibles > 1
       );
+      // window.location.pathname.startsWith("/user/dashboard") && visibles > 1
     } else {
       setPaused(true);
       // clearInterval(intervalId);
