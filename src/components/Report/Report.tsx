@@ -57,6 +57,7 @@ type stateType = {
   openFilters: boolean;
   openExport: boolean;
   openEmbed: boolean;
+  openFullscreen: boolean;
   filterVOS: TReportFilter[];
   parentParams: TQueryParam[];
   isDrillDown: boolean;
@@ -76,6 +77,7 @@ class Report extends Component<propsType, stateType> {
     openFilters: false,
     openExport: false,
     openEmbed: false,
+    openFullscreen: false,
     filterVOS: [] as TReportFilter[],
     parentParams: [],
     isDrillDown: false
@@ -83,6 +85,12 @@ class Report extends Component<propsType, stateType> {
 
   tempOptions: object = {};
   reportFilters: { [key: string]: TQueryFilter } = {};
+  adminConfig = {
+    refreshInterval: 0,
+    theme: "default",
+    icon: "info",
+    options: {}
+  };
 
   componentDidMount() {
     this.initialize();
@@ -106,11 +114,10 @@ class Report extends Component<propsType, stateType> {
   initialize() {
     const { instance } = this.state;
     const { report } = instance;
-
-    const config = parseToJSON(report.config, {});
+    const config = parseToJSON(report.config, { refreshInterval: 0 });
     const interval = get(config, "refreshInterval", 0);
-    const theme = get(instance, "config.theme", "default");
-    const icon = get(instance, "config.icon", "info");
+    const theme = get(instance, "config.theme");
+    const icon = get(instance, "config.icon");
     const options = this.getOptions();
     this.setState({ interval, theme, icon, options });
 
@@ -184,6 +191,10 @@ class Report extends Component<propsType, stateType> {
     this.setState(state => ({ openEmbed: !state.openEmbed }));
   };
 
+  toggleFullscreenModal = () => {
+    this.setState(state => ({ openFullscreen: !state.openFullscreen }));
+  };
+
   handleRetry = () => {
     const { bp, theme } = this.props;
     const { instance } = this.state;
@@ -236,10 +247,13 @@ class Report extends Component<propsType, stateType> {
     const { bp, theme } = this.props;
     const { instance } = this.state;
     const type = theme.palette.type;
-    const options = get(instance, `config.options.${type}.${bp}`, {});
+
+    const options = get(instance, `config.options.${type}.${bp}`);
+
     get(options, "series", []).forEach((s: any) => {
       has(s, "data") && Reflect.deleteProperty(s, "data");
     });
+
     return omit(options, [
       "dataset",
       "radar",
@@ -266,9 +280,7 @@ class Report extends Component<propsType, stateType> {
         return this.toggleExportModal();
 
       case "FULLSCREEN":
-        const elementId = `report-grid-${this.props.instanceId}`;
-        const reportWrapper = document.getElementById(elementId);
-        return reportWrapper!.requestFullscreen();
+        return this.toggleFullscreenModal();
 
       case "OPEN_EMBED":
         return this.toggleEmbedModal();
@@ -347,21 +359,57 @@ class Report extends Component<propsType, stateType> {
     }
   };
 
+  getReport = (type: TReportType) => {
+    const { instance, data, options, theme, icon, loading } = this.state;
+
+    switch (type) {
+      case "SCALAR":
+        return (
+          <Scalar
+            instance={instance}
+            options={options}
+            theme={theme}
+            icon={icon}
+            data={data}
+            loading={loading}
+          />
+        );
+
+      case "TABLE":
+        return (
+          <Table
+            instance={instance}
+            data={data}
+            loading={loading}
+            execReport={this.execReport}
+          />
+        );
+
+      default:
+        return (
+          <Chart
+            instance={instance}
+            // data={data}
+            options={options}
+            theme={theme}
+            loading={loading}
+          />
+        );
+    }
+  };
+
   render() {
     const {
       instance,
       data,
       isRunning,
       interval,
-      options,
-      theme,
-      icon,
       openFilters,
       openExport,
       openEmbed,
+      openFullscreen,
       filterVOS,
       isDrillDown,
-      loading,
       error
     } = this.state;
     const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
@@ -426,36 +474,20 @@ class Report extends Component<propsType, stateType> {
           >
             <Embed instanceId={instance.id} />
           </Modal>
+          <Modal
+            open={openFullscreen}
+            onClose={this.toggleFullscreenModal}
+            fullScreen
+            actions={undefined}
+          >
+            {this.getReport(instance.report.type)}
+          </Modal>
           <AutoRefresh
             isRunning={isRunning}
             interval={interval}
             execReport={this.execReport}
           />
-          {instance.report.type === "SCALAR" ? (
-            <Scalar
-              instance={instance}
-              options={options}
-              theme={theme}
-              icon={icon}
-              data={data}
-              loading={loading}
-            />
-          ) : instance.report.type === "TABLE" ? (
-            <Table
-              instance={instance}
-              data={data}
-              loading={loading}
-              execReport={this.execReport}
-            />
-          ) : (
-            <Chart
-              instance={instance}
-              // data={data}
-              options={options}
-              theme={theme}
-              loading={loading}
-            />
-          )}
+          {this.getReport(instance.report.type)}
         </ReportCard>
       </Subscriber>
     );

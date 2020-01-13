@@ -19,7 +19,6 @@ function treemapData(instance: TReportInstance, data: TReportData) {
       ]
     };
   }
-
   const root = creteNode(data.rows[0].cols);
 
   function creteNode(row: any[]): TNode {

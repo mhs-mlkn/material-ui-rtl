@@ -62,7 +62,9 @@ const AppBar = (props: any) => {
   const { classes } = props;
   let location = useLocation();
   const [state, actions] = useThemeStore();
-  const isVisible = window.location.pathname.startsWith("/user/dashboard");
+  const isVisible = RegExp(/user\/dashboard\/\d+$/).test(
+    window.location.pathname
+  );
 
   const handleToggleDrawer = () => {
     actions.toggleDrawer();
