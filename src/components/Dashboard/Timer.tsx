@@ -56,7 +56,8 @@ const Timer = () => {
     if (!paused) {
       intervalId = window.setInterval(() => {
         if (!!dashboard) {
-          setValue(value => value + 100 / dashboard.config.slide.duration);
+          const duration = get(dashboard.config, "slide.duration", 60);
+          setValue(value => value + 100 / duration);
         }
       }, 1000);
     } else {
@@ -84,7 +85,8 @@ const Timer = () => {
     const index = findIndex(state.dashboards, { id: +id });
     for (let i = (index + 1) % length; i !== index; i = (i + 1) % length) {
       const dashboard = state.dashboards[i];
-      if (dashboard.config.slide.isVisible) {
+      const isVisible = get(dashboard.config, "slide.isVisible", false);
+      if (isVisible) {
         history.push(`/user/dashboard/${dashboard.id}`, {
           title: dashboard.name
         });
@@ -103,7 +105,8 @@ const Timer = () => {
       i = (i + 2) % length
     ) {
       const dashboard = state.dashboards[i];
-      if (dashboard.config.slide.isVisible) {
+      const isVisible = get(dashboard.config, "slide.isVisible", false);
+      if (isVisible) {
         history.push(`/user/dashboard/${dashboard.id}`, {
           title: dashboard.name
         });
