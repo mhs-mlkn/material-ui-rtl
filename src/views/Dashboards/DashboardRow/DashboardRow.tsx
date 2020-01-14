@@ -22,12 +22,13 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
   const { dashboard } = props;
 
   const handleVisibilityChange = () => {
-    const { isVisible, duration } = dashboard.config.slide;
+    const isVisible = get(dashboard.config, "slide.isVisible", false);
+    const duration = get(dashboard.config, "slide.duration", 60);
     actions.setSlideConfig(dashboard, { isVisible: !isVisible, duration });
   };
 
   const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { isVisible } = dashboard.config.slide;
+    const isVisible = get(dashboard.config, "slide.isVisible", false);
     const value = +event.target.value;
     const duration = value < 10 ? 10 : value;
     actions.setSlideConfig(dashboard, {
