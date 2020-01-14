@@ -6,7 +6,9 @@ import { useLayout, LAYOUT } from ".";
 
 const ToggleButton = () => {
   const [state, actions] = useLayout();
-  const isVisible = window.location.pathname.startsWith("/user/dashboard");
+  const isVisible = RegExp(/user\/dashboard\/\d+$/).test(
+    window.location.pathname
+  );
 
   const toggleEditLayout = () => {
     if (!state.editable) {
