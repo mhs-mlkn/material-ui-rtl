@@ -18,7 +18,9 @@ const SaveButton = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [state, actions] = useDashboards();
-  const isVisible = window.location.pathname.startsWith("/user/dashboard");
+  const isVisible = RegExp(/user\/dashboard\/\d+$/).test(
+    window.location.pathname
+  );
 
   const handleSaveClick = () => {
     const layout = localStorage.getItem(LAYOUT);
