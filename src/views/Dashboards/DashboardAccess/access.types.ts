@@ -22,6 +22,7 @@ export type TAccess = {
   error: boolean | string;
   dashboardId: number;
   users: TUser[];
+  fails: string[];
   q: string;
 };
 

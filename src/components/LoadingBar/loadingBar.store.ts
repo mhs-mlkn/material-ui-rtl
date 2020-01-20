@@ -1,5 +1,5 @@
 import React from "react";
-import useGlobalHook from "use-global-hook";
+import globalHook from "use-global-hook";
 import * as actions from "./loadingBar.actions";
 import { TLoadingBar, TActions } from "./loadingBar.types";
 
@@ -8,6 +8,10 @@ const initialState: TLoadingBar = {
   count: 0
 };
 
-const useLoadingBarStore = useGlobalHook<TLoadingBar, TActions>(React, initialState, actions);
+const useLoadingBarStore = globalHook<TLoadingBar, TActions>(
+  React,
+  initialState,
+  actions
+);
 
 export default useLoadingBarStore;

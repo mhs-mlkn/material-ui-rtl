@@ -41,8 +41,6 @@ function treemapData(instance: TReportInstance, data: TReportData) {
     return children;
   }
 
-  console.dir(root);
-
   return {
     series: [
       {

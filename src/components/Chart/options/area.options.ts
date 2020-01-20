@@ -7,8 +7,17 @@ export default function areaOptions(
   instance: TReportInstance,
   savedOptions: object
 ) {
-  const { direction } = loadSettings();
+  const { direction, type } = loadSettings();
   const name = get(instance, "name", instance.report.name);
+  const theme = get(instance, "config.theme", "default");
+  const color =
+    type === "dark"
+      ? theme === "vintage"
+        ? "#555"
+        : "#eee"
+      : theme === "dark"
+      ? "#eee"
+      : "#555";
 
   const options = {
     title: {
@@ -34,7 +43,7 @@ export default function areaOptions(
       type: "scroll",
       top: "bottom",
       left: direction === "rtl" ? "left" : "right",
-      textStyle: { color: "default" }
+      textStyle: { color }
     },
     grid: {
       left: 30,

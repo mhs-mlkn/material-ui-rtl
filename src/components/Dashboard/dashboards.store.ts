@@ -1,5 +1,5 @@
 import React from "react";
-import useGlobalHook from "use-global-hook";
+import globalHook from "use-global-hook";
 import * as actions from "./dashboards.actions";
 import { TDashboards, TActions } from ".";
 
@@ -12,7 +12,7 @@ const initialState: TDashboards = {
   saving: false
 };
 
-const useDashboards = useGlobalHook<TDashboards, TActions>(
+const useDashboards = globalHook<TDashboards, TActions>(
   React,
   initialState,
   actions

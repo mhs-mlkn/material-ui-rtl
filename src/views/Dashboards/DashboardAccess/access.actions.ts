@@ -13,7 +13,7 @@ export function getUsers(
   dashboardId: number,
   bypassCache?: boolean
 ) {
-  store.setState({ ...store.state, loading: true, error: false });
+  store.setState({ ...store.state, loading: true, error: false, fails: [] });
   const { q } = store.state;
   Access.getUsers(q, dashboardId, bypassCache)
     .then(users => {
@@ -34,10 +34,12 @@ export function changeSearch(store: Store<TAccess, TActions>, q: string) {
 export function subscribe(store: Store<TAccess, TActions>, user: TShareItem) {
   const { dashboardId } = store.state;
   const subscribePromise = Access.subscribe(user, dashboardId);
-  store.setState({ ...store.state, q: "" });
+  store.setState({ ...store.state, q: "", fails: [] });
 
   subscribePromise
-    .then(users => store.setState({ ...store.state, users }))
+    .then(({ users, fails }: { users: TUser[]; fails: string[] }) => {
+      return store.setState({ ...store.state, users, fails });
+    })
     .catch(error => {
       store.setState({ ...store.state, users: Access.users });
       return errorHandler<TAccess, TActions>(
@@ -55,4 +57,8 @@ export function unSubscribe(store: Store<TAccess, TActions>, user: TUser) {
       store.setState({ ...store.state, users: Access.users });
       errorHandler<TAccess, TActions>(store, "خطای سرور")(error);
     });
+}
+
+export function clearFails(store: Store<TAccess, TActions>) {
+  store.setState({ ...store.state, fails: [] });
 }

@@ -20,6 +20,10 @@ export class AuthService {
     this.configAxios();
   }
 
+  public get accessTokenKey() {
+    return this.ACCESS_TOKEN;
+  }
+
   public getLoginUrl(): string {
     const SSO = process.env.REACT_APP_SSO_CODE;
     const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;

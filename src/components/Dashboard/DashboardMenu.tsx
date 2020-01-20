@@ -14,12 +14,18 @@ type propsType = {
   selectedId: number;
   onChange: (dashboard: TDashboard) => void;
   icon?: React.ComponentType<SvgIconProps>;
+  hideSharedDashboards?: boolean;
 };
 
 const DashboardMenu = (props: propsType) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [state] = useDashboards();
-  const { selectedId, onChange, icon: Icon } = props;
+  const {
+    selectedId,
+    onChange,
+    icon: Icon,
+    hideSharedDashboards = false
+  } = props;
 
   useEffect(() => {
     const d = Service.get(selectedId);
@@ -53,16 +59,18 @@ const DashboardMenu = (props: propsType) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {state.dashboards.map(dashboard => (
-          <MenuItem
-            key={dashboard.id}
-            value={dashboard.id}
-            selected={selectedId === dashboard.id}
-            onClick={handleMenuItemClick(dashboard)}
-          >
-            {dashboard.name}
-          </MenuItem>
-        ))}
+        {state.dashboards
+          .filter(d => (hideSharedDashboards ? !d.shared : true))
+          .map(dashboard => (
+            <MenuItem
+              key={dashboard.id}
+              value={dashboard.id}
+              selected={selectedId === dashboard.id}
+              onClick={handleMenuItemClick(dashboard)}
+            >
+              {dashboard.name}
+            </MenuItem>
+          ))}
       </Menu>
     </>
   );

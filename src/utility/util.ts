@@ -15,7 +15,7 @@ export function displayErrMsg(enqueueSnackbar: (p: any, o: any) => any) {
 }
 
 export function formatNumber(num: number | string) {
-  return (num || "").toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  return (num || 0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
 export function formatChartValue(
@@ -25,12 +25,12 @@ export function formatChartValue(
   return `${formatNumber(value / +opt.devideBy || value)} ${opt.label}`;
 }
 
-export function formatValue(type: string, value: string | null) {
+export function formatValue(type: string, value: string | number | null) {
   const _val = value || "";
   if (type === "DATE") {
-    return moment(_val.slice(0, -5)).format("jYYYY/jMM/jDD");
+    return moment(_val.toString().slice(0, -5)).format("jYYYY/jMM/jDD");
   } else if (type === "NUMBER") {
-    return formatNumber(_val);
+    return formatNumber(value === 0 ? "0" : _val);
   }
   return _val;
 }

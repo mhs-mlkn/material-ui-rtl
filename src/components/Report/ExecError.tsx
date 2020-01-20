@@ -9,9 +9,12 @@ import { Button } from "components/Button";
 type propsType = {
   onRetry: () => void;
   onDelete: () => void;
+  message?: string;
 };
 
 const ExecError = (props: propsType) => {
+  const { onDelete, onRetry, message = "" } = props;
+
   return (
     <Grid
       container
@@ -25,20 +28,20 @@ const ExecError = (props: propsType) => {
         <div style={{ textAlign: "center" }}>
           <ReportProblemIcon color="error" fontSize="large" />
           <Typography variant="h6" component="h6" color="error">
-            اجرای گزارش با خطا مواجه شد
+            {message || "اجرای گزارش با خطا مواجه شد"}
           </Typography>
         </div>
         <Button
           text="تلاش مجدد"
           icon={RefreshIcon}
-          onClick={props.onRetry}
+          onClick={onRetry}
           style={{ margin: 8 }}
         />
         <Button
           text="حذف از داشبورد"
           icon={DeleteForeverIcon}
           color="secondary"
-          onClick={props.onDelete}
+          onClick={onDelete}
         />
       </Grid>
     </Grid>

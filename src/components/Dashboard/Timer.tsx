@@ -13,6 +13,7 @@ import { Fab } from "components/Button";
 import { useDashboards, TDashboard } from ".";
 
 let intervalId = 0;
+
 const Timer = () => {
   const theme = useTheme();
   const [paused, setPaused] = useState(true);
@@ -35,6 +36,7 @@ const Timer = () => {
 
   useEffect(() => {
     if (!!dashboard && get(dashboard, "config.slide.isVisible", false)) {
+      !paused ? startCounter() : clearInterval(intervalId);
       let visibles = 0;
       for (const d of state.dashboards) {
         visibles += get(d, "config.slide.isVisible", false) ? 1 : 0;
@@ -44,29 +46,18 @@ const Timer = () => {
         RegExp(/user\/dashboard\/\d+$/).test(window.location.pathname) &&
           visibles > 1
       );
-      // window.location.pathname.startsWith("/user/dashboard") && visibles > 1
     } else {
       setPaused(true);
-      // clearInterval(intervalId);
       setVisibility(false);
     }
+
+    return stopCounter;
   }, [dashboard]);
 
   useEffect(() => {
-    if (!paused) {
-      intervalId = window.setInterval(() => {
-        if (!!dashboard) {
-          const duration = get(dashboard.config, "slide.duration", 60);
-          setValue(value => value + 100 / duration);
-        }
-      }, 1000);
-    } else {
-      clearInterval(intervalId);
-    }
+    !paused ? startCounter() : clearInterval(intervalId);
 
-    return () => {
-      clearInterval(intervalId);
-    };
+    return stopCounter;
   }, [paused]);
 
   useEffect(() => {
@@ -74,6 +65,19 @@ const Timer = () => {
       handleNextClick();
     }
   }, [value]);
+
+  const startCounter = () => {
+    intervalId = window.setInterval(() => {
+      if (!!dashboard) {
+        const duration = get(dashboard.config, "slide.duration", 60);
+        setValue(value => value + 100 / duration);
+      }
+    }, 1000);
+  };
+
+  const stopCounter = () => {
+    clearInterval(intervalId);
+  };
 
   const handleStartClick = () => {
     setPaused(!paused);
@@ -130,14 +134,21 @@ const Timer = () => {
       </IconButton>
       <Fab
         color="primary"
-        size="medium"
+        size="small"
         loading
         title={paused ? "شروع" : "توقف"}
         progress={{
           variant: "static",
           value,
-          size: 60,
-          style: { position: "absolute", top: -6, left: -6, zIndex: -1 }
+          size: 48,
+          thickness: 2,
+          style: {
+            position: "absolute",
+            top: -4,
+            left: -4,
+            zIndex: -1,
+            color: "blueviolet"
+          }
         }}
         onClick={handleStartClick}
       >

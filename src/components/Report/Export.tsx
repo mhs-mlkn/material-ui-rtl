@@ -44,17 +44,14 @@ const Export = (props: propsType) => {
     } else {
       setLoading(true);
       ReportService.export(instanceId, value, { filterVOS })
-        .then(data => {
-          const blob = new Blob([data], {
-            type: `text/${value.toLocaleLowerCase()}`
-          });
+        .then(blob =>
           saveAs(
             blob,
             `report-${instanceId}-${moment().format(
               "jYYYY/jMM/jDD"
             )}.${value.toLowerCase()}`
-          );
-        })
+          )
+        )
         .catch(displayErrMsg(enqueueSnackbar))
         .finally(() => setLoading(false));
     }
