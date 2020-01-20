@@ -18,7 +18,6 @@ import { Modal } from "components/Modal";
 import {
   ReportService,
   ExecError,
-  NoData,
   Settings,
   ThemeMenu,
   AutoRefresh,
@@ -425,7 +424,11 @@ class Report extends Component<propsType, stateType> {
     if (!!data && isChart && data.rows.length === 0) {
       return (
         <ReportCard instance={instance}>
-          <NoData onRetry={this.handleRetry} />
+          <ExecError
+            onRetry={this.handleRetry}
+            onDelete={this.handleDelete}
+            message="داده ای وجود ندارد"
+          />
         </ReportCard>
       );
     }

@@ -66,9 +66,30 @@ const Settings = () => {
   };
 
   const toggleSettings = () => actions.toggleSettings();
-  const toggleDirection = () => actions.toggleDirection();
-  const toggleThemeType = () => actions.toggleThemeType();
-  const toggleFullScreen = () => actions.toggleFullScreen();
+  const toggleDirection = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    value: any
+  ) => {
+    if (!!value) {
+      actions.toggleDirection();
+    }
+  };
+  const toggleThemeType = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    value: any
+  ) => {
+    if (!!value) {
+      actions.toggleThemeType();
+    }
+  };
+  const toggleFullScreen = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    value: any
+  ) => {
+    if (!!value) {
+      actions.toggleFullScreen();
+    }
+  };
   const toggleAppBar = () => actions.toggleAppBar();
   const toggleSideBar = () => actions.toggleSideBar();
 

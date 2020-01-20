@@ -27,9 +27,10 @@ export class AccessService {
   public async subscribe(user: TShareItem, dashboardId: number) {
     const url = `${baseUrl}/dashboard/${dashboardId}/share`;
     const response = await Api.get(url, user);
-    const newUsers = response.data.result.data as TUser[];
+    const newUsers = response.data.result.sharedDashboardVOList as TUser[];
+    const fails = response.data.result.notSharedList as string[];
     this._users = [...newUsers, ...this._users];
-    return this._users;
+    return { users: this._users, fails };
   }
 
   public async unSubscribe(user: TUser) {

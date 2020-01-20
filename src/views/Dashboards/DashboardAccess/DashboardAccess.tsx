@@ -11,7 +11,7 @@ import { useAccess } from ".";
 const DashboardAccess = (props: { reportId: number }) => {
   const [date, setDate] = useState(moment().add(1, "month"));
   const [state, actions] = useAccess();
-  const { loading, error, users, q } = state;
+  const { loading, error, users, q, fails } = state;
   const { reportId } = props;
 
   useEffect(() => {
@@ -82,6 +82,13 @@ const DashboardAccess = (props: { reportId: number }) => {
           <Alert
             variant="error"
             message={error.toString()}
+            onClose={handleCloseError}
+          />
+        )}
+        {fails.length > 0 && (
+          <Alert
+            variant="error"
+            message={`اشتراک گذاری با (${fails.join(", ")}) با خطا مواجه شد`}
             onClose={handleCloseError}
           />
         )}

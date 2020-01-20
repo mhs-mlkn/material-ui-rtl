@@ -90,7 +90,7 @@ const CustomTable = (props: propTypes) => {
               const { cols: values = [] } = row;
               return (
                 <TableRow hover key={key}>
-                  {values.map((value: string, i: number) => (
+                  {values.map((value: string | number, i: number) => (
                     <TableCell key={i}>
                       {formatValue(cols[i].type, value)}
                     </TableCell>

@@ -1,5 +1,5 @@
 import React from "react";
-import useGlobalHook from "use-global-hook";
+import globalHook from "use-global-hook";
 import * as actions from "./layout.actions";
 import { TLayout, TActions } from "./layout.types";
 
@@ -8,7 +8,7 @@ const initialState: TLayout = {
   bp: "md"
 };
 
-const useLoadingBarStore = useGlobalHook<TLayout, TActions>(
+const useLoadingBarStore = globalHook<TLayout, TActions>(
   React,
   initialState,
   actions

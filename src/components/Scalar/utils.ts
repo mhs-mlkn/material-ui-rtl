@@ -17,7 +17,7 @@ import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 
 export function getData(data: TReportData | undefined) {
   const title = get(data, "cols.0.key", "");
-  const value = get(data, "rows.0.cols.0", "");
+  const value = get(data, "rows.0.cols.0", "0");
 
   return {
     title,

@@ -19,6 +19,7 @@ const SelectButton = (props: propsType) => {
       onChange={handleSelectDashboard}
       selectedId={0}
       icon={AddIcon}
+      hideSharedDashboards
     />
   );
 };

@@ -1,6 +1,6 @@
-import { Api, parseToJSON } from "utility";
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
+import { Api, parseToJSON } from "utility";
 import {
   TReportInstance,
   TReportData,
@@ -141,9 +141,21 @@ export class ReportService {
       parentParams,
       orderByElementVOS
     } = this.getReportExecParams(params);
-    return Api.post(url, { filterVOS, parentParams, orderByElementVOS }).then(
-      res => res.data
-    );
+    return Api.axios
+      .post(
+        url,
+        { filterVOS, parentParams, orderByElementVOS },
+        { responseType: "blob" }
+      )
+      .then(
+        res =>
+          new Blob([res.data], {
+            type:
+              format === "CSV"
+                ? "text/csv"
+                : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          })
+      );
   }
 
   public async fetchEmbedHash(instanceId: number): Promise<string> {
