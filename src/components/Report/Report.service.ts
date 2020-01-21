@@ -1,5 +1,6 @@
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
+import omit from "lodash/omit";
 import { Api, parseToJSON } from "utility";
 import {
   TReportInstance,
@@ -182,7 +183,7 @@ export class ReportService {
 
   private setInstanceConfig(instance: any) {
     const adminConfig = parseToJSON(instance.report.config, ADMIN_CONFIG);
-    const options = get(adminConfig, "options", {});
+    const options = omit(get(adminConfig, "options", {}), ["title.text"]);
 
     const config: TReportConfig = {
       theme: get(adminConfig, "theme", "default"),
