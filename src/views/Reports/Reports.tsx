@@ -17,11 +17,12 @@ const Reports = () => {
   const { q, view, orderBy, orderDir, page, pageSize, error } = state;
 
   useEffect(() => {
+    actions.get();
     dashboardActions.get();
-  }, [dashboardActions]);
+  }, [actions, dashboardActions]);
 
   useEffect(() => {
-    actions.get();
+    actions.update();
   }, [actions, q, view, orderBy, orderDir, page, pageSize]);
 
   const handleSearch = (q: string) => {

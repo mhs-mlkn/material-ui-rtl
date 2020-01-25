@@ -54,6 +54,17 @@ export class AuthService {
     localStorage.clear();
   };
 
+  public fetchUser = async () => {
+    if (this.isAuthenticated()) {
+      await this.refreshToken();
+
+      const access_token = getLS(this.ACCESS_TOKEN);
+      const user = await AuthApi.fetchUser(access_token);
+      const username = user.preferred_username;
+      return username;
+    }
+  };
+
   private configAxios = () => {
     this.axios.interceptors.request.use(config => {
       config.headers.token = getLS(this.ACCESS_TOKEN);

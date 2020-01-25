@@ -100,14 +100,13 @@ const Timer = () => {
   };
 
   const handlePrevClick = () => {
+    function getNext(i: number) {
+      return i === 0 ? length - 1 : i - 1;
+    }
     const length = state.dashboards.length;
     const id = window.location.pathname.split("/").pop() || 0;
     const index = findIndex(state.dashboards, { id: +id });
-    for (
-      let i = (index + length - 1) % length;
-      i !== index;
-      i = (i + 2) % length
-    ) {
+    for (let i = (index + length - 1) % length; i !== index; i = getNext(i)) {
       const dashboard = state.dashboards[i];
       const isVisible = get(dashboard.config, "slide.isVisible", false);
       if (isVisible) {

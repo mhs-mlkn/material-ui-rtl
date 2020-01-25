@@ -1,3 +1,8 @@
+import Axios from "axios";
+import { Api } from "utility";
+
+const FetchUserURL = process.env.REACT_APP_SSO_USER || "";
+
 export default class AuthApi {
   static fetchToken = async (code: string, code_verifier: string) => {
     const redirect_uri = window.location.href.split("?")[0];
@@ -42,11 +47,12 @@ export default class AuthApi {
     }).then(res => res.json());
   };
 
-  static getUser = async (access_token: string) => {
-    const url = process.env.REACT_APP_SSO_USER || "";
-
-    return fetch(url, {
-      headers: new Headers({ Authorization: `Bearer ${access_token}` })
-    }).then(res => res.json());
+  static fetchUser = async (access_token: string) => {
+    return Axios.get(FetchUserURL, {
+      headers: { Authorization: `Bearer ${access_token}` }
+    }).then(res => res.data);
+    // return fetch(url, {
+    //   headers: new Headers({ Authorization: `Bearer ${access_token}` })
+    // }).then(res => res.json());
   };
 }

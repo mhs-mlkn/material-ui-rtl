@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import defaultsDeep from "lodash/defaultsDeep";
 import Loading from "components/Loading";
 import {
   TChartTheme,
@@ -6,7 +7,7 @@ import {
   TReportData,
   TReportIcons
 } from "components/Report";
-import { Scalar, getData } from ".";
+import { Scalar, getData, defaultOptions } from ".";
 
 type propsType = {
   instance: TReportInstance;
@@ -19,9 +20,12 @@ type propsType = {
 
 const ScalarWrapper = (props: propsType) => {
   const { instance, loading, data, options, theme, icon } = props;
-
   const { id, name = instance.report.name } = instance;
   const scalarData = getData(data);
+
+  useEffect(() => {
+    defaultsDeep(options, defaultOptions);
+  }, [options]);
 
   if (loading) {
     return <Loading />;

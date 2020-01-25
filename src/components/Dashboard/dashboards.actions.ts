@@ -118,13 +118,11 @@ export async function update(
   updates: { [k: string]: any }
 ): Promise<any> {
   store.setState({ ...store.state, saving: true });
-  return Dashboards.update(
-    dashboard.id,
-    updates,
-    dashboard.shared
-  ).then(dashboards =>
-    store.setState({ ...store.state, dashboards, saving: false })
-  );
+  return Dashboards.update(dashboard.id, updates, dashboard.shared)
+    .then(dashboards =>
+      store.setState({ ...store.state, dashboards, saving: false })
+    )
+    .catch(() => store.setState({ ...store.state, saving: false }));
 }
 
 export async function removeReport(

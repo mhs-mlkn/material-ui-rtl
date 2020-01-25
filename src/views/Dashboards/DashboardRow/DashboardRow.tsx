@@ -30,7 +30,7 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
   const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isVisible = get(dashboard.config, "slide.isVisible", false);
     const value = +event.target.value;
-    const duration = value < 10 ? 10 : value;
+    const duration = value < 10 ? 10 : value > 600 ? 600 : value;
     actions.setSlideConfig(dashboard, {
       isVisible,
       duration
@@ -89,6 +89,7 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
           }}
           value={get(dashboard, "config.slide.duration", 60)}
           onChange={handleDurationChange}
+          onKeyPress={e => e.preventDefault()}
           margin="normal"
         />
       </TableCell>

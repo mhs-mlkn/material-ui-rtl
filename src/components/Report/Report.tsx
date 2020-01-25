@@ -290,6 +290,7 @@ class Report extends Component<propsType, stateType> {
             instance: ReportService.get(this.props.instanceId),
             options: {},
             isDrillDown: false,
+            filterVOS: [],
             parentParams: []
           },
           this.initialize
