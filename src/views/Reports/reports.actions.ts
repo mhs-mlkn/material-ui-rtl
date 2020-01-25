@@ -30,6 +30,17 @@ export function get(store: Store<TReports, TActions>, bypassCache?: boolean) {
     .catch(errorHandler<TReports, TActions>(store));
 }
 
+export function update(store: Store<TReports, TActions>) {
+  store.setState({ ...store.state, loading: true, error: false });
+  const { q, orderBy, orderDir, page, pageSize } = store.state;
+  const reports = Reports.update(q, orderBy, orderDir, page, pageSize);
+  store.setState({
+    ...store.state,
+    reports,
+    loading: false
+  });
+}
+
 export function changeSearch(store: Store<TReports, TActions>, q: string) {
   store.setState({ ...store.state, q });
 }

@@ -20,6 +20,7 @@ export type TReports = {
 
 export type TActions = {
   get: (bp?: boolean) => void;
+  update: () => void;
   changeSearch: (q: string) => void;
   changeView: (view: TView) => void;
   changeOrder: (orderBy: TOrderBy, orderDir: TOrderDir) => void;

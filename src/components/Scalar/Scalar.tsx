@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import clx from "classnames";
 import get from "lodash/get";
-import defaultsDeep from "lodash/defaultsDeep";
 import {
   useTheme,
   makeStyles,
@@ -10,7 +9,7 @@ import {
 } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { TReportIcons, TChartTheme } from "components/Report";
-import { ScalarIcon, defaultOptions, getDisplay } from ".";
+import { ScalarIcon, getDisplay } from ".";
 import { formatNumber } from "utility";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,10 +50,6 @@ const Scalar = (props: propsType) => {
   const classes = useStyles();
   const muiTheme = useTheme<Theme>();
   const { id, name, data, icon, theme, options } = props;
-
-  useEffect(() => {
-    defaultsDeep(options, defaultOptions);
-  }, [options]);
 
   const themes: {
     [key in TChartTheme]: {

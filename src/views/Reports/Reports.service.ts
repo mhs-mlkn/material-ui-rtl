@@ -16,7 +16,7 @@ export class ReportsService {
     return this._count;
   }
 
-  get(
+  async get(
     q: string,
     orderBy: TOrderBy,
     orderDir: TOrderDir,
@@ -29,13 +29,31 @@ export class ReportsService {
     //   ? Promise.resolve(this._reports)
     //   : this.fetchReports();
 
-    return reportsPromise.then(() => {
-      const skip = page * pageSize;
-      let reports = this.search(q || "");
-      this._count = reports.length;
-      reports = order(reports, [orderBy], [orderDir]);
-      return reports.slice(skip, skip + pageSize);
-    });
+    return reportsPromise.then(() =>
+      this.update(q, orderBy, orderDir, page, pageSize)
+    );
+  }
+
+  update(
+    q: string,
+    orderBy: TOrderBy,
+    orderDir: TOrderDir,
+    page: number,
+    pageSize: number
+  ) {
+    const skip = page * pageSize;
+    let reports = this.search(q || "");
+    this._count = reports.length;
+    reports =
+      orderBy === "name"
+        ? reports.slice().sort((a, b) => {
+            const dir = orderDir === "desc" ? -1 : 1;
+            return (
+              dir * a.name.localeCompare(b.name, "fa", { sensitivity: "base" })
+            );
+          })
+        : order(reports, [orderBy], [orderDir]);
+    return reports.slice(skip, skip + pageSize);
   }
 
   getById(id: number) {

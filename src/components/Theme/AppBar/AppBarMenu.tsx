@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -9,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PowerSettingsIcon from "@material-ui/icons/PowerSettingsNew";
 import SettingsIcon from "@material-ui/icons/Settings";
+import PersonIcon from "@material-ui/icons/Person";
 import { AuthService } from "components/Auth";
 import { useThemeStore } from "components/Theme";
 
@@ -25,6 +26,15 @@ const AppBarMenu = () => {
   let history = useHistory();
   const actions = useThemeStore()[1];
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [username, setUsername] = useState("");
+
+  const getUsername = () => {
+    AuthService.fetchUser().then(username => setUsername(username));
+  };
+
+  useEffect(() => {
+    getUsername();
+  }, []);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -57,6 +67,15 @@ const AppBarMenu = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem onClick={getUsername}>
+          <ListItemIcon>
+            <PersonIcon />
+          </ListItemIcon>
+          <ListItemText
+            className={classes.listItemText}
+            primary={username || ""}
+          />
+        </MenuItem>
         <MenuItem onClick={handleSettingsClick}>
           <ListItemIcon>
             <SettingsIcon />
