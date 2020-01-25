@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { Api } from "utility";
 
 const FetchUserURL = process.env.REACT_APP_SSO_USER || "";
 
@@ -51,8 +50,5 @@ export default class AuthApi {
     return Axios.get(FetchUserURL, {
       headers: { Authorization: `Bearer ${access_token}` }
     }).then(res => res.data);
-    // return fetch(url, {
-    //   headers: new Headers({ Authorization: `Bearer ${access_token}` })
-    // }).then(res => res.json());
   };
 }
