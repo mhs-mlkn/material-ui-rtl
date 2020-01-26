@@ -12,7 +12,8 @@ export type TReportType =
   | "SCATTER"
   | "RADAR"
   | "SCALAR"
-  | "TABLE";
+  | "TABLE"
+  | "FORM";
 
 export type TQueryParam = {
   key: string;

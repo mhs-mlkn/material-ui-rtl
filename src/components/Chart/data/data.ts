@@ -26,7 +26,8 @@ export function chartData(instance: TReportInstance, data: TReportData) {
     SCATTER: scatterData,
     TREEMAP: treemapData,
     SCALAR: () => data,
-    TABLE: () => data
+    TABLE: () => data,
+    FORM: () => data
   };
 
   return _data[reportType](instance, data);

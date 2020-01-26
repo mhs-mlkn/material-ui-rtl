@@ -12,6 +12,7 @@ import { withBreakPoint, TBreakPoint } from "components/Layout";
 import { DeleteButton } from "components/Button";
 import Chart, { chartOptions, chartData } from "components/Chart";
 import Scalar, { IconMenu } from "components/Scalar";
+import Composite from "components/Composite";
 import Table from "components/Table";
 import ReportCard from "components/ReportCard";
 import { Modal } from "components/Modal";
@@ -97,7 +98,8 @@ class Report extends Component<propsType, stateType> {
 
   componentDidUpdate(prevProps: propsType, prevState: stateType) {
     const { instance, theme } = this.state;
-    const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
+    const isChart =
+      ["SCALAR", "TABLE", "FORM"].indexOf(instance.report.type) === -1;
 
     if (isChart) {
       if (
@@ -123,7 +125,7 @@ class Report extends Component<propsType, stateType> {
     const { queryFilters } = report.query;
     this.reportFilters = keyBy(queryFilters, "id");
 
-    if (report.type !== "TABLE") {
+    if (["TABLE", "FORM"].indexOf(report.type) === -1) {
       this.execReport();
     }
   }
@@ -385,6 +387,9 @@ class Report extends Component<propsType, stateType> {
           />
         );
 
+      case "FORM":
+        return <Composite instance={instance} />;
+
       default:
         return (
           <Chart
@@ -412,7 +417,8 @@ class Report extends Component<propsType, stateType> {
       isDrillDown,
       error
     } = this.state;
-    const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
+    const isChart =
+      ["SCALAR", "TABLE", "FORM"].indexOf(instance.report.type) === -1;
 
     if (error) {
       return (
