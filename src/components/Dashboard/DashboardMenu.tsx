@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import IconButton from "@material-ui/core/IconButton";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { SvgIconProps } from "@material-ui/core/SvgIcon";
 import {
   DashboardsService as Service,
   useDashboards,
@@ -8,20 +11,19 @@ import {
 } from "components/Dashboard";
 
 type propsType = {
-  anchorEl: null | HTMLElement;
   selectedId: number;
   onChange: (dashboard: TDashboard) => void;
-  onClose: () => void;
+  icon?: React.ComponentType<SvgIconProps>;
   hideSharedDashboards?: boolean;
 };
 
 const DashboardMenu = (props: propsType) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [state] = useDashboards();
   const {
-    anchorEl,
-    onClose,
-    selectedId,
+    selectedId = 0,
     onChange,
+    icon: Icon = ExpandMoreIcon,
     hideSharedDashboards = false
   } = props;
 
@@ -33,31 +35,44 @@ const DashboardMenu = (props: propsType) => {
     // eslint-disable-next-line
   }, [state.dashboards, selectedId]);
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleMenuItemClick = (dashboard: TDashboard) => () => {
-    onClose();
     onChange(dashboard);
+    handleClose();
   };
 
   return (
-    <Menu
-      anchorEl={anchorEl}
-      keepMounted
-      open={Boolean(anchorEl)}
-      onClose={onClose}
-    >
-      {state.dashboards
-        .filter(d => (hideSharedDashboards ? !d.shared : true))
-        .map(dashboard => (
-          <MenuItem
-            key={dashboard.id}
-            value={dashboard.id}
-            selected={selectedId === dashboard.id}
-            onClick={handleMenuItemClick(dashboard)}
-          >
-            {dashboard.name}
-          </MenuItem>
-        ))}
-    </Menu>
+    <>
+      <IconButton color="primary" onClick={handleClick}>
+        <Icon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        {state.dashboards
+          .filter(d => (hideSharedDashboards ? !d.shared : true))
+          .map(dashboard => (
+            <MenuItem
+              key={dashboard.id}
+              value={dashboard.id}
+              selected={selectedId === dashboard.id}
+              onClick={handleMenuItemClick(dashboard)}
+            >
+              {dashboard.name}
+            </MenuItem>
+          ))}
+      </Menu>
+    </>
   );
 };
 
