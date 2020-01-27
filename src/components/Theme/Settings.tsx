@@ -66,6 +66,7 @@ const Settings = () => {
   };
 
   const toggleSettings = () => actions.toggleSettings();
+
   const toggleDirection = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
     value: any
@@ -74,6 +75,7 @@ const Settings = () => {
       actions.toggleDirection();
     }
   };
+
   const toggleThemeType = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
     value: any
@@ -82,15 +84,18 @@ const Settings = () => {
       actions.toggleThemeType();
     }
   };
+
   const toggleFullScreen = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
     value: any
   ) => {
-    if (!!value) {
+    if (value !== null) {
       actions.toggleFullScreen();
     }
   };
+
   const toggleAppBar = () => actions.toggleAppBar();
+
   const toggleSideBar = () => actions.toggleSideBar();
 
   return (

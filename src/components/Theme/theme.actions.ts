@@ -23,6 +23,10 @@ export const toggleThemeType = (
   utils.saveSettings(newState).then(() => store.setState(newState));
 };
 
+export const toggleFullScreen = (store: Store<TTheme, TActions>) => {
+  utils.toggleFullScreen();
+};
+
 export const toggleDrawerType = (
   store: Store<TTheme, TActions>,
   nextType?: "temporary" | "permanent"
@@ -45,10 +49,6 @@ export const toggleSettings = (store: Store<TTheme, TActions>) => {
   const { isSettingsOpen } = store.state;
   store.setState({ ...store.state, isSettingsOpen: !isSettingsOpen });
   utils.saveSettings(store.state);
-};
-
-export const toggleFullScreen = (store: Store<TTheme, TActions>) => {
-  utils.toggleFullScreen();
 };
 
 export const toggleAppBar = (
