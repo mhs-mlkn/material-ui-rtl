@@ -1,40 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { useHistory } from "react-router-dom";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import Tooltip from "@material-ui/core/Tooltip";
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { TDashboard, DashboardMenu } from "components/Dashboard";
+import {
+  TDashboard,
+  useDashboards,
+  DashboardsService as Service
+} from "components/Dashboard";
 
 const DashboardSelect = () => {
   const history = useHistory();
-  const [selected, setSelected] = useState("");
+  const [state] = useDashboards();
+  const [selected, setSelected] = useState<TDashboard | null>(null);
   const selectedId = window.location.pathname.split("/").pop() || 0;
 
-  const handleChange = (dashboard: TDashboard) => {
-    setSelected(dashboard.name);
-    history.push(`/user/dashboard/${dashboard.id}`, { title: dashboard.name });
+  useEffect(() => {
+    const d = Service.get(+selectedId);
+    setSelected(d ? d : null);
+  }, [state.dashboards, selectedId]);
+
+  const handleChange = (e: ChangeEvent<{}>, dashboard: TDashboard | null) => {
+    setSelected(dashboard);
+    if (!!dashboard) {
+      history.push(`/user/dashboard/${dashboard.id}`, {
+        title: dashboard.name
+      });
+    }
   };
 
   return (
-    <Tooltip title={selected}>
-      <TextField
-        variant="outlined"
-        margin="dense"
-        disabled
-        style={{ minWidth: 550 }}
-        value={selected}
-        inputProps={{
-          readOnly: true
-        }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <DashboardMenu selectedId={+selectedId} onChange={handleChange} />
-            </InputAdornment>
-          )
-        }}
-      />
-    </Tooltip>
+    <Autocomplete
+      options={state.dashboards}
+      getOptionLabel={dashboard => dashboard.name}
+      value={selected}
+      onChange={handleChange}
+      disableClearable
+      style={{ maxWidth: 800 }}
+      blurOnSelect={true}
+      autoComplete
+      autoHighlight
+      autoSelect
+      renderInput={params => (
+        <Tooltip title={selected ? selected.name : ""} placement="bottom-start">
+          <TextField {...params} variant="outlined" margin="dense" fullWidth />
+        </Tooltip>
+      )}
+    />
   );
 };
 
