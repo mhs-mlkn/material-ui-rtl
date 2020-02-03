@@ -16,6 +16,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import EditAttributesIcon from "@material-ui/icons/EditAttributesOutlined";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
@@ -82,6 +83,12 @@ const ReportCard = (props: propsType) => {
 
   const hasFilters = () => {
     return instance.report.query.queryFilters.length > 0;
+  };
+
+  const hasParams = () => {
+    return instance.report.query.queryParams.some(
+      p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
+    );
   };
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -158,6 +165,13 @@ const ReportCard = (props: propsType) => {
                 <Tooltip placement="top" title="فیلتر گزارش">
                   <MenuItem onClick={handleMenuItemClick("OPEN_FILTERS")}>
                     <FilterListIcon fontSize="small" />
+                  </MenuItem>
+                </Tooltip>
+              )}
+              {hasParams() && (
+                <Tooltip placement="top" title="تغییر پارامتر">
+                  <MenuItem onClick={handleMenuItemClick("OPEN_PARAMS")}>
+                    <EditAttributesIcon fontSize="small" />
                   </MenuItem>
                 </Tooltip>
               )}

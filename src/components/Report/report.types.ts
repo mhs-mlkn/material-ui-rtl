@@ -120,6 +120,7 @@ export type TReportMenuAction =
   | "TOGGLE_AUTO_REFRESH"
   | "REFRESH_REPORT"
   | "OPEN_FILTERS"
+  | "OPEN_PARAMS"
   | "OPEN_EXPORT"
   | "OPEN_EMBED"
   | "BACK_FROM_DRILLDOWN"

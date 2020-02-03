@@ -41,6 +41,7 @@ const DashboardSelect = () => {
       autoComplete
       autoHighlight
       autoSelect
+      noOptionsText=""
       renderInput={params => (
         <Tooltip title={selected ? selected.name : ""} placement="bottom-start">
           <TextField {...params} variant="outlined" margin="dense" fullWidth />

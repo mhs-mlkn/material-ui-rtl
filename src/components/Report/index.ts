@@ -8,6 +8,7 @@ export { default as ExecError } from "./ExecError";
 export { default as ThemeMenu } from "./ThemeMenu";
 export { default as AutoRefresh } from "./AutoRefresh";
 export { default as Filters } from "./Filters";
+export { default as Params } from "./Params";
 export { default as QueryListFilter } from "./QueryListFilter";
 export { default as Export } from "./Export";
 export { default as Embed } from "./Embed";
