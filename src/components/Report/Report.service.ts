@@ -1,4 +1,5 @@
 import get from "lodash/get";
+import has from "lodash/has";
 import keyBy from "lodash/keyBy";
 import omit from "lodash/omit";
 import { Api, parseToJSON } from "utility";
@@ -23,8 +24,13 @@ const ADMIN_CONFIG = {
 export class ReportService {
   private _instances: { [id: number]: TReportInstance } = {};
   private hasInit = false;
-  private filterOptions: TReportData = { cols: [], rows: [], totalCount: 0 };
-  private filterOptionsId: number = 0;
+  private filterOptions: { [id: number]: TReportData } = {
+    0: {
+      cols: [],
+      rows: [],
+      totalCount: 0
+    }
+  };
 
   public get Instances() {
     return this.hasInit
@@ -118,14 +124,13 @@ export class ReportService {
     const fetch = async () => {
       const url = `${baseUrl}/userreport/${instanceId}/getFilterOptions?filterId=${filterId}`;
       return Api.post(url, null).then(res => {
-        this.filterOptionsId = instanceId;
-        this.filterOptions = res.data.result;
-        return this.filterOptions;
+        this.filterOptions[instanceId] = res.data.result;
+        return this.filterOptions[instanceId];
       });
     };
 
-    if (instanceId === this.filterOptionsId) {
-      return Promise.resolve(this.filterOptions);
+    if (has(this.filterOptions, `${instanceId}`)) {
+      return Promise.resolve(this.filterOptions[instanceId]);
     }
     return fetch();
   }
