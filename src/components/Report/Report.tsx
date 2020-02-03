@@ -12,6 +12,7 @@ import { withBreakPoint, TBreakPoint } from "components/Layout";
 import { DeleteButton } from "components/Button";
 import Chart, { chartOptions, chartData } from "components/Chart";
 import Scalar, { IconMenu } from "components/Scalar";
+import Composite from "components/Composite";
 import Table from "components/Table";
 import ReportCard from "components/ReportCard";
 import { Modal } from "components/Modal";
@@ -22,6 +23,7 @@ import {
   ThemeMenu,
   AutoRefresh,
   Filters,
+  Params,
   Export,
   Embed,
   SaveButton,
@@ -54,6 +56,7 @@ type stateType = {
   options: object;
   icon: TReportIcons;
   openFilters: boolean;
+  openParams: boolean;
   openExport: boolean;
   openEmbed: boolean;
   openFullscreen: boolean;
@@ -74,6 +77,7 @@ class Report extends Component<propsType, stateType> {
     options: {},
     icon: "info",
     openFilters: false,
+    openParams: false,
     openExport: false,
     openEmbed: false,
     openFullscreen: false,
@@ -97,7 +101,8 @@ class Report extends Component<propsType, stateType> {
 
   componentDidUpdate(prevProps: propsType, prevState: stateType) {
     const { instance, theme } = this.state;
-    const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
+    const isChart =
+      ["SCALAR", "TABLE", "FORM"].indexOf(instance.report.type) === -1;
 
     if (isChart) {
       if (
@@ -118,12 +123,13 @@ class Report extends Component<propsType, stateType> {
     const theme = get(instance, "config.theme");
     const icon = get(instance, "config.icon");
     const options = this.getOptions();
-    this.setState({ interval, theme, icon, options });
+    const parentParams = this.getParams();
+    this.setState({ interval, theme, icon, options, parentParams });
 
     const { queryFilters } = report.query;
     this.reportFilters = keyBy(queryFilters, "id");
 
-    if (report.type !== "TABLE") {
+    if (["TABLE", "FORM"].indexOf(report.type) === -1) {
       this.execReport();
     }
   }
@@ -178,8 +184,18 @@ class Report extends Component<propsType, stateType> {
     });
   }
 
+  getParams() {
+    return this.state.instance.report.query.queryParams.filter(
+      p => ["BY_BUSINESS", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
+    );
+  }
+
   toggleFiltersModal = () => {
     this.setState(state => ({ openFilters: !state.openFilters }));
+  };
+
+  toggleParamsModal = () => {
+    this.setState(state => ({ openParams: !state.openParams }));
   };
 
   toggleExportModal = () => {
@@ -229,10 +245,16 @@ class Report extends Component<propsType, stateType> {
     this.setState({ icon });
   };
 
-  handleFiltersChange = (filters: TReportFilter[]) => {
-    this.setState({ filterVOS: filters });
+  handleFiltersChange = (filterVOS: TReportFilter[]) => {
+    this.setState({ filterVOS });
     this.execReport();
     this.toggleFiltersModal();
+  };
+
+  handleParamsChange = (parentParams: TQueryParam[]) => {
+    console.log(parentParams);
+    this.toggleParamsModal();
+    this.setState({ parentParams }, this.execReport);
   };
 
   handleDelete = () => {
@@ -274,6 +296,9 @@ class Report extends Component<propsType, stateType> {
 
       case "OPEN_FILTERS":
         return this.toggleFiltersModal();
+
+      case "OPEN_PARAMS":
+        return this.toggleParamsModal();
 
       case "OPEN_EXPORT":
         return this.toggleExportModal();
@@ -385,6 +410,9 @@ class Report extends Component<propsType, stateType> {
           />
         );
 
+      case "FORM":
+        return <Composite instance={instance} />;
+
       default:
         return (
           <Chart
@@ -405,14 +433,17 @@ class Report extends Component<propsType, stateType> {
       isRunning,
       interval,
       openFilters,
+      openParams,
       openExport,
       openEmbed,
       openFullscreen,
       filterVOS,
+      parentParams,
       isDrillDown,
       error
     } = this.state;
-    const isChart = ["SCALAR", "TABLE"].indexOf(instance.report.type) === -1;
+    const isChart =
+      ["SCALAR", "TABLE", "FORM"].indexOf(instance.report.type) === -1;
 
     if (error) {
       return (
@@ -461,6 +492,20 @@ class Report extends Component<propsType, stateType> {
               reportFilters={this.reportFilters}
               onClose={this.toggleFiltersModal}
               onFiltersChange={this.handleFiltersChange}
+            />
+          </Modal>
+          <Modal
+            open={openParams}
+            onClose={this.toggleParamsModal}
+            maxWidth="md"
+            keepMounted={false}
+            actions={<></>}
+          >
+            <Params
+              instance={instance}
+              parentParams={parentParams}
+              onClose={this.toggleParamsModal}
+              onParamsChange={this.handleParamsChange}
             />
           </Modal>
           <Modal

@@ -33,7 +33,7 @@ const ReportRow = (props: { report: TReport; loading?: boolean }) => {
     <TableRow hover>
       <TableCell>{report.id}</TableCell>
       <TableCell>
-        <Typography variant="body2" component="p" title={report.name}>
+        <Typography variant="body2" title={report.name}>
           {report.name || <>&nbsp;</>}
         </Typography>
       </TableCell>
@@ -44,7 +44,6 @@ const ReportRow = (props: { report: TReport; loading?: boolean }) => {
       <TableCell>
         <Typography
           variant="caption"
-          component="p"
           color="textSecondary"
           title={report.description}
         >

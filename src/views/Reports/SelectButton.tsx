@@ -16,8 +16,8 @@ const SelectButton = (props: propsType) => {
 
   return (
     <DashboardMenu
-      onChange={handleSelectDashboard}
       selectedId={0}
+      onChange={handleSelectDashboard}
       icon={AddIcon}
       hideSharedDashboards
     />

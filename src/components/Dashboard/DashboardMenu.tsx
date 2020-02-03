@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import React, { useEffect, useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { SvgIconProps } from "@material-ui/core/SvgIcon";
 import {
   DashboardsService as Service,
   useDashboards,
   TDashboard
 } from "components/Dashboard";
-import { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 type propsType = {
   selectedId: number;
@@ -21,9 +21,9 @@ const DashboardMenu = (props: propsType) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [state] = useDashboards();
   const {
-    selectedId,
+    selectedId = 0,
     onChange,
-    icon: Icon,
+    icon: Icon = ExpandMoreIcon,
     hideSharedDashboards = false
   } = props;
 
@@ -50,8 +50,8 @@ const DashboardMenu = (props: propsType) => {
 
   return (
     <>
-      <IconButton onClick={handleClick} color="primary">
-        {!!Icon ? <Icon /> : <ExpandMoreIcon />}
+      <IconButton color="primary" onClick={handleClick}>
+        <Icon />
       </IconButton>
       <Menu
         anchorEl={anchorEl}

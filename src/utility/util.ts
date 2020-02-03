@@ -27,9 +27,11 @@ export function formatChartValue(
 
 export function formatValue(type: string, value: string | number | null) {
   const _val = value || "";
-  if (type === "DATE") {
+  /* if (type === "DATE") {
     return moment(_val.toString().slice(0, -5)).format("jYYYY/jMM/jDD");
-  } else if (type === "NUMBER") {
+  } else  */
+
+  if (type === "NUMBER") {
     return formatNumber(value === 0 ? "0" : _val);
   }
   return _val;

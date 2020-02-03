@@ -1,11 +1,18 @@
 import React, { ReactNode } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import Dialog, { DialogProps } from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
+import MuiDialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import { Button } from "components/Button";
+
+const DialogActions = withStyles(theme => ({
+  root: {
+    padding: theme.spacing(1, 3)
+  }
+}))(MuiDialogActions);
 
 type TModalProps = {
   title?: string;

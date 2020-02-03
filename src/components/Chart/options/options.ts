@@ -60,7 +60,8 @@ export function chartOptions(instance: TReportInstance, savedOptions: object) {
     SCATTER: getScatterOpitons,
     TREEMAP: getTreemapOpitons,
     SCALAR: () => ({}),
-    TABLE: () => ({})
+    TABLE: () => ({}),
+    FORM: () => ({})
   };
 
   return merge(

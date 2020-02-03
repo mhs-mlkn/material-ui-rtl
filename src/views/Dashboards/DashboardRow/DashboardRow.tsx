@@ -12,7 +12,7 @@ import { DeleteButton } from "components/Button";
 import { useDashboards, TDashboard } from "components/Dashboard";
 import ChangeOrder from "./ChangeOrder";
 import EditButton from "./EditButton";
-import { AccessButton } from "..";
+import { AccessButton, LinkedReports } from "..";
 
 const DashboardRow = (props: { dashboard: TDashboard }) => {
   const actions = useDashboards()[1];
@@ -96,6 +96,7 @@ const DashboardRow = (props: { dashboard: TDashboard }) => {
       <TableCell style={{ textAlign: "end", minWidth: 170 }}>
         {!dashboard.shared && (
           <>
+            <LinkedReports dashboard={dashboard} />
             <AccessButton dashboard={dashboard} />
             <EditButton
               name={dashboard.name}
