@@ -118,13 +118,13 @@ export class ReportService {
     const fetch = async () => {
       const url = `${baseUrl}/userreport/${instanceId}/getFilterOptions?filterId=${filterId}`;
       return Api.post(url, null).then(res => {
-        this.filterOptions[instanceId] = res.data.result;
-        return this.filterOptions[instanceId];
+        this.filterOptions[filterId] = res.data.result;
+        return this.filterOptions[filterId];
       });
     };
 
-    if (has(this.filterOptions, `${instanceId}`)) {
-      return Promise.resolve(this.filterOptions[instanceId]);
+    if (has(this.filterOptions, `${filterId}`)) {
+      return Promise.resolve(this.filterOptions[filterId]);
     }
     return fetch();
   }
