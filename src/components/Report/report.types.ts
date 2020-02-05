@@ -142,9 +142,10 @@ export type TReportConfig = {
 
 export type TReportInstance = {
   id: number;
-  drillDownId?: number;
-  dashboardId: number;
   name?: string;
+  drillDownId?: number;
+  parentId?: number;
+  dashboardId: number;
   report: TReport;
   config: TReportConfig;
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { TChartTheme, TReportInstance } from "components/Report";
-import { publish, Categories } from "components/PubSub";
+import { publish } from "components/PubSub";
 import { Echarts } from ".";
 
 type propsType = {
@@ -14,7 +14,7 @@ const Chart = (props: propsType) => {
   const { instance, loading, options, theme } = props;
 
   const handleChartClick = (payload: any) => {
-    publish({ category: Categories.Drilldown, id: instance.id, payload });
+    publish({ id: instance.id, payload });
   };
 
   return (

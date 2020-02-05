@@ -38,7 +38,7 @@ import {
   TQueryFilter,
   TQueryParam
 } from "components/Report";
-import { Subscriber, Categories } from "components/PubSub";
+import { Subscriber, subscribeType } from "components/PubSub";
 
 type propsType = {
   instanceId: number;
@@ -326,28 +326,41 @@ class Report extends Component<propsType, stateType> {
     }
   };
 
-  listener = (data: any) => {
-    const { instance } = this.state;
-    const { drillDownId } = instance;
+  listener = (data: subscribeType) => {
+    const { id, payload } = data;
+    const instanceId = get(this.state, "instance.id", -1);
+    const drillDownId = get(this.state, "instance.drillDownId", -1);
+    const parentId = get(this.state, "instance.parentId", -1);
 
-    if (!!drillDownId) {
-      const drillDownInstance = ReportService.get(drillDownId);
-      const parentParams = drillDownInstance.report.query.queryParams.find(
-        p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
-      );
-      if (!!parentParams) {
-        parentParams.value = data.name;
-      }
-      this.setState(
-        {
-          instance: drillDownInstance,
-          options: {},
-          isDrillDown: true,
-          parentParams: !!parentParams ? [parentParams] : []
-        },
-        this.initialize
-      );
+    if (id === instanceId && drillDownId > -1) {
+      this.processDrilldown(drillDownId, payload);
     }
+    if (id === instanceId && parentId > -1) {
+      console.dir(data);
+    }
+  };
+
+  processDrilldown = (drillDownId: number, payload: any) => {
+    const drillDownInstance = ReportService.get(drillDownId);
+    const parentParams = drillDownInstance.report.query.queryParams.find(
+      p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
+    );
+    if (!!parentParams) {
+      parentParams.value = payload.name;
+    }
+    this.setState(
+      {
+        instance: drillDownInstance,
+        options: {},
+        isDrillDown: true,
+        parentParams: !!parentParams ? [parentParams] : []
+      },
+      this.initialize
+    );
+  };
+
+  processLinked = (data: any) => {
+    console.dir(data);
   };
 
   renderActions = (type: TReportType) => {
@@ -466,11 +479,7 @@ class Report extends Component<propsType, stateType> {
     }
 
     return (
-      <Subscriber
-        category={Categories.Drilldown}
-        id={instance.id}
-        listener={this.listener}
-      >
+      <Subscriber listener={this.listener}>
         <ReportCard
           instance={instance}
           autoRefresh={interval > 0}

@@ -1,11 +1,8 @@
 import { useRef, useEffect } from "react";
 import { Subject } from "rxjs/internal/Subject";
-import { filter } from "rxjs/internal/operators/filter";
 import { Subscription } from "rxjs/internal/Subscription";
-import { Categories } from ".";
 
-type subscribeType = {
-  category: Categories;
+export type subscribeType = {
   id: number;
   payload: any;
 };
@@ -17,18 +14,16 @@ export function publish(data: subscribeType) {
 }
 
 type propsType = {
-  listener: (data: any) => any;
+  listener: (data: subscribeType) => any;
   children: JSX.Element;
-} & Omit<subscribeType, "payload">;
+};
 
 export const Subscriber = (props: propsType) => {
-  const { category, id, listener, children } = props;
+  const { listener, children } = props;
   const unsub = useRef<Subscription>();
 
   useEffect(() => {
-    unsub.current = subject
-      .pipe(filter(f => f.category === category && f.id === id))
-      .subscribe(s => listener(s.payload));
+    unsub.current = subject.subscribe(s => listener(s));
 
     return () => {
       if (unsub.current) {
