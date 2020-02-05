@@ -43,6 +43,11 @@ const ReportList = (props: propsType) => {
     return get(ins, "name", defaultName);
   };
 
+  const getReportType = (id: number) => {
+    const ins = Reports.get(id);
+    return get(ins, "report.type", "");
+  };
+
   const getParentId = (id: number) => {
     const ins = Reports.get(id);
     return get(ins, "parentId", -1);
@@ -76,23 +81,28 @@ const ReportList = (props: propsType) => {
           <TableRow>
             <TableCell style={{ width: 100 }}>شناسه</TableCell>
             <TableCell>نام</TableCell>
+            <TableCell style={{ width: 100 }}>نوع</TableCell>
             <TableCell>گزارش اصلی</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {dashboard.userReportIds.map(id => (
-            <TableRow key={id}>
-              <TableCell>{id}</TableCell>
-              <TableCell>{getReportName(id)}</TableCell>
-              <TableCell>
-                <ReportSelect
-                  dashboard={dashboard}
-                  value={getParentId(id)}
-                  onChange={handleChange(id)}
-                />
-              </TableCell>
-            </TableRow>
-          ))}
+          {dashboard.userReportIds
+            .sort((a, b) => b - a)
+            .map(id => (
+              <TableRow key={id}>
+                <TableCell>{id}</TableCell>
+                <TableCell>{getReportName(id)}</TableCell>
+                <TableCell>{getReportType(id)}</TableCell>
+                <TableCell>
+                  <ReportSelect
+                    reportId={id}
+                    dashboard={dashboard}
+                    value={getParentId(id)}
+                    onChange={handleChange(id)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </>

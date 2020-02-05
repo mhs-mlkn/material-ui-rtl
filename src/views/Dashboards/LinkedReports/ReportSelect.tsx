@@ -4,13 +4,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { TDashboard } from "components/Dashboard";
 
 type propsType = {
+  reportId: number;
   dashboard: TDashboard;
   value?: number;
   onChange: (id: number) => void;
 };
 
-const ReportList = (props: propsType) => {
-  const { dashboard, onChange, value = -1 } = props;
+const ReportSelect = (props: propsType) => {
+  const { reportId, dashboard, onChange, value = -1 } = props;
   const [selected, setSelected] = useState(value);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,13 +29,16 @@ const ReportList = (props: propsType) => {
       fullWidth
       size="small"
     >
-      {dashboard.userReportIds.map(id => (
-        <MenuItem key={id} value={id}>
-          {id}
-        </MenuItem>
-      ))}
+      {dashboard.userReportIds
+        .filter(id => id !== reportId)
+        .sort((a, b) => b - a)
+        .map(id => (
+          <MenuItem key={id} value={id}>
+            {id}
+          </MenuItem>
+        ))}
     </TextField>
   );
 };
 
-export default ReportList;
+export default ReportSelect;

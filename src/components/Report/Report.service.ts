@@ -24,13 +24,7 @@ const ADMIN_CONFIG = {
 export class ReportService {
   private _instances: { [id: number]: TReportInstance } = {};
   private hasInit = false;
-  private filterOptions: { [id: number]: TReportData } = {
-    0: {
-      cols: [],
-      rows: [],
-      totalCount: 0
-    }
-  };
+  private filterOptions: { [id: number]: TReportData } = {};
 
   public get Instances() {
     return this.hasInit
