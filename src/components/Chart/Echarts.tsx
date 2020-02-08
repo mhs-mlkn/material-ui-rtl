@@ -2,18 +2,26 @@ import React, { useEffect, useState } from "react";
 import get from "lodash/get";
 import ReactEcharts from "echarts-for-react";
 import { useTheme, Theme } from "@material-ui/core/styles";
-import { TChartTheme, TReportInstance } from "components/Report";
+import { TChartTheme } from "components/Report";
 
 type propsType = {
-  instance: TReportInstance;
+  instanceId: number;
   options: object;
   loading: boolean;
   theme: TChartTheme;
   onChartClick: (data: any) => any;
+  onChartReady?: (e: ReactEcharts) => any;
 };
 
 const Echarts = (props: propsType) => {
-  const { instance, options, loading, theme: chartTheme, onChartClick } = props;
+  const {
+    instanceId,
+    options,
+    loading,
+    theme: chartTheme,
+    onChartClick,
+    onChartReady
+  } = props;
   const _theme = useTheme<Theme>();
   const [updated, setUpdated] = useState(false);
   // let echarts = React.useRef<ReactEcharts>();
@@ -52,12 +60,12 @@ const Echarts = (props: propsType) => {
         maskColor:
           type === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0)"
       }}
-      // onChartReady={onChartReady}
+      onChartReady={onChartReady}
       onEvents={{
         click: onChartClick
       }}
       style={{ height: "100%", width: "100%" }}
-      className={`report-${instance.id}`}
+      className={`report-${instanceId}`}
     />
   );
 };

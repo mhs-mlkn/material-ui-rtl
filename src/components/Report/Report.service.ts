@@ -158,6 +158,11 @@ export class ReportService {
       );
   }
 
+  public async setParent(data: object) {
+    const url = `${baseUrl}/userreport/addParent`;
+    return Api.put(url, data);
+  }
+
   public async fetchEmbedHash(instanceId: number): Promise<string> {
     const url = `${baseUrl}/userreport/${instanceId}/hash`;
     return Api.get(url).then(res => res.data.result as string);

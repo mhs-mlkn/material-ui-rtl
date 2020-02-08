@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import get from "lodash/get";
+import { useSnackbar } from "notistack";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -12,6 +13,7 @@ import { Button } from "components/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import { TDashboard } from "components/Dashboard";
 import { ReportService as Reports } from "components/Report";
+import { displayErrMsg } from "utility";
 import { ReportSelect } from ".";
 
 type propsType = {
@@ -23,6 +25,7 @@ let linkedReports = {};
 const ReportList = (props: propsType) => {
   const { dashboard } = props;
   const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     linkedReports = {};
@@ -32,9 +35,8 @@ const ReportList = (props: propsType) => {
     };
   }, []);
 
-  const handleChange = (id: number) => (parentId: number) => {
+  const handleChange = (id: number) => (parentId: string) => {
     linkedReports = { ...linkedReports, [id]: parentId };
-    console.log(linkedReports);
   };
 
   const getReportName = (id: number) => {
@@ -55,7 +57,10 @@ const ReportList = (props: propsType) => {
 
   const handleSave = () => {
     setLoading(true);
-    setTimeout(() => setLoading(false), 300);
+    console.log(linkedReports);
+    Reports.setParent(linkedReports)
+      .catch(displayErrMsg(enqueueSnackbar))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -87,7 +92,7 @@ const ReportList = (props: propsType) => {
         </TableHead>
         <TableBody>
           {dashboard.userReportIds
-            .sort((a, b) => b - a)
+            .sort((a, b) => a - b)
             .map(id => (
               <TableRow key={id}>
                 <TableCell>{id}</TableCell>

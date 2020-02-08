@@ -3,6 +3,7 @@ import Login from "views/Account/Login";
 import { Reports } from "views/Reports";
 import { Home } from "views/Home";
 import { Dashboards } from "views/Dashboards";
+import GlobalMap from "views/GlobalMap";
 
 export type TRoute = {
   path: string;
@@ -43,6 +44,11 @@ const routes: TRoute[] = [
   {
     path: "/manage/dashboards",
     component: Dashboards,
+    auth: true
+  },
+  {
+    path: "/global-map",
+    component: GlobalMap,
     auth: true
   }
 ];

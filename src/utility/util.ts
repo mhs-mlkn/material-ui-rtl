@@ -1,5 +1,5 @@
 import get from "lodash/get";
-import moment from "moment-jalaali";
+// import moment from "moment-jalaali";
 
 export function getLS(key: string) {
   let val = localStorage.getItem(key) || "";
