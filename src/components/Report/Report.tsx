@@ -336,7 +336,7 @@ class Report extends Component<propsType, stateType> {
       this.processDrilldown(drillDownId, payload);
     }
     if (id === parentId) {
-      this.processLinked(parentId, data);
+      this.processLinked(parentId, payload);
     }
   };
 
@@ -360,6 +360,7 @@ class Report extends Component<propsType, stateType> {
   };
 
   processLinked = (parentId: number, payload: any) => {
+    console.log(payload);
     const { instance } = this.state;
     const parentParams = instance.report.query.queryParams.find(
       p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1

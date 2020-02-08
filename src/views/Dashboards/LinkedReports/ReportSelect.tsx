@@ -7,7 +7,7 @@ type propsType = {
   reportId: number;
   dashboard: TDashboard;
   value?: number;
-  onChange: (id: string) => void;
+  onChange: (id: number) => void;
 };
 
 const ReportSelect = (props: propsType) => {
@@ -15,9 +15,9 @@ const ReportSelect = (props: propsType) => {
   const [selected, setSelected] = useState(value);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const id = e.target.value;
+    const id = +e.target.value;
     setSelected(+id);
-    onChange(id);
+    onChange(+id);
   };
 
   return (
@@ -29,13 +29,13 @@ const ReportSelect = (props: propsType) => {
       fullWidth
       size="small"
     >
-      {[0]
+      {[-1]
         .concat(dashboard.userReportIds)
         .filter(id => id !== reportId)
         .sort((a, b) => a - b)
         .map(id => (
           <MenuItem key={id} value={id}>
-            {id === 0 ? "نامشخص" : id}
+            {id === -1 ? "نامشخص" : id}
           </MenuItem>
         ))}
     </TextField>

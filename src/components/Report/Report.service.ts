@@ -158,9 +158,16 @@ export class ReportService {
       );
   }
 
-  public async setParent(data: object) {
+  public async setParent(data: { [key: number]: number }) {
     const url = `${baseUrl}/userreport/addParent`;
-    return Api.put(url, data);
+    return Api.put(url, data).then(() => {
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          this._instances[key].parentId = data[key];
+        }
+      }
+      return data;
+    });
   }
 
   public async fetchEmbedHash(instanceId: number): Promise<string> {

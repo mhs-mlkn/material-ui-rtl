@@ -35,7 +35,7 @@ const ReportList = (props: propsType) => {
     };
   }, []);
 
-  const handleChange = (id: number) => (parentId: string) => {
+  const handleChange = (id: number) => (parentId: number) => {
     linkedReports = { ...linkedReports, [id]: parentId };
   };
 
