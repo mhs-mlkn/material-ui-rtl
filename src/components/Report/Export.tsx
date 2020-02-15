@@ -15,13 +15,13 @@ import { displayErrMsg } from "utility";
 
 type propsType = {
   instanceId: number;
-  filterVOS: TReportFilter[];
+  processFilters: () => TReportFilter[];
 };
 
 type TExportFormat = "PNG" | "CSV" | "XLSX";
 
 const Export = (props: propsType) => {
-  const { instanceId, filterVOS } = props;
+  const { instanceId, processFilters } = props;
   const [value, setValue] = React.useState<TExportFormat>("CSV");
   const [loading, setLoading] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -43,6 +43,7 @@ const Export = (props: propsType) => {
       );
     } else {
       setLoading(true);
+      const filterVOS = processFilters();
       ReportService.export(instanceId, value, { filterVOS })
         .then(blob =>
           saveAs(

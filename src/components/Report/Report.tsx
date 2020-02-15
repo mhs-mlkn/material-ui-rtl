@@ -170,7 +170,7 @@ class Report extends Component<propsType, stateType> {
     console.error(`Report ErrorBoundary> (${this.state.instance.id}) `, error);
   }
 
-  processFilters() {
+  processFilters = () => {
     return this.state.filterVOS.map(filter => {
       const reportFilter = this.reportFilters[filter.id];
       const filterType = reportFilter.type;
@@ -182,7 +182,7 @@ class Report extends Component<propsType, stateType> {
       }
       return { ...filter, value };
     });
-  }
+  };
 
   getParams() {
     return this.state.instance.report.query.queryParams.filter(
@@ -523,7 +523,10 @@ class Report extends Component<propsType, stateType> {
             maxWidth="xs"
             actions={<></>}
           >
-            <Export instanceId={instance.id} filterVOS={filterVOS} />
+            <Export
+              instanceId={instance.id}
+              processFilters={this.processFilters}
+            />
           </Modal>
           <Modal
             open={openEmbed}
