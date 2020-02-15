@@ -537,7 +537,10 @@ class Report extends Component<propsType, stateType> {
             maxWidth="xs"
             actions={<></>}
           >
-            <Export instanceId={instance.id} filterVOS={filterVOS} />
+            <Export
+              instanceId={instance.id}
+              processFilters={this.processFilters}
+            />
           </Modal>
           <Modal
             open={openEmbed}
