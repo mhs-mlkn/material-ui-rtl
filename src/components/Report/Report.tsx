@@ -170,7 +170,7 @@ class Report extends Component<propsType, stateType> {
     console.error(`Report ErrorBoundary> (${this.state.instance.id}) `, error);
   }
 
-  processFilters() {
+  processFilters = () => {
     return this.state.filterVOS.map(filter => {
       const reportFilter = this.reportFilters[filter.id];
       const filterType = reportFilter.type;
@@ -182,7 +182,7 @@ class Report extends Component<propsType, stateType> {
       }
       return { ...filter, value };
     });
-  }
+  };
 
   getParams() {
     return this.state.instance.report.query.queryParams.filter(
