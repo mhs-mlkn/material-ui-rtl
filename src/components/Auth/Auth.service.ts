@@ -108,6 +108,7 @@ export class AuthService {
 
       return retryOriginalRequest;
     } catch (error) {
+      window.location.href = "/user/login";
       Promise.reject(error);
     }
   };

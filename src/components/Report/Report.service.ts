@@ -132,7 +132,8 @@ export class ReportService {
   public async export(
     instanceId: number,
     format: "XLSX" | "CSV",
-    params?: TReportExecParams
+    params?: TReportExecParams,
+    forceSave?: boolean
   ) {
     const api = format === "CSV" ? "getCSV" : "getXLS";
     const url = `${baseUrl}/userreport/${instanceId}/${api}`;
@@ -145,7 +146,7 @@ export class ReportService {
       .post(
         url,
         { filterVOS, parentParams, orderByElementVOS },
-        { responseType: "blob" }
+        { responseType: "blob", params: { forceSave: !!forceSave } }
       )
       .then(
         res =>

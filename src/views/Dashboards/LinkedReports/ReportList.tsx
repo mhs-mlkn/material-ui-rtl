@@ -57,7 +57,6 @@ const ReportList = (props: propsType) => {
 
   const handleSave = () => {
     setLoading(true);
-    console.log(linkedReports);
     Reports.setParent(linkedReports)
       .catch(displayErrMsg(enqueueSnackbar))
       .finally(() => setLoading(false));

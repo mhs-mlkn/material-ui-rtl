@@ -252,7 +252,6 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleParamsChange = (parentParams: TQueryParam[]) => {
-    console.log(parentParams);
     this.toggleParamsModal();
     this.setState({ parentParams }, this.execReport);
   };
@@ -360,7 +359,6 @@ class Report extends Component<propsType, stateType> {
   };
 
   processLinked = (parentId: number, payload: any) => {
-    console.log(payload);
     const { instance } = this.state;
     const parentParams = instance.report.query.queryParams.find(
       p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1

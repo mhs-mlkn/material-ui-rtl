@@ -11,7 +11,6 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { Button } from "components/Button";
 import { ReportService, TReportFilter } from "components/Report";
-import { displayErrMsg } from "utility";
 
 type propsType = {
   instanceId: number;
@@ -31,7 +30,15 @@ const Export = (props: propsType) => {
     setValue(v as TExportFormat);
   };
 
+  const retry = () => {
+    fetchExport(true);
+  };
+
   const handleExportClick = () => {
+    fetchExport(false);
+  };
+
+  const fetchExport = (forceSave?: boolean) => {
     if (value === "PNG") {
       return (
         domtoimage
@@ -44,7 +51,7 @@ const Export = (props: propsType) => {
     } else {
       setLoading(true);
       const filterVOS = processFilters();
-      ReportService.export(instanceId, value, { filterVOS })
+      ReportService.export(instanceId, value, { filterVOS }, forceSave)
         .then(blob =>
           saveAs(
             blob,
@@ -53,7 +60,26 @@ const Export = (props: propsType) => {
             )}.${value.toLowerCase()}`
           )
         )
-        .catch(displayErrMsg(enqueueSnackbar))
+        .catch(error => {
+          const fr = new FileReader();
+          fr.readAsText(error.response.data);
+          fr.onload = function(evt: any) {
+            const res = JSON.parse(evt.target.result);
+            enqueueSnackbar(res.message, {
+              variant: "error",
+              autoHideDuration: 5000,
+              action: (
+                <Button
+                  text="ذخیره"
+                  variant="text"
+                  color="default"
+                  size="small"
+                  onClick={retry}
+                />
+              )
+            });
+          };
+        })
         .finally(() => setLoading(false));
     }
   };

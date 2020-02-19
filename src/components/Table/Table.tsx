@@ -35,6 +35,7 @@ type propTypes = {
   onChangePage: (p: number) => void;
   onChangeSize: (ps: number) => void;
   onChangeOrder: (orderBy: string) => void;
+  onClickRow: (payload: any) => any;
 };
 
 const CustomTable = (props: propTypes) => {
@@ -49,7 +50,8 @@ const CustomTable = (props: propTypes) => {
     order = false,
     onChangePage,
     onChangeSize: onChangePageSize,
-    onChangeOrder
+    onChangeOrder,
+    onClickRow
   } = props;
   const { cols, rows, totalCount } = data;
   const colSpan = cols.length;
@@ -75,6 +77,10 @@ const CustomTable = (props: propTypes) => {
     onChangeOrder && onChangeOrder(orderBy);
   };
 
+  const handleClickRow = (item: any) => () => {
+    onClickRow({ name: item.cols[0] });
+  };
+
   return (
     <Table className={classes.table} ref={tableRef}>
       <CustomTableHead
@@ -89,7 +95,7 @@ const CustomTable = (props: propTypes) => {
             (row: any, key: number) => {
               const { cols: values = [] } = row;
               return (
-                <TableRow hover key={key}>
+                <TableRow hover key={key} onClick={handleClickRow(row)}>
                   {values.map((value: string | number, i: number) => (
                     <TableCell key={i}>
                       {formatValue(cols[i].type, value)}
