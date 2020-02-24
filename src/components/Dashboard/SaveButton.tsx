@@ -1,4 +1,5 @@
 import React from "react";
+import get from "lodash/get";
 import { useSnackbar } from "notistack";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import SaveIcon from "@material-ui/icons/Save";
@@ -38,6 +39,10 @@ const SaveButton = () => {
   };
 
   if (!isVisible) {
+    return null;
+  }
+
+  if (get(state.selected, "shared", true)) {
     return null;
   }
 

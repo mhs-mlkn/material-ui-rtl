@@ -1,4 +1,5 @@
 import React, { useState, ReactNode } from "react";
+import get from "lodash/get";
 import clx from "classnames";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -21,6 +22,7 @@ import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import CodeIcon from "@material-ui/icons/Code";
+import { useDashboards } from "components/Dashboard";
 import { TReportMenuAction, TReportInstance } from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -80,6 +82,7 @@ const ReportCard = (props: propsType) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [showActions, setShowActions] = useState(false);
+  const [dashboards] = useDashboards();
 
   const hasFilters = () => {
     return instance.report.query.queryFilters.length > 0;
@@ -132,14 +135,16 @@ const ReportCard = (props: propsType) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <Tooltip
-                title={showActions ? "عدم نمایش ابزار" : "نمایش ابزار"}
-                placement="top"
-              >
-                <MenuItem onClick={toggleActions}>
-                  <SettingsIcon fontSize="small" />
-                </MenuItem>
-              </Tooltip>
+              {!get(dashboards.selected, "shared", true) && (
+                <Tooltip
+                  title={showActions ? "عدم نمایش ابزار" : "نمایش ابزار"}
+                  placement="top"
+                >
+                  <MenuItem onClick={toggleActions}>
+                    <SettingsIcon fontSize="small" />
+                  </MenuItem>
+                </Tooltip>
+              )}
               {autoRefresh && (
                 <Tooltip
                   placement="top"
