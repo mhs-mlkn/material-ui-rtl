@@ -132,7 +132,8 @@ export class ReportService {
   public async export(
     instanceId: number,
     format: "XLSX" | "CSV",
-    params?: TReportExecParams
+    params?: TReportExecParams,
+    forceSave?: boolean
   ) {
     const api = format === "CSV" ? "getCSV" : "getXLS";
     const url = `${baseUrl}/userreport/${instanceId}/${api}`;
@@ -145,7 +146,7 @@ export class ReportService {
       .post(
         url,
         { filterVOS, parentParams, orderByElementVOS },
-        { responseType: "blob" }
+        { responseType: "blob", params: { forceSave: !!forceSave } }
       )
       .then(
         res =>
@@ -156,6 +157,18 @@ export class ReportService {
                 : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           })
       );
+  }
+
+  public async setParent(data: { [key: number]: number }) {
+    const url = `${baseUrl}/userreport/addParent`;
+    return Api.put(url, data).then(() => {
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          this._instances[key].parentId = data[key];
+        }
+      }
+      return data;
+    });
   }
 
   public async fetchEmbedHash(instanceId: number): Promise<string> {

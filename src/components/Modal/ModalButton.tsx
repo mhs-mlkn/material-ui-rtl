@@ -30,10 +30,10 @@ const ModalButton = (props: propsType) => {
         <Icon {...IconProps} />
       </IconButton>
       <Modal
+        keepMounted={false}
         {...DialogProps}
         open={open}
         onClose={handleToggleModal}
-        keepMounted={false}
       >
         {children}
       </Modal>

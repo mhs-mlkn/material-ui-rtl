@@ -16,8 +16,8 @@ const ReportSelect = (props: propsType) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const id = +e.target.value;
-    setSelected(id);
-    onChange(id);
+    setSelected(+id);
+    onChange(+id);
   };
 
   return (
@@ -29,12 +29,13 @@ const ReportSelect = (props: propsType) => {
       fullWidth
       size="small"
     >
-      {dashboard.userReportIds
+      {[-1]
+        .concat(dashboard.userReportIds)
         .filter(id => id !== reportId)
-        .sort((a, b) => b - a)
+        .sort((a, b) => a - b)
         .map(id => (
           <MenuItem key={id} value={id}>
-            {id}
+            {id === -1 ? "نامشخص" : id}
           </MenuItem>
         ))}
     </TextField>

@@ -252,7 +252,6 @@ class Report extends Component<propsType, stateType> {
   };
 
   handleParamsChange = (parentParams: TQueryParam[]) => {
-    console.log(parentParams);
     this.toggleParamsModal();
     this.setState({ parentParams }, this.execReport);
   };
@@ -335,8 +334,8 @@ class Report extends Component<propsType, stateType> {
     if (id === instanceId && drillDownId > -1) {
       this.processDrilldown(drillDownId, payload);
     }
-    if (id === instanceId && parentId > -1) {
-      console.dir(data);
+    if (id === parentId) {
+      this.processLinked(parentId, payload);
     }
   };
 
@@ -359,8 +358,21 @@ class Report extends Component<propsType, stateType> {
     );
   };
 
-  processLinked = (data: any) => {
-    console.dir(data);
+  processLinked = (parentId: number, payload: any) => {
+    const { instance } = this.state;
+    const parentParams = instance.report.query.queryParams.find(
+      p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
+    );
+    if (!!parentParams) {
+      parentParams.value = payload.name;
+    }
+    this.setState(
+      {
+        options: {},
+        parentParams: !!parentParams ? [parentParams] : []
+      },
+      this.initialize
+    );
   };
 
   renderActions = (type: TReportType) => {

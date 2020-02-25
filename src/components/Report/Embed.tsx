@@ -31,7 +31,7 @@ const Embed = (props: propsType) => {
       } catch (error) {
         setState(state => ({
           ...state,
-          error: "خطا در براقراری ارتباط با سرور",
+          error: "خطای ارتباط با سرور",
           loading: false
         }));
       }

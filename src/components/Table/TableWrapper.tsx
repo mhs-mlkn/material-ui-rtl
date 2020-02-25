@@ -3,6 +3,7 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { SortDirection } from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
 import Loading from "components/Loading";
+import { publish } from "components/PubSub";
 import {
   TReportInstance,
   TReportData,
@@ -68,6 +69,10 @@ export default function TableWrapper(props: propsType) {
     return setOrder(false);
   };
 
+  const handleClickRow = (payload: any) => {
+    publish({ id: instance.id, payload });
+  };
+
   return (
     <div className={`report-${instance.id}`}>
       <Typography
@@ -90,6 +95,7 @@ export default function TableWrapper(props: propsType) {
           onChangePage={handleChangePage}
           onChangeSize={handleChangeSize}
           onChangeOrder={handleChangeOrder}
+          onClickRow={handleClickRow}
         />
       )}
     </div>
