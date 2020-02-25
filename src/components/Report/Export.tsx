@@ -52,14 +52,19 @@ const Export = (props: propsType) => {
       setLoading(true);
       const filterVOS = processFilters();
       ReportService.export(instanceId, value, { filterVOS }, forceSave)
-        .then(blob =>
-          saveAs(
+        .then(blob => {
+          if (forceSave === true) {
+            return enqueueSnackbar("با موفقیت ذخیره شد", {
+              variant: "error"
+            });
+          }
+          return saveAs(
             blob,
             `report-${instanceId}-${moment().format(
               "jYYYY/jMM/jDD"
             )}.${value.toLowerCase()}`
-          )
-        )
+          );
+        })
         .catch(error => {
           const fr = new FileReader();
           fr.readAsText(error.response.data);
@@ -67,7 +72,7 @@ const Export = (props: propsType) => {
             const res = JSON.parse(evt.target.result);
             enqueueSnackbar(res.message, {
               variant: "error",
-              autoHideDuration: 5000,
+              autoHideDuration: 4000,
               action: (
                 <Button
                   text="ذخیره"
