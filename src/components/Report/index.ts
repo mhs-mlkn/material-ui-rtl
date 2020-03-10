@@ -6,6 +6,7 @@ export { default as SaveButton } from "./SaveButton";
 export { default as ReportService } from "./Report.service";
 export { default as ExecError } from "./ExecError";
 export { default as ThemeMenu } from "./ThemeMenu";
+export { default as SettingsMenu } from "./SettingsMenu";
 export { default as AutoRefresh } from "./AutoRefresh";
 export { default as Filters } from "./Filters";
 export { default as Params } from "./Params";

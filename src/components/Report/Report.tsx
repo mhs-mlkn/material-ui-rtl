@@ -21,6 +21,7 @@ import {
   ExecError,
   Settings,
   ThemeMenu,
+  SettingsMenu,
   AutoRefresh,
   Filters,
   Params,
@@ -60,10 +61,13 @@ type stateType = {
   openExport: boolean;
   openEmbed: boolean;
   openFullscreen: boolean;
+  openSettings: boolean;
   filterVOS: TReportFilter[];
   parentParams: TQueryParam[];
   isDrillDown: boolean;
 };
+
+const noData = { cols: [], rows: [], totalCount: 0 };
 
 class Report extends Component<propsType, stateType> {
   state: stateType = {
@@ -81,6 +85,7 @@ class Report extends Component<propsType, stateType> {
     openExport: false,
     openEmbed: false,
     openFullscreen: false,
+    openSettings: false,
     filterVOS: [] as TReportFilter[],
     parentParams: [],
     isDrillDown: false
@@ -153,14 +158,14 @@ class Report extends Component<propsType, stateType> {
   };
 
   updateOptions = () => {
-    const noData = { cols: [], rows: [], totalCount: 0 };
-    const { instance, data, options } = this.state;
+    const { instance, data = noData, options } = this.state;
+    const opt = this.getOptions();
     this.setState({
       options: merge(
         {},
         chartOptions(instance, options),
-        chartData(instance, data || noData),
-        this.getOptions()
+        chartData(instance, data),
+        opt
       )
     });
   };
@@ -230,7 +235,11 @@ class Report extends Component<propsType, stateType> {
     this.setState({ theme });
   };
 
-  handleOptionChange = (options: object) => {
+  handleOptionChange = (options: object | "advanced") => {
+    if (options === "advanced") {
+      return this.handleToggleSettings();
+    }
+
     const { bp, theme } = this.props;
     const { instance } = this.state;
     const type = theme.palette.type;
@@ -375,15 +384,24 @@ class Report extends Component<propsType, stateType> {
     );
   };
 
+  handleToggleSettings = () => {
+    this.setState(state => ({
+      openSettings: !state.openSettings
+    }));
+  };
+
   renderActions = (type: TReportType) => {
-    const { instance } = this.state;
-    const { theme, options, icon } = this.state;
+    const { instance, data = noData, theme, icon } = this.state;
     switch (type) {
       case "SCALAR":
         return (
           <>
             <ThemeMenu theme={theme} onChange={this.handleThemeChange} />
-            <Settings json={options} onChange={this.handleOptionChange} />
+            <SettingsMenu
+              instance={instance}
+              colsCount={data.cols.length}
+              onChange={this.handleOptionChange}
+            />
             <IconMenu icon={icon} onChange={this.handleIconChange} />
             <DeleteButton onDelete={this.handleDelete} size="small" />
             <SaveButton instanceId={instance.id} />
@@ -401,7 +419,11 @@ class Report extends Component<propsType, stateType> {
         return (
           <>
             <ThemeMenu theme={theme} onChange={this.handleThemeChange} />
-            <Settings json={options} onChange={this.handleOptionChange} />
+            <SettingsMenu
+              instance={instance}
+              colsCount={data.cols.length}
+              onChange={this.handleOptionChange}
+            />
             <DeleteButton onDelete={this.handleDelete} size="small" />
             <SaveButton instanceId={instance.id} />
           </>
@@ -455,6 +477,7 @@ class Report extends Component<propsType, stateType> {
     const {
       instance,
       data,
+      options,
       isRunning,
       interval,
       openFilters,
@@ -462,6 +485,7 @@ class Report extends Component<propsType, stateType> {
       openExport,
       openEmbed,
       openFullscreen,
+      openSettings,
       filterVOS,
       parentParams,
       isDrillDown,
@@ -555,6 +579,12 @@ class Report extends Component<propsType, stateType> {
           >
             {this.getReport(instance.report.type)}
           </Modal>
+          <Settings
+            open={openSettings}
+            json={options}
+            onChange={this.handleOptionChange}
+            onToggleOpen={this.handleToggleSettings}
+          />
           <AutoRefresh
             isRunning={isRunning}
             interval={interval}
