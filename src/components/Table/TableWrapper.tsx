@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { SortDirection } from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
@@ -37,17 +37,19 @@ export default function TableWrapper(props: propsType) {
   const { instance, data, loading, execReport } = props;
   const name = instance.name || instance.report.name;
 
-  useEffect(() => {
+  const execute = (page: number, size: number, orderBy: string, order: SortDirection) => {
     execReport({
       page,
       size,
-      orderByElementVOS: [{ name: orderBy, isDesc: order === "desc" }],
+      orderByElementVOS: !!orderBy ? [{ name: orderBy, isDesc: order === "desc" }] : [],
       totalCount: !!data ? data.totalCount : 0
     });
-    // eslint-disable-next-line
-  }, [page, size, orderBy, order]);
+  }
 
-  const handleChangePage = (p: number) => setPage(p);
+  const handleChangePage = (p: number) => {
+    setPage(p);
+    execute(p, size, orderBy, order)
+  }
 
   const handleChangeSize = (ps: number) => {
     if (!!data) {
@@ -55,18 +57,22 @@ export default function TableWrapper(props: propsType) {
       const _page = Math.min(page, totalPages - 1);
       setSize(ps);
       setPage(_page);
+      execute(_page, ps, orderBy, order)
     }
   };
 
   const handleChangeOrder = (_orderBy: string) => {
     if (orderBy !== _orderBy) {
       setOrderBy(_orderBy);
-      return setOrder("desc");
+      setOrder("desc");
+      return execute(page, size, _orderBy, "desc")
     } else if (orderBy === _orderBy && order === "desc") {
-      return setOrder("asc");
+      setOrder("asc");
+      return execute(page, size, _orderBy, "asc")
     }
     setOrderBy("");
-    return setOrder(false);
+    setOrder(false);
+    return execute(page, size, "", false)
   };
 
   const handleClickRow = (payload: any) => {
@@ -86,18 +92,18 @@ export default function TableWrapper(props: propsType) {
       {loading ? (
         <Loading />
       ) : (
-        <Table
-          data={data || { cols: [], rows: [], totalCount: 0 }}
-          page={page}
-          size={size}
-          orderBy={orderBy}
-          order={order}
-          onChangePage={handleChangePage}
-          onChangeSize={handleChangeSize}
-          onChangeOrder={handleChangeOrder}
-          onClickRow={handleClickRow}
-        />
-      )}
+          <Table
+            data={data || { cols: [], rows: [], totalCount: 0 }}
+            page={page}
+            size={size}
+            orderBy={orderBy}
+            order={order}
+            onChangePage={handleChangePage}
+            onChangeSize={handleChangeSize}
+            onChangeOrder={handleChangeOrder}
+            onClickRow={handleClickRow}
+          />
+        )}
     </div>
   );
 }

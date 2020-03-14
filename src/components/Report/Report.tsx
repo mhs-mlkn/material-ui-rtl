@@ -134,7 +134,7 @@ class Report extends Component<propsType, stateType> {
     const { queryFilters } = report.query;
     this.reportFilters = keyBy(queryFilters, "id");
 
-    if (["TABLE", "FORM"].indexOf(report.type) === -1) {
+    if (["FORM"].indexOf(report.type) === -1) {
       this.execReport();
     }
   }
@@ -225,7 +225,12 @@ class Report extends Component<propsType, stateType> {
         filterVOS: [] as TReportFilter[],
         options: this.getOptions()
       },
-      () => this.execReport({ loadFromCache: false })
+      () => {
+        // this.execReport({ loadFromCache: false })
+        if (["FORM"].indexOf(instance.report.type) === -1) {
+          this.execReport({ loadFromCache: false })
+        }
+      }
     );
   };
 
