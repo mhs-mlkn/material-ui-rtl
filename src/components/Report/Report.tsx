@@ -129,7 +129,7 @@ class Report extends Component<propsType, stateType> {
     const { queryFilters } = report.query;
     this.reportFilters = keyBy(queryFilters, "id");
 
-    if (["TABLE", "FORM"].indexOf(report.type) === -1) {
+    if (["FORM"].indexOf(report.type) === -1) {
       this.execReport();
     }
   }
