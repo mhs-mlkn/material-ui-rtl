@@ -80,6 +80,7 @@ export type TReport = {
   canGiveAccess: boolean;
   description: string;
   config: string;
+  compositeSubReports: TReport[];
   query: {
     queryParams: TQueryParam[];
     queryFilters: TQueryFilter[];
