@@ -190,9 +190,16 @@ class Report extends Component<propsType, stateType> {
   };
 
   getParams() {
-    return this.state.instance.report.query.queryParams.filter(
-      p => ["BY_BUSINESS", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
-    );
+    const { instance } = this.state;
+    if (ReportService.isComposite(instance)) {
+      let _params = [] as TQueryParam[];
+      for (const rep of instance.report.compositeSubReports) {
+        _params = _params.concat(ReportService.getParams(rep));
+      }
+      return _params;
+    }
+
+    return ReportService.getParams(instance.report);
   }
 
   toggleFiltersModal = () => {
@@ -228,7 +235,7 @@ class Report extends Component<propsType, stateType> {
       () => {
         // this.execReport({ loadFromCache: false })
         if (["FORM"].indexOf(instance.report.type) === -1) {
-          this.execReport({ loadFromCache: false })
+          this.execReport({ loadFromCache: false });
         }
       }
     );

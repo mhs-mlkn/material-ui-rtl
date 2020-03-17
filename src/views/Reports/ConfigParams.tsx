@@ -23,12 +23,6 @@ import { ReportsService as Service, useReports } from "views/Reports";
 import { DashboardsService } from "components/Dashboard";
 import { displayErrMsg } from "utility";
 
-function getParams(report: TReport) {
-  return report.query.queryParams.filter(
-    p => ["BY_BUSINESS", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
-  );
-}
-
 const ConfigParams = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [state, actions] = useReports();
@@ -51,10 +45,10 @@ const ConfigParams = () => {
         let _params = [] as TQueryParam[];
         if (report.type === "FORM") {
           for (const rep of report.compositeSubReports) {
-            _params = _params.concat(getParams(rep));
+            _params = _params.concat(ReportService.getParams(rep));
           }
         } else {
-          _params = getParams(report);
+          _params = ReportService.getParams(report);
         }
         setParams(_params);
       }

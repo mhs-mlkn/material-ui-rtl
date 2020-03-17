@@ -5,6 +5,7 @@ import omit from "lodash/omit";
 import { Api, parseToJSON } from "utility";
 import {
   TReportInstance,
+  TReport,
   TReportData,
   TReportExecParams,
   TReportConfig,
@@ -114,6 +115,39 @@ export class ReportService {
       }));
   }
 
+  public async executeComposite(
+    instanceId: number,
+    reportId: number,
+    params?: TReportExecParams
+  ) {
+    const url = `${baseUrl}/userreport/${instanceId}/exec`;
+
+    const {
+      filterVOS,
+      parentParams,
+      orderByElementVOS,
+      loadFromCache,
+      page,
+      size
+      // totalCount
+    } = this.getReportExecParams(params);
+
+    return Api.post(
+      url,
+      {
+        filterVOS,
+        parentParams,
+        orderByElementVOS
+      },
+      {
+        loadFromCache,
+        page,
+        size,
+        reportId
+      }
+    ).then(response => response.data.result);
+  }
+
   public async getFilterOptions(instanceId: number, filterId: number) {
     const fetch = async () => {
       const url = `${baseUrl}/userreport/${instanceId}/getFilterOptions?filterId=${filterId}`;
@@ -174,6 +208,16 @@ export class ReportService {
   public async fetchEmbedHash(instanceId: number): Promise<string> {
     const url = `${baseUrl}/userreport/${instanceId}/hash`;
     return Api.get(url).then(res => res.data.result as string);
+  }
+
+  public isComposite(instance: TReportInstance) {
+    return instance.report.type === "FORM";
+  }
+
+  public getParams(report: TReport) {
+    return report.query.queryParams.filter(
+      p => ["BY_BUSINESS", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
+    );
   }
 
   private async fetchInstances() {

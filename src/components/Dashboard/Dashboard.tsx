@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import get from "lodash/get";
 import Layout from "components/Layout";
-import { Report } from "components/Report";
+import { Report, Composite, ReportService } from "components/Report";
 import { Error } from "components/Exceptions";
 import { useDashboards, Toolbar, TDashboard } from "components/Dashboard";
 
@@ -33,11 +33,18 @@ const Dashboard = (props: { id: number }) => {
   return (
     <>
       <Layout layouts={get(dashboard, "config.layouts", {})}>
-        {dashboard.userReportIds.map(id => (
-          <div key={id} id={`report-grid-${id}`}>
-            <Report instanceId={id} onDelete={handleDelete} />
-          </div>
-        ))}
+        {dashboard.userReportIds.map(id => {
+          const instance = ReportService.get(id);
+          return (
+            <div key={id} id={`report-grid-${id}`}>
+              {instance.report.type === "FORM" ? (
+                <Composite instance={instance} />
+              ) : (
+                <Report instanceId={id} onDelete={handleDelete} />
+              )}
+            </div>
+          );
+        })}
       </Layout>
       <Toolbar />
     </>

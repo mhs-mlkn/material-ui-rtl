@@ -1,6 +1,7 @@
 import Report from "./Report";
 
 export { default as Report } from "./Report";
+export { default as Composite } from "./Composite";
 export { default as Settings } from "./Settings";
 export { default as SaveButton } from "./SaveButton";
 export { default as ReportService } from "./Report.service";

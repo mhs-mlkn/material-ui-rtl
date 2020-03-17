@@ -23,7 +23,11 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import CodeIcon from "@material-ui/icons/Code";
 import { useDashboards } from "components/Dashboard";
-import { TReportMenuAction, TReportInstance } from "components/Report";
+import {
+  ReportService,
+  TReportMenuAction,
+  TReportInstance
+} from "components/Report";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -85,13 +89,17 @@ const ReportCard = (props: propsType) => {
   const [dashboards] = useDashboards();
 
   const hasFilters = () => {
-    return instance.report.query.queryFilters.length > 0;
+    return ReportService.isComposite(instance)
+      ? false
+      : instance.report.query.queryFilters.length > 0;
   };
 
   const hasParams = () => {
-    return instance.report.query.queryParams.some(
-      p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
-    );
+    return ReportService.isComposite(instance)
+      ? false
+      : instance.report.query.queryParams.some(
+          p => ["BY_PARENT", "BY_BUSINESS_OR_PARENT"].indexOf(p.fill) > -1
+        );
   };
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
